@@ -9,6 +9,10 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
+		int height =1024;
+		int width = 600;
+		config.setWindowSizeLimits(width,height,width,height);
+
 		new Lwjgl3Application(new SpaceShooter(), config);
 	}
 }
