@@ -21,6 +21,8 @@ public class GameScreen implements Screen {
     private SpriteBatch batch;
 //    private Texture background;
     private Texture[] backgrounds;
+    private Texture playerTexture;
+
 
     //timing
 //    private int backgroundOffset;
@@ -33,7 +35,13 @@ public class GameScreen implements Screen {
     private final int WORLD_HEIGHT= 128;
 
 
+    //game Objects
+    private Actor playerCharacter;
+
+
+
     GameScreen(){
+
 
         camera = new OrthographicCamera();
         viewport = new StretchViewport(WORLD_WIDTH,WORLD_HEIGHT,camera);
@@ -44,6 +52,10 @@ public class GameScreen implements Screen {
         backgrounds[3] = new Texture("parallex3.png");
 
         backgroundMaxScrollingSpeed = (float)WORLD_HEIGHT/4;
+
+
+        playerTexture = new Texture("playerShip1.png");
+        playerCharacter = new PlayerCharacter(2,5,10, 10, WORLD_WIDTH/2, WORLD_HEIGHT/4,0.5f,0.7f,5,45,playerTexture,null);
 
 
         batch = new SpriteBatch();
@@ -64,6 +76,14 @@ public class GameScreen implements Screen {
 
         //scrolling background
         renderBackground(deltaTime);
+
+        //player
+        playerCharacter.draw(batch);
+
+
+
+
+
         batch.end();
 
     }
