@@ -37,7 +37,7 @@ public abstract class Actor {
         this.projectileWidth = projectileWidth;
         this.projectileSpeed= projectileSpeed;
 
-        this.boundingBox = new Rectangle(center_x - width/2, center_y -width/2,width,height);
+        this.boundingBox = new Rectangle(center_x - width/2, center_y - width/2,width,height);
         this.actorTexture = actorTexture;
         this.projectileTexture = projectileTexture;
 
@@ -45,7 +45,7 @@ public abstract class Actor {
 
     public void draw(Batch batch){
 
-        batch.draw(actorTexture,boundingBox.x,boundingBox.y,boundingBox.width,boundingBox.y);
+        batch.draw(actorTexture,boundingBox.x,boundingBox.y,boundingBox.width,boundingBox.height);
     }
 
 

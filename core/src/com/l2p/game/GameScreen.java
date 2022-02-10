@@ -22,6 +22,7 @@ public class GameScreen implements Screen {
 //    private Texture background;
     private Texture[] backgrounds;
     private Texture playerTexture;
+    private Texture enemyType1Texture;
 
 
     //timing
@@ -37,6 +38,9 @@ public class GameScreen implements Screen {
 
     //game Objects
     private Actor playerCharacter;
+    private Actor enemyType1;
+
+    //TODO enemyType2, midboss and boss
 
 
 
@@ -57,6 +61,9 @@ public class GameScreen implements Screen {
         playerTexture = new Texture("playerShip1.png");
         playerCharacter = new PlayerCharacter(2,5,10, 10, WORLD_WIDTH/2, WORLD_HEIGHT/4,0.5f,0.7f,5,45,playerTexture,null);
 
+
+        enemyType1Texture = new Texture("enemy1.png");
+        enemyType1 = new Enemy(2,5,10,10,WORLD_WIDTH/2, WORLD_HEIGHT*3/4,0.5f, 0.7f, 5, 50,enemyType1Texture,null );
 
         batch = new SpriteBatch();
 
@@ -79,6 +86,9 @@ public class GameScreen implements Screen {
 
         //player
         playerCharacter.draw(batch);
+
+        //enemy1
+        enemyType1.draw(batch);
 
 
 
