@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Rectangle;
 
 public abstract class Actor {
 
+
+
     //actor characteristics
     float movementSpeed; //per second
     int health;
@@ -24,6 +26,7 @@ public abstract class Actor {
     float projectileSpeed;
     float timeBetweenShots;
     float timeSinceLastShot = 0;
+
 
 
     Actor(float movementSpeed, int health, float width, float height, float center_x, float center_y,  float timeBetweenShots, float projectileWidth,

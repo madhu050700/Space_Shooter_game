@@ -39,8 +39,8 @@ public class GameScreen implements Screen {
 
 
     //game Objects
-    private Actor playerCharacter;
-    private Actor enemyType1;
+    private PlayerCharacter playerCharacter;
+    private Enemy enemyType1;
 
     //TODO enemyType2, midboss and boss
 
@@ -98,49 +98,53 @@ public class GameScreen implements Screen {
         float playerCharWidth = playerCharacter.boundingBox.width;
         float playerCharHeight = playerCharacter.boundingBox.height;
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.CAPS_LOCK)){
+            playerCharacter.setToggleSpeed(!playerCharacter.getToggleSpeed());
+        }
+
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && (x_coord - 1) >= 0)
-            x_coord--;
+            x_coord = (playerCharacter.getToggleSpeed())?x_coord-1:x_coord-2;
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && (x_coord + playerCharWidth + 1) <= WORLD_WIDTH)
-            x_coord++;
+            x_coord = (playerCharacter.getToggleSpeed())?x_coord+1:x_coord+2;
 
         if (Gdx.input.isKeyPressed(Input.Keys.UP) && (y_coord + playerCharHeight + 1) <= WORLD_HEIGHT)
-            y_coord++;
+            y_coord = (playerCharacter.getToggleSpeed())?y_coord+1:y_coord+2;
 
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && (y_coord - 1) >= 0)
-            y_coord--;
+            y_coord = (playerCharacter.getToggleSpeed())?y_coord-1:y_coord-2;
 
         // Diagonal movement.
         // Top-Left
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.UP)
             && (x_coord - 1) >= 0 && (y_coord + playerCharHeight + 1) <= WORLD_HEIGHT)
         {
-            x_coord--;
-            y_coord++;
+            x_coord = (playerCharacter.getToggleSpeed())?x_coord-1:x_coord-2;
+            y_coord = (playerCharacter.getToggleSpeed())?y_coord+1:y_coord+2;
         }
 
         // Top-Right.
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && Gdx.input.isKeyPressed(Input.Keys.UP)
             && (x_coord + playerCharWidth + 1) <= WORLD_WIDTH && (y_coord + playerCharHeight + 1) <= WORLD_HEIGHT)
         {
-            x_coord++;
-            y_coord++;
+            x_coord = (playerCharacter.getToggleSpeed())?x_coord+1:x_coord+2;
+            y_coord = (playerCharacter.getToggleSpeed())?y_coord+1:y_coord+2;
         }
 
         // Down-Left.
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.DOWN)
             && (x_coord - 1) >= 0 && (y_coord - 1) >= 0)
         {
-            x_coord--;
-            y_coord--;
+            x_coord = (playerCharacter.getToggleSpeed())?x_coord-1:x_coord-2;
+            y_coord = (playerCharacter.getToggleSpeed())?y_coord-1:y_coord-2;
         }
 
         // Down-Right.
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && Gdx.input.isKeyPressed(Input.Keys.DOWN)
             && (x_coord + playerCharWidth + 1) <= WORLD_WIDTH && (y_coord - 1) >= 0)
         {
-            x_coord++;
-            y_coord--;
+            x_coord = (playerCharacter.getToggleSpeed())?x_coord+1:x_coord+2;
+            y_coord = (playerCharacter.getToggleSpeed())?y_coord-1:y_coord-2;
         }
 
         // Set updated positon of playerCharacter.

@@ -4,7 +4,17 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class PlayerCharacter extends Actor{
 
+    private Boolean toggleSpeed = false;
+
     public PlayerCharacter(float movementSpeed, int health, float width, float height, float center_x, float center_y, float timeBetweenShots, float projectileWidth, float projectileHeight, float projectileSpeed, Texture actorTexture, Texture projectileTexture) {
         super(movementSpeed, health, width, height, center_x, center_y, timeBetweenShots, projectileWidth, projectileHeight, projectileSpeed, actorTexture, projectileTexture);
+    }
+
+    public Boolean getToggleSpeed() {
+        return toggleSpeed;
+    }
+
+    public void setToggleSpeed(Boolean toggleSpeed) {
+        this.toggleSpeed = toggleSpeed;
     }
 }
