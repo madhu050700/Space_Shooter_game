@@ -2,6 +2,8 @@
 package com.l2p.game;
 
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -21,6 +23,9 @@ public class GameScreen implements Screen {
     private SpriteBatch batch;
 //    private Texture background;
     private Texture[] backgrounds;
+    private Texture playerTexture;
+    private Texture enemyType1Texture;
+
 
     //timing
 //    private int backgroundOffset;
@@ -33,7 +38,16 @@ public class GameScreen implements Screen {
     private final int WORLD_HEIGHT= 128;
 
 
+    //game Objects
+    private Actor playerCharacter;
+    private Actor enemyType1;
+
+    //TODO enemyType2, midboss and boss
+
+
+
     GameScreen(){
+
 
         camera = new OrthographicCamera();
         viewport = new StretchViewport(WORLD_WIDTH,WORLD_HEIGHT,camera);
@@ -45,6 +59,13 @@ public class GameScreen implements Screen {
 
         backgroundMaxScrollingSpeed = (float)WORLD_HEIGHT/4;
 
+
+        playerTexture = new Texture("playerShip1.png");
+        playerCharacter = new PlayerCharacter(2,5,10, 10, WORLD_WIDTH/2, WORLD_HEIGHT/4,0.5f,0.7f,5,45,playerTexture,null);
+
+
+        enemyType1Texture = new Texture("enemy1.png");
+        enemyType1 = new Enemy(2,5,10,10,WORLD_WIDTH/2, WORLD_HEIGHT*3/4,0.5f, 0.7f, 5, 50,enemyType1Texture,null );
 
         batch = new SpriteBatch();
 
@@ -64,6 +85,67 @@ public class GameScreen implements Screen {
 
         //scrolling background
         renderBackground(deltaTime);
+
+        //player
+        playerCharacter.draw(batch);
+
+        //enemy1
+        enemyType1.draw(batch);
+
+        // Update playerCharacter position based on user input.
+        float x_coord = playerCharacter.boundingBox.x;
+        float y_coord = playerCharacter.boundingBox.y;
+        float playerCharWidth = playerCharacter.boundingBox.width;
+        float playerCharHeight = playerCharacter.boundingBox.height;
+
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && (x_coord - 1) >= 0)
+            x_coord--;
+
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && (x_coord + playerCharWidth + 1) <= WORLD_WIDTH)
+            x_coord++;
+
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) && (y_coord + playerCharHeight + 1) <= WORLD_HEIGHT)
+            y_coord++;
+
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && (y_coord - 1) >= 0)
+            y_coord--;
+
+        // Diagonal movement.
+        // Top-Left
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.UP)
+            && (x_coord - 1) >= 0 && (y_coord + playerCharHeight + 1) <= WORLD_HEIGHT)
+        {
+            x_coord--;
+            y_coord++;
+        }
+
+        // Top-Right.
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && Gdx.input.isKeyPressed(Input.Keys.UP)
+            && (x_coord + playerCharWidth + 1) <= WORLD_WIDTH && (y_coord + playerCharHeight + 1) <= WORLD_HEIGHT)
+        {
+            x_coord++;
+            y_coord++;
+        }
+
+        // Down-Left.
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.DOWN)
+            && (x_coord - 1) >= 0 && (y_coord - 1) >= 0)
+        {
+            x_coord--;
+            y_coord--;
+        }
+
+        // Down-Right.
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && Gdx.input.isKeyPressed(Input.Keys.DOWN)
+            && (x_coord + playerCharWidth + 1) <= WORLD_WIDTH && (y_coord - 1) >= 0)
+        {
+            x_coord++;
+            y_coord--;
+        }
+
+        // Set updated positon of playerCharacter.
+        playerCharacter.boundingBox.setPosition(x_coord, y_coord);
+
         batch.end();
 
     }
