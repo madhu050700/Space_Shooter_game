@@ -2,6 +2,8 @@
 package com.l2p.game;
 
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -90,9 +92,27 @@ public class GameScreen implements Screen {
         //enemy1
         enemyType1.draw(batch);
 
+        // Update playerCharacter position based on user input.
+        float x_coord = playerCharacter.boundingBox.getX();
+        float y_coord = playerCharacter.boundingBox.getY();
 
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
+            x_coord--;
 
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+            x_coord++;
 
+        if (Gdx.input.isKeyPressed(Input.Keys.UP))
+            y_coord++;
+
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
+            y_coord--;
+
+        //TODO
+        // See if updated coordinates do not exceed the world size.
+
+        // Set updated positon of playerCharacter.
+        playerCharacter.boundingBox.setPosition(x_coord, y_coord);
 
         batch.end();
 
