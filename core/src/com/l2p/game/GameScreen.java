@@ -93,23 +93,55 @@ public class GameScreen implements Screen {
         enemyType1.draw(batch);
 
         // Update playerCharacter position based on user input.
-        float x_coord = playerCharacter.boundingBox.getX();
-        float y_coord = playerCharacter.boundingBox.getY();
+        float x_coord = playerCharacter.boundingBox.x;
+        float y_coord = playerCharacter.boundingBox.y;
+        float playerCharWidth = playerCharacter.boundingBox.width;
+        float playerCharHeight = playerCharacter.boundingBox.height;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && (x_coord - 1) >= 0)
             x_coord--;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && (x_coord + playerCharWidth + 1) <= WORLD_WIDTH)
             x_coord++;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.UP))
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) && (y_coord + playerCharHeight + 1) <= WORLD_HEIGHT)
             y_coord++;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && (y_coord - 1) >= 0)
             y_coord--;
 
-        //TODO
-        // See if updated coordinates do not exceed the world size.
+        // Diagonal movement.
+        // Top-Left
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.UP)
+            && (x_coord - 1) >= 0 && (y_coord + playerCharHeight + 1) <= WORLD_HEIGHT)
+        {
+            x_coord--;
+            y_coord++;
+        }
+
+        // Top-Right.
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && Gdx.input.isKeyPressed(Input.Keys.UP)
+            && (x_coord + playerCharWidth + 1) <= WORLD_WIDTH && (y_coord + playerCharHeight + 1) <= WORLD_HEIGHT)
+        {
+            x_coord++;
+            y_coord++;
+        }
+
+        // Down-Left.
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.DOWN)
+            && (x_coord - 1) >= 0 && (y_coord - 1) >= 0)
+        {
+            x_coord--;
+            y_coord--;
+        }
+
+        // Down-Right.
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && Gdx.input.isKeyPressed(Input.Keys.DOWN)
+            && (x_coord + playerCharWidth + 1) <= WORLD_WIDTH && (y_coord - 1) >= 0)
+        {
+            x_coord++;
+            y_coord--;
+        }
 
         // Set updated positon of playerCharacter.
         playerCharacter.boundingBox.setPosition(x_coord, y_coord);
