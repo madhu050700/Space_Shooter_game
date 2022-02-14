@@ -103,7 +103,7 @@ public class GameScreen implements Screen {
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && (x_coord - 1) >= 0)
-            x_coord = (playerCharacter.getToggleSpeed())?x_coord-1:x_coord-2;
+            x_coord = (playerCharacter.getToggleSpeed())?x_coord-1: x_coord-2;
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && (x_coord + playerCharWidth + 1) <= WORLD_WIDTH)
             x_coord = (playerCharacter.getToggleSpeed())?x_coord+1:x_coord+2;
