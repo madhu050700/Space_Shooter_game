@@ -51,5 +51,16 @@ public abstract class Actor {
         batch.draw(actorTexture,boundingBox.x,boundingBox.y,boundingBox.width,boundingBox.height);
     }
 
+    public void update(float deltaTime)
+    {timeSinceLastShot += deltaTime;}
 
+    public boolean canFireProjectile()
+    {return (timeSinceLastShot - timeBetweenShots >= 0);}
+
+    public abstract Projectile[] fire();
+
+    public boolean intersects(Rectangle otherRect)
+    {
+        return boundingBox.overlaps(otherRect);
+    }
 }

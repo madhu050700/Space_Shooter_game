@@ -12,6 +12,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.LinkedList;
+import java.util.ListIterator;
+
 public class GameScreen implements Screen {
 
 
@@ -24,6 +27,7 @@ public class GameScreen implements Screen {
 //    private Texture background;
     private Texture[] backgrounds;
     private Texture playerTexture;
+    private Texture playerProjectileTexture;
     private Texture enemyType1Texture;
 
 
@@ -41,6 +45,7 @@ public class GameScreen implements Screen {
     //game Objects
     private PlayerCharacter playerCharacter;
     private Enemy enemyType1;
+    private LinkedList<Projectile> playerProjectileList;
 
     //TODO enemyType2, midboss and boss
 
@@ -61,12 +66,13 @@ public class GameScreen implements Screen {
 
 
         playerTexture = new Texture("playerShip1.png");
-        playerCharacter = new PlayerCharacter(2,5,10, 10, WORLD_WIDTH/2, WORLD_HEIGHT/4,0.5f,0.7f,5,45,playerTexture,null);
-
+        playerProjectileTexture = new Texture("playerProjectile2.png");
+        playerCharacter = new PlayerCharacter(2,5,10, 10, WORLD_WIDTH/2, WORLD_HEIGHT/4,0.5f,1f,5,45,playerTexture,playerProjectileTexture);
 
         enemyType1Texture = new Texture("enemy1.png");
         enemyType1 = new Enemy(2,5,10,10,WORLD_WIDTH/2, WORLD_HEIGHT*3/4,0.5f, 0.7f, 5, 50,enemyType1Texture,null );
 
+        playerProjectileList = new LinkedList<>();
         batch = new SpriteBatch();
 
     }
@@ -82,7 +88,8 @@ public class GameScreen implements Screen {
     public void render(float deltaTime) {
 
         batch.begin();
-
+        // update time.
+        playerCharacter.update(deltaTime);
         //scrolling background
         renderBackground(deltaTime);
 
@@ -93,6 +100,44 @@ public class GameScreen implements Screen {
         enemyType1.draw(batch);
 
         // Update playerCharacter position based on user input.
+        playerInput();
+
+        // Projectile.
+        renderProjectile(deltaTime);
+
+        batch.end();
+
+    }
+
+    private void renderProjectile(float deltaTime)
+    {
+        // Create projectile for playerCharacter.
+        System.out.println("renderProjectile() entered!");
+        if (playerCharacter.canFireProjectile())
+        {
+            System.out.println("Can fire!");
+            Projectile[] projectiles = playerCharacter.fire();
+            for (Projectile proj: projectiles) {
+                playerProjectileList.add(proj);
+            }
+        }
+
+        // Draw Projectiles.
+        ListIterator<Projectile> iterator = playerProjectileList.listIterator();
+
+        while (iterator.hasNext())
+        {
+            Projectile projectile = iterator.next();
+            projectile.draw(batch);
+            projectile.boundingBox.y += projectile.movementSpeed * deltaTime;
+            if (projectile.boundingBox.y > WORLD_HEIGHT)
+                iterator.remove();
+        }
+    }
+
+
+    private void playerInput()
+    {
         float x_coord = playerCharacter.boundingBox.x;
         float y_coord = playerCharacter.boundingBox.y;
         float playerCharWidth = playerCharacter.boundingBox.width;
@@ -117,7 +162,7 @@ public class GameScreen implements Screen {
         // Diagonal movement.
         // Top-Left
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.UP)
-            && (x_coord - 1) >= 0 && (y_coord + playerCharHeight + 1) <= WORLD_HEIGHT)
+                && (x_coord - 1) >= 0 && (y_coord + playerCharHeight + 1) <= WORLD_HEIGHT)
         {
             x_coord = (playerCharacter.getToggleSpeed())?x_coord-1:x_coord-2;
             y_coord = (playerCharacter.getToggleSpeed())?y_coord+1:y_coord+2;
@@ -125,7 +170,7 @@ public class GameScreen implements Screen {
 
         // Top-Right.
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && Gdx.input.isKeyPressed(Input.Keys.UP)
-            && (x_coord + playerCharWidth + 1) <= WORLD_WIDTH && (y_coord + playerCharHeight + 1) <= WORLD_HEIGHT)
+                && (x_coord + playerCharWidth + 1) <= WORLD_WIDTH && (y_coord + playerCharHeight + 1) <= WORLD_HEIGHT)
         {
             x_coord = (playerCharacter.getToggleSpeed())?x_coord+1:x_coord+2;
             y_coord = (playerCharacter.getToggleSpeed())?y_coord+1:y_coord+2;
@@ -133,7 +178,7 @@ public class GameScreen implements Screen {
 
         // Down-Left.
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.DOWN)
-            && (x_coord - 1) >= 0 && (y_coord - 1) >= 0)
+                && (x_coord - 1) >= 0 && (y_coord - 1) >= 0)
         {
             x_coord = (playerCharacter.getToggleSpeed())?x_coord-1:x_coord-2;
             y_coord = (playerCharacter.getToggleSpeed())?y_coord-1:y_coord-2;
@@ -141,7 +186,7 @@ public class GameScreen implements Screen {
 
         // Down-Right.
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && Gdx.input.isKeyPressed(Input.Keys.DOWN)
-            && (x_coord + playerCharWidth + 1) <= WORLD_WIDTH && (y_coord - 1) >= 0)
+                && (x_coord + playerCharWidth + 1) <= WORLD_WIDTH && (y_coord - 1) >= 0)
         {
             x_coord = (playerCharacter.getToggleSpeed())?x_coord+1:x_coord+2;
             y_coord = (playerCharacter.getToggleSpeed())?y_coord-1:y_coord-2;
@@ -149,9 +194,6 @@ public class GameScreen implements Screen {
 
         // Set updated positon of playerCharacter.
         playerCharacter.boundingBox.setPosition(x_coord, y_coord);
-
-        batch.end();
-
     }
 
 
