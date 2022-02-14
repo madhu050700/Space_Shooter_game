@@ -111,14 +111,13 @@ public class GameScreen implements Screen {
 
     private void renderProjectile(float deltaTime)
     {
-        // Create projectile for playerCharacter.
-        System.out.println("renderProjectile() entered!");
-        if (playerCharacter.canFireProjectile())
-        {
-            System.out.println("Can fire!");
-            Projectile[] projectiles = playerCharacter.fire();
-            for (Projectile proj: projectiles) {
-                playerProjectileList.add(proj);
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            // Create projectile for playerCharacter.
+            if (playerCharacter.canFireProjectile()) {
+                Projectile[] projectiles = playerCharacter.fire();
+                for (Projectile proj : projectiles) {
+                    playerProjectileList.add(proj);
+                }
             }
         }
 
@@ -133,6 +132,7 @@ public class GameScreen implements Screen {
             if (projectile.boundingBox.y > WORLD_HEIGHT)
                 iterator.remove();
         }
+
     }
 
 
