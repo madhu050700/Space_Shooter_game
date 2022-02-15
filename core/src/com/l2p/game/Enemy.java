@@ -18,6 +18,10 @@ public class Enemy extends Actor{
                  float projectile_x1, float projectile_x2, float projectile_y ) {
         super(movementSpeed, health, width, height, center_x, center_y, timeBetweenShots, projectileWidth, projectileHeight, projectileSpeed, actorTexture, projectileTexture);
         directionVector = new Vector2(0,-1);
+
+        this.projectile_x1 = projectile_x1;
+        this.projectile_x2 =projectile_x2;
+        this.projectile_y = projectile_y;
     }
 
     public Vector2 getDirectionVector() {
@@ -50,4 +54,11 @@ public class Enemy extends Actor{
         timeSinceLastShot = 0;
         return projectile;
     }
+
+
+    @Override
+    public void draw(Batch batch) {
+        batch.draw(actorTexture, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
+    }
+
 }

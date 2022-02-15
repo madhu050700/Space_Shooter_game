@@ -89,10 +89,10 @@ public class GameScreen implements Screen {
         playerCharacter = new PlayerCharacter(2,5,10, 10, WORLD_WIDTH/2, WORLD_HEIGHT/4,0.5f,1f,5,45,playerTexture,playerProjectileTexture);
 
 
-        enemyType1Texture = new Texture("enemyRed4.png");
-        enemyType2Texture = new Texture("enemyBlack1.png");
+        enemyType1Texture = new Texture("enemy1.png");
+        enemyType2Texture = new Texture("enemy2.png");
 
-        midBossTexture = new Texture("ufoYellow.png");
+        midBossTexture = new Texture("midboss1.png");
         finalBossTexture = new Texture("enemyGreen2.png");
 
 
@@ -244,9 +244,9 @@ public class GameScreen implements Screen {
         enemySpawnTimer += deltaTime;
         if(enemySpawnTimer > timeBetweenEnemySpawns) {
             enemyList.add(new Enemy(48,1,10,10,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_HEIGHT - 5,0.8f,
-                    0.3f, 5, 50,enemyType1Texture,enemyProjectileTexture,0.18f,0.82f,0 ));
+                    0.3f, 5, 50,enemyType1Texture,enemyProjectileTexture,0.125f,0.819f,0.05f ));
             enemyList1.add(new Enemy(48,1,10,10,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 10, WORLD_HEIGHT - 10,0.8f,
-                    0.3f, 5, 50,enemyType2Texture,enemyProjectileTexture,0.18f,0.82f,0 ));
+                    0.3f, 5, 50,enemyType2Texture,enemyProjectileTexture,0.138f,0.847f,0.037f ));
             enemySpawnTimer -= timeBetweenEnemySpawns;
         }
     }
@@ -282,7 +282,7 @@ public class GameScreen implements Screen {
         stateTime += deltaTime;
         if(stateTime > timetoStartMidBoss){
             midBoss.add( new Enemy(2,5,10,10,WORLD_WIDTH/2, WORLD_HEIGHT*3/4,0.5f,
-                    0.7f, 5, 50,enemyType2Texture,playerProjectileTexture,0.18f,0.82f,0 ));
+                    0.7f, 5, 50,midBossTexture,playerProjectileTexture,0.18f,0.82f,0 ));
 
             //stateTime -= timetoStartMidBoss;
 
