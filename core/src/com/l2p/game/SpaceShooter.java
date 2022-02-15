@@ -6,9 +6,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import java.util.Random;
+
 public class SpaceShooter extends Game {
 
 	GameScreen gameScreen;
+
+
+	public static Random random = new Random();
 
 	@Override
 	public void create() {

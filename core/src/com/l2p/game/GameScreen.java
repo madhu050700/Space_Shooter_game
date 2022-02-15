@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
@@ -26,15 +27,31 @@ public class GameScreen implements Screen {
     private SpriteBatch batch;
 //    private Texture background;
     private Texture[] backgrounds;
+
+    //player
     private Texture playerTexture;
     private Texture playerProjectileTexture;
-    private Texture enemyType1Texture;
 
+    //enemyType1
+    private Texture enemyType1Texture;
+    private Texture enemyProjectileTexture;
+
+    //enemyType2
+    private Texture enemyType2Texture;
+
+    //bosses
+    private Texture midBossTexture,finalBossTexture;
 
     //timing
 //    private int backgroundOffset;
     private float[] backgroundOffsets = {0,0,0,0};
     private  float backgroundMaxScrollingSpeed;
+    private float timeBetweenEnemySpawns = 3f;
+    private float enemySpawnTimer = 0;
+    private float stateTime,stateTime1=0;
+    private float timetoStartMidBoss = 24f;
+    private float timetoStartFinalBoss = 36f;
+
 
 
     //world parameters
@@ -46,6 +63,8 @@ public class GameScreen implements Screen {
     private PlayerCharacter playerCharacter;
     private Enemy enemyType1;
     private LinkedList<Projectile> playerProjectileList;
+    private LinkedList<Projectile> enemyProjectileList,enemyProjectileList1;
+    private LinkedList<Enemy> enemyList,enemyList1,midBoss;
 
     //TODO enemyType2, midboss and boss
 
@@ -69,10 +88,29 @@ public class GameScreen implements Screen {
         playerProjectileTexture = new Texture("playerProjectile2.png");
         playerCharacter = new PlayerCharacter(2,5,10, 10, WORLD_WIDTH/2, WORLD_HEIGHT/4,0.5f,1f,5,45,playerTexture,playerProjectileTexture);
 
-        enemyType1Texture = new Texture("enemy1.png");
-        enemyType1 = new Enemy(2,5,10,10,WORLD_WIDTH/2, WORLD_HEIGHT*3/4,0.5f, 0.7f, 5, 50,enemyType1Texture,null );
+
+        enemyType1Texture = new Texture("enemyRed4.png");
+        enemyType2Texture = new Texture("enemyBlack1.png");
+
+        midBossTexture = new Texture("ufoYellow.png");
+        finalBossTexture = new Texture("enemyGreen2.png");
+
+
+        enemyProjectileTexture= new Texture("laserRed10.png");
+
+//        enemyType1 = new Enemy(2,5,10,10,WORLD_WIDTH/2, WORLD_HEIGHT*3/4,0.5f, 0.7f, 5, 50,enemyType1Texture,null,0,0,0 );
 
         playerProjectileList = new LinkedList<>();
+        enemyProjectileList = new LinkedList<>();
+        enemyProjectileList1 = new LinkedList<>();
+
+
+
+        enemyList = new LinkedList<>();
+        enemyList1 = new LinkedList<>();
+        midBoss = new LinkedList<>();
+
+
         batch = new SpriteBatch();
 
     }
@@ -96,11 +134,36 @@ public class GameScreen implements Screen {
         //player
         playerCharacter.draw(batch);
 
-        //enemy1
-        enemyType1.draw(batch);
-
         // Update playerCharacter position based on user input.
         playerInput();
+
+
+        //enemy1
+//        enemyType1.draw(batch);
+        spawnEnemyShips(deltaTime);
+
+        ListIterator<Enemy> enemyListIterator = enemyList.listIterator();
+        while(enemyListIterator.hasNext()){
+            Enemy enemy = enemyListIterator.next();
+            moveEnemy(enemy,deltaTime);
+            enemy.update(deltaTime);
+            enemy.draw(batch);
+        }
+        enemyListIterator = enemyList1.listIterator();
+
+        while(enemyListIterator.hasNext()){
+            Enemy enemy1 = enemyListIterator.next();
+            moveEnemy1(enemy1,deltaTime);
+            enemy1.update(deltaTime);
+            enemy1.draw(batch);
+        }
+        midBossStart(deltaTime);
+        enemyListIterator = midBoss.listIterator();
+        while(enemyListIterator.hasNext()){
+            Enemy midBoss= enemyListIterator.next();
+
+            midBoss.draw(batch);
+        }
 
         // Projectile.
         renderProjectile(deltaTime);
@@ -121,6 +184,26 @@ public class GameScreen implements Screen {
             }
         }
 
+
+        ListIterator<Enemy> enemyListIterator = enemyList.listIterator();
+        while(enemyListIterator.hasNext()){
+            Enemy enemy = enemyListIterator.next();
+            if(enemy.canFireProjectile()){
+                Projectile[] projectiles = enemy.fire();
+                enemyProjectileList.addAll(Arrays.asList(projectiles));
+            }
+        }
+        enemyListIterator = enemyList1.listIterator();
+        while(enemyListIterator.hasNext()){
+            Enemy enemy1 = enemyListIterator.next();
+            if(enemy1.canFireProjectile()){
+                Projectile[] projectiles = enemy1.fire();
+                enemyProjectileList1.addAll(Arrays.asList(projectiles));
+            }
+        }
+
+
+
         // Draw Projectiles.
         ListIterator<Projectile> iterator = playerProjectileList.listIterator();
 
@@ -133,8 +216,78 @@ public class GameScreen implements Screen {
                 iterator.remove();
         }
 
+
+        iterator = enemyProjectileList.listIterator();
+        while(iterator.hasNext()){
+            Projectile projectile = iterator.next();
+            projectile.draw(batch);
+            projectile.boundingBox.y -= projectile.movementSpeed*deltaTime;
+            if(projectile.boundingBox.y + projectile.boundingBox.height < 0){
+                iterator.remove();
+            }
+        }
+        iterator = enemyProjectileList1.listIterator();
+        while(iterator.hasNext()){
+            Projectile projectile = iterator.next();
+            projectile.draw(batch);
+            projectile.boundingBox.y -= projectile.movementSpeed*deltaTime;
+            if(projectile.boundingBox.y+ projectile.boundingBox.height < 0){
+                iterator.remove();
+            }
+        }
+
     }
 
+
+
+    private void spawnEnemyShips(float deltaTime){
+        enemySpawnTimer += deltaTime;
+        if(enemySpawnTimer > timeBetweenEnemySpawns) {
+            enemyList.add(new Enemy(48,1,10,10,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_HEIGHT - 5,0.8f,
+                    0.3f, 5, 50,enemyType1Texture,enemyProjectileTexture,0.18f,0.82f,0 ));
+            enemyList1.add(new Enemy(48,1,10,10,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 10, WORLD_HEIGHT - 10,0.8f,
+                    0.3f, 5, 50,enemyType2Texture,enemyProjectileTexture,0.18f,0.82f,0 ));
+            enemySpawnTimer -= timeBetweenEnemySpawns;
+        }
+    }
+
+    private void moveEnemy(Enemy enemy,float deltaTime){
+        float xMove = enemy.getDirectionVector().x*enemy.movementSpeed * deltaTime;
+        float yMove = enemy.getDirectionVector().y*enemy.movementSpeed * deltaTime;
+
+
+        if(xMove >0){
+            xMove = xMove;
+        }
+        if(yMove > 0){
+            yMove = yMove;
+        }
+        enemy.translate(xMove,yMove);
+    }
+    private void moveEnemy1(Enemy enemy1,float deltaTime){
+        float xMove1 =enemy1.getDirectionVector().x *enemy1.movementSpeed * deltaTime;
+        float yMove1 = enemy1.getDirectionVector().y*enemy1.movementSpeed * deltaTime;
+        if(xMove1 >0){
+            xMove1 = xMove1;
+        }
+        if(yMove1 > 0){
+            yMove1 = yMove1;
+        }
+        enemy1.translate(xMove1,yMove1);
+
+    }
+
+
+    private void midBossStart(float deltaTime){
+        stateTime += deltaTime;
+        if(stateTime > timetoStartMidBoss){
+            midBoss.add( new Enemy(2,5,10,10,WORLD_WIDTH/2, WORLD_HEIGHT*3/4,0.5f,
+                    0.7f, 5, 50,enemyType2Texture,playerProjectileTexture,0.18f,0.82f,0 ));
+
+            //stateTime -= timetoStartMidBoss;
+
+        }
+    }
 
     private void playerInput()
     {

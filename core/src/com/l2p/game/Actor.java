@@ -59,6 +59,12 @@ public abstract class Actor {
 
     public abstract Projectile[] fire();
 
+
+    public void translate(float xChange,float yChange){
+        boundingBox.setPosition(boundingBox.x+xChange,boundingBox.y+yChange);
+    }
+
+
     public boolean intersects(Rectangle otherRect)
     {
         return boundingBox.overlaps(otherRect);
