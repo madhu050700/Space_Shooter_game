@@ -312,7 +312,7 @@ public class GameScreen implements Screen {
     private void spawnEnemyShips(float deltaTime){
         enemySpawnTimer += deltaTime;
         if(enemySpawnTimer > timeBetweenEnemySpawns) {
-            enemyList.add(new Enemy(48,1,10,10,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_HEIGHT - 5,0.8f,
+            enemyList.add(new Enemy(48,1,10,10,Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_WIDTH -1), WORLD_HEIGHT - 5,0.8f,
                     0.3f, 5, 50,enemyType1Texture,enemyProjectileTexture,0.125f,0.819f,0.05f ));
             enemyList1.add(new Enemy(48,1,10,10,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 10, WORLD_HEIGHT - 10,0.8f,
                     0.3f, 5, 50,enemyType2Texture,enemyProjectileTexture,0.138f,0.847f,0.037f ));

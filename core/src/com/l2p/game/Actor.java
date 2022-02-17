@@ -76,6 +76,7 @@ public abstract class Actor {
         else{
             if(boundingBox.x+xChange>0 && (boundingBox.x + boundingBox.width  + xChange)< 71 && boundingBox.y + boundingBox.height + yChange < 127)
                 boundingBox.setPosition(boundingBox.x+xChange,boundingBox.y+yChange);
+
         }
     }
 
