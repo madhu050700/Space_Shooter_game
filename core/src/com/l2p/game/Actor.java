@@ -27,6 +27,7 @@ public abstract class Actor {
     float timeBetweenShots;
     float timeSinceLastShot = 0;
 
+    Boolean justSpawned = false;
 
 
     Actor(float movementSpeed, int health, float width, float height, float center_x, float center_y,  float timeBetweenShots, float projectileWidth,
@@ -43,6 +44,8 @@ public abstract class Actor {
         this.boundingBox = new Rectangle(center_x - width/2, center_y - width/2,width,height);
         this.actorTexture = actorTexture;
         this.projectileTexture = projectileTexture;
+
+        this.justSpawned = true;
 
     }
 
@@ -61,7 +64,19 @@ public abstract class Actor {
 
 
     public void translate(float xChange,float yChange){
-        boundingBox.setPosition(boundingBox.x+xChange,boundingBox.y+yChange);
+
+        if(this.justSpawned)
+
+        {
+            boundingBox.setPosition(boundingBox.x+xChange,boundingBox.y+yChange);
+            this.justSpawned = false;
+
+        }
+
+        else{
+            if(boundingBox.x+xChange>0 && (boundingBox.x + boundingBox.width  + xChange)< 71 && boundingBox.y + boundingBox.height + yChange < 127)
+                boundingBox.setPosition(boundingBox.x+xChange,boundingBox.y+yChange);
+        }
     }
 
 

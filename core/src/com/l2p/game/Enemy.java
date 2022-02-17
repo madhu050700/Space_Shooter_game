@@ -15,7 +15,7 @@ public class Enemy extends Actor{
 
 
     public Enemy(float movementSpeed, int health, float width, float height, float center_x, float center_y, float timeBetweenShots, float projectileWidth, float projectileHeight, float projectileSpeed, Texture actorTexture, Texture projectileTexture,
-                 float projectile_x1, float projectile_x2, float projectile_y ) {
+                 float projectile_x1, float projectile_x2, float projectile_y) {
         super(movementSpeed, health, width, height, center_x, center_y, timeBetweenShots, projectileWidth, projectileHeight, projectileSpeed, actorTexture, projectileTexture);
         directionVector = new Vector2(0,-1);
 
@@ -56,9 +56,9 @@ public class Enemy extends Actor{
     }
 
 
-    @Override
-    public void draw(Batch batch) {
-        batch.draw(actorTexture, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
-    }
+//    @Override
+//    public void draw(Batch batch) {
+//        batch.draw(actorTexture, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
+//    }
 
 }

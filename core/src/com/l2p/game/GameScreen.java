@@ -287,8 +287,8 @@ public class GameScreen implements Screen {
 
     private void midBossStart(float deltaTime){
         stateTime += deltaTime;
-        if(stateTime > timetoStartMidBoss){
-            midBoss.add( new Bosses(40,5,10,10,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_HEIGHT - 5,0.5f,
+        if(stateTime > timetoStartMidBoss && midBoss.size() < 1){
+            midBoss.add( new Bosses(60,5,15,15,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 15) + 7.5f, WORLD_HEIGHT - 7.5f,0.5f,
                     0.7f, 5, 50,midBossTexture,enemyProjectileTexture,0.125f,0.819f,0.05f ));
 
             stateTime -= timetoStartMidBoss;
@@ -298,8 +298,8 @@ public class GameScreen implements Screen {
 
     private void finalBossStart(float deltaTime){
         stateTime1 += deltaTime;
-        if(stateTime1 > timetoStartFinalBoss){
-            finalBoss.add( new Bosses(40,5,10,10,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_HEIGHT - 5,0.5f,
+        if(stateTime1 > timetoStartFinalBoss  && finalBoss.size() < 1 ){
+            finalBoss.add( new Bosses(40,5,20,20,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 20) + 10, WORLD_HEIGHT - 10,0.5f,
                     0.3f, 5, 50,finalBossTexture,enemyProjectileTexture,0.125f,0.819f,0.05f ));
 
             stateTime1 -= timetoStartFinalBoss;
@@ -323,6 +323,7 @@ public class GameScreen implements Screen {
     private void moveEnemy(Enemy enemy,float deltaTime){
         float downLimit;
         downLimit = (float)WORLD_HEIGHT/2 - enemy.boundingBox.y;
+
         float xMove = enemy.getDirectionVector().x*enemy.movementSpeed * deltaTime;
         float yMove = enemy.getDirectionVector().y*enemy.movementSpeed * deltaTime;
 
@@ -343,7 +344,7 @@ public class GameScreen implements Screen {
         downLimit = (float)WORLD_HEIGHT/2 - enemy1.boundingBox.y;
         float xMove1 =enemy1.getDirectionVector().x *enemy1.movementSpeed * deltaTime;
         float yMove1 = enemy1.getDirectionVector().y*enemy1.movementSpeed * deltaTime;
-        if(xMove1 >0){
+        if(xMove1 > 0){
             xMove1 = xMove1;
         }
         if(yMove1 > 0){
@@ -351,11 +352,15 @@ public class GameScreen implements Screen {
         }
         else{
             yMove1 = Math.max(yMove1,downLimit);
+
         }
+
         enemy1.translate(xMove1,yMove1);
 
     }
     private void moveMidBoss(Bosses midBoss,float deltaTime){
+        float leftLimit = 0;
+        float rightLimit = (float)WORLD_WIDTH - midBoss.boundingBox.x;
         float downLimit;
         downLimit = (float)WORLD_HEIGHT/2 - midBoss.boundingBox.y;
         float xMove2 =midBoss.getDirectionVector1().x *midBoss.movementSpeed * deltaTime;
@@ -368,6 +373,8 @@ public class GameScreen implements Screen {
         }
         else{
             yMove2 = Math.max(yMove2,downLimit);
+            xMove2 = xMove2>0?xMove2:0;
+            xMove2 = xMove2>WORLD_WIDTH?rightLimit:xMove2;
         }
         midBoss.translate(xMove2,yMove2);
 

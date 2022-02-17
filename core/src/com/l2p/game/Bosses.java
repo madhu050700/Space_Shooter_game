@@ -10,10 +10,13 @@ public class Bosses extends Actor{
     float timeSinceLastChange =0;
     float directionChangeFrequency = 0.75f;
 
+    float sizeMultiplier = 2;
 
     public Bosses(float movementSpeed, int health, float width, float height, float center_x, float center_y, float timeBetweenShots, float projectileWidth, float projectileHeight, float projectileSpeed, Texture actorTexture, Texture projectileTexture,
                  float projectile_x1, float projectile_x2, float projectile_y ) {
         super(movementSpeed, health, width, height, center_x, center_y, timeBetweenShots, projectileWidth, projectileHeight, projectileSpeed, actorTexture, projectileTexture);
+
+
         directionVector1 = new Vector2(0,-1);
 
         this.projectile_x1 = projectile_x1;
