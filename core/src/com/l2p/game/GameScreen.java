@@ -53,7 +53,7 @@ public class GameScreen implements Screen {
     private  float backgroundMaxScrollingSpeed;
     private float timeBetweenEnemySpawns = 3f;
     private float enemySpawnTimer = 0;
-    private float stateTime,stateTime1=0;
+    private float stateTime,stateTime1,playTime=0;
     private float timetoStartMidBoss = 24f;
     private float timetoStartFinalBoss = 30f;
 
@@ -224,14 +224,14 @@ public class GameScreen implements Screen {
     }
 
     private void updateAndRenderHUD(float deltaTime){
-        stateTime += deltaTime;
+        playTime += deltaTime;
         //render top row label
         //font.draw(batch,"Score", hudLeftX, hudRow1Y, hudSectionWidth, Align.left, false);
         font.draw(batch,"Time", hudCentreX, hudRow1Y, hudSectionWidth, Align.center, false);
         //font.draw(batch,"Lives", hudRightX, hudRow1Y, hudSectionWidth, Align.right, false);
         //render second row values
         //font.draw(batch, String.format(Locale.getDefault(), "%.0f", stateTime), hudLeftX, hudRow2Y, hudSectionWidth, Align.center, false);
-        font.draw(batch, String.format(Locale.getDefault(), "%.0f", stateTime), hudCentreX, hudRow2Y, hudSectionWidth, Align.center, false);
+        font.draw(batch, String.format(Locale.getDefault(), "%.0f", playTime), hudCentreX, hudRow2Y, hudSectionWidth, Align.center, false);
         //font.draw(batch, String.format(Locale.getDefault(), "%02d", 3), hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
     }
 
