@@ -17,7 +17,6 @@ public abstract class Actor {
     Rectangle boundingBox;
 
     //graphics
-    //TODO Projectile texture
     Texture actorTexture;
     Texture projectileTexture;
 
@@ -27,7 +26,8 @@ public abstract class Actor {
     float timeBetweenShots;
     float timeSinceLastShot = 0;
 
-
+    Boolean justSpawned = false;
+    float timeSinceSpawn = 0;
 
     Actor(float movementSpeed, int health, float width, float height, float center_x, float center_y,  float timeBetweenShots, float projectileWidth,
           float projectileHeight,float projectileSpeed, Texture actorTexture, Texture projectileTexture){
@@ -44,6 +44,8 @@ public abstract class Actor {
         this.actorTexture = actorTexture;
         this.projectileTexture = projectileTexture;
 
+        this.justSpawned = true;
+
     }
 
     public void draw(Batch batch){
@@ -51,5 +53,49 @@ public abstract class Actor {
         batch.draw(actorTexture,boundingBox.x,boundingBox.y,boundingBox.width,boundingBox.height);
     }
 
+    public void update(float deltaTime)
+    {timeSinceLastShot += deltaTime;
+      timeSinceSpawn+=deltaTime;
+    }
 
+    public boolean canFireProjectile()
+    {return (timeSinceLastShot - timeBetweenShots >= 0);}
+
+    public abstract Projectile[] fire();
+
+
+    public Boolean translate(float xChange,float yChange, float WORLD_WIDTH, float WORLD_HEIGHT, float lifeSpan){
+
+//        System.out.println(("Time since spawn for"+this.actorTexture.getTextureData()+ " "+ this.timeSinceSpawn));
+
+        if(this.justSpawned)
+        {
+            boundingBox.setPosition(boundingBox.x+xChange,boundingBox.y+yChange);
+            this.justSpawned = false;
+            return false;
+
+        }
+
+        if(boundingBox.x+xChange>0 && (boundingBox.x + boundingBox.width  + xChange)< WORLD_WIDTH && boundingBox.y + boundingBox.height + yChange < WORLD_HEIGHT)
+        { boundingBox.setPosition(boundingBox.x+xChange,boundingBox.y+yChange);
+          return false;
+        }
+
+
+        if(timeSinceSpawn>lifeSpan){
+            //TODO: object moves out and is destroyed
+            boundingBox.setPosition(boundingBox.x,boundingBox.y+100);
+            return true;
+
+        }
+
+        return false;
+
+    }
+
+
+    public boolean intersects(Rectangle otherRect)
+    {
+        return boundingBox.overlaps(otherRect);
+    }
 }
