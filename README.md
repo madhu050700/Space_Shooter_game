@@ -1,6 +1,7 @@
 #Team Learn2Play
 
 #Project Members
+
 -Ahsun Tariq (Team Liason)
 
 -Parikshit Panwar
@@ -10,7 +11,10 @@
 -Guang-Zheng Lee
 
 #Introduction
+
 TODO: Describe the theme and concept of the game
+
+
 
 #Current Features
 -Player Character: A purple ship with following abilities:
@@ -44,6 +48,8 @@ TODO: Describe the theme and concept of the game
     -Very Large evil looking Green ship spawning 30s.
     
     -Fires large yellow projectiles at much faster rate.
+
+    
 
 Project Vision
 TODO: Describe the end product we aim to implement, the features me may add/have not added, the software design patterns that might be applicable. 
