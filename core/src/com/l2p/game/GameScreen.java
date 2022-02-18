@@ -39,7 +39,7 @@ public class GameScreen implements Screen {
 
     //enemyType1
     private Texture enemyType1Texture;
-    private Texture enemyProjectileTexture;
+    private Texture enemyProjectileTexture, midBossProjectileTexture ,finalBossProjectileTexture;
 
     //enemyType2
     private Texture enemyType2Texture;
@@ -64,6 +64,11 @@ public class GameScreen implements Screen {
     private final int WORLD_HEIGHT= 128;
     private int number_enemy_1 = 2;
     private int number_enemy_2 = 2;
+    private float enemy1LifeSpan = 10f;
+    private float enemy2LifeSpan = 10f;
+    private float midBossLifeSpan = 100000f;
+    private  float bossLifeSpan = 100000f;
+
 
     //game Objects
     private PlayerCharacter playerCharacter;
@@ -104,10 +109,13 @@ public class GameScreen implements Screen {
         enemyType2Texture = new Texture("enemy2.png");
 
         midBossTexture = new Texture("midboss1.png");
+
+
         finalBossTexture = new Texture("boss1.png");
 
-
         enemyProjectileTexture= new Texture("laserRed10.png");
+        midBossProjectileTexture = new Texture("midBossProjectile1.png");
+        finalBossProjectileTexture= new Texture("bossProjectile1.png");
 
 //        enemyType1 = new Enemy(2,5,10,10,WORLD_WIDTH/2, WORLD_HEIGHT*3/4,0.5f, 0.7f, 5, 50,enemyType1Texture,null,0,0,0 );
 
@@ -184,17 +192,27 @@ public class GameScreen implements Screen {
         ListIterator<Enemy> enemyListIterator = enemyList.listIterator();
         while(enemyListIterator.hasNext()){
             Enemy enemy = enemyListIterator.next();
-            moveEnemy(enemy,deltaTime);
-            enemy.update(deltaTime);
-            enemy.draw(batch);
+            if(moveEnemy(enemy,deltaTime)){
+                enemyListIterator.remove();
+                System.out.println("Enemy 1 left");
+            }
+            else {
+                enemy.update(deltaTime);
+                enemy.draw(batch);
+            }
         }
         enemyListIterator = enemyList1.listIterator();
 
         while(enemyListIterator.hasNext()){
             Enemy enemy1 = enemyListIterator.next();
-            moveEnemy1(enemy1,deltaTime);
-            enemy1.update(deltaTime);
-            enemy1.draw(batch);
+            if(moveEnemy1(enemy1,deltaTime)){
+               enemyListIterator.remove();
+               System.out.println("Enemy 2 left");
+            }
+            else{
+                enemy1.update(deltaTime);
+                enemy1.draw(batch);
+            }
         }
         midBossStart(deltaTime);
         ListIterator<Bosses> midBossIterator = midBoss.listIterator();
@@ -339,7 +357,7 @@ public class GameScreen implements Screen {
         stateTime += deltaTime;
         if(stateTime > timetoStartMidBoss && midBoss.size() < 1){
             midBoss.add( new Bosses(60,5,15,15,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 15) + 7.5f, WORLD_HEIGHT - 7.5f,0.5f,
-                    0.7f, 5, 50,midBossTexture,enemyProjectileTexture,0.125f,0.819f,0.05f ));
+                    1f, 7, 50,midBossTexture,midBossProjectileTexture,0.125f,0.819f,0.05f ));
 
             stateTime -= timetoStartMidBoss;
 
@@ -349,8 +367,8 @@ public class GameScreen implements Screen {
     private void finalBossStart(float deltaTime){
         stateTime1 += deltaTime;
         if(stateTime1 > timetoStartFinalBoss  && finalBoss.size() < 1 ){
-            finalBoss.add( new Bosses(40,5,20,20,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 20) + 10, WORLD_HEIGHT - 10,0.5f,
-                    0.3f, 5, 50,finalBossTexture,enemyProjectileTexture,0.125f,0.819f,0.05f ));
+            finalBoss.add( new Bosses(40,5,20,20,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 20) + 10, WORLD_HEIGHT - 10,0.3f,
+                    2f, 10, 50,finalBossTexture,finalBossProjectileTexture,0.125f,0.819f,0.05f ));
 
             stateTime1 -= timetoStartFinalBoss;
 
@@ -372,7 +390,7 @@ public class GameScreen implements Screen {
         }
     }
 
-    private void moveEnemy(Enemy enemy,float deltaTime){
+    private Boolean moveEnemy(Enemy enemy,float deltaTime){
         float downLimit;
         downLimit = (float)WORLD_HEIGHT/2 - enemy.boundingBox.y;
 
@@ -389,9 +407,9 @@ public class GameScreen implements Screen {
         else{
             yMove = Math.max(yMove,downLimit);
         }
-        enemy.translate(xMove,yMove,WORLD_WIDTH,WORLD_HEIGHT);
+        return enemy.translate(xMove,yMove,WORLD_WIDTH,WORLD_HEIGHT,enemy1LifeSpan);
     }
-    private void moveEnemy1(Enemy enemy1,float deltaTime){
+    private Boolean moveEnemy1(Enemy enemy1,float deltaTime){
         float downLimit;
         downLimit = (float)WORLD_HEIGHT/2 - enemy1.boundingBox.y;
         float xMove1 =enemy1.getDirectionVector().x *enemy1.movementSpeed * deltaTime;
@@ -407,10 +425,10 @@ public class GameScreen implements Screen {
 
         }
 
-        enemy1.translate(xMove1,yMove1,WORLD_WIDTH,WORLD_HEIGHT);
+        return enemy1.translate(xMove1,yMove1,WORLD_WIDTH,WORLD_HEIGHT,enemy2LifeSpan);
 
     }
-    private void moveMidBoss(Bosses midBoss,float deltaTime){
+    private Boolean moveMidBoss(Bosses midBoss,float deltaTime){
         float leftLimit = 0;
         float rightLimit = (float)WORLD_WIDTH - midBoss.boundingBox.x;
         float downLimit;
@@ -428,10 +446,10 @@ public class GameScreen implements Screen {
             xMove2 = xMove2>0?xMove2:0;
             xMove2 = xMove2>WORLD_WIDTH?rightLimit:xMove2;
         }
-        midBoss.translate(xMove2,yMove2,WORLD_WIDTH,WORLD_HEIGHT);
+        return midBoss.translate(xMove2,yMove2,WORLD_WIDTH,WORLD_HEIGHT,midBossLifeSpan);
 
     }
-    private void moveFinalBoss(Bosses finalBoss,float deltaTime){
+    private Boolean moveFinalBoss(Bosses finalBoss,float deltaTime){
         float downLimit;
         downLimit = (float)WORLD_HEIGHT/2 - finalBoss.boundingBox.y;
         float xMove3 =finalBoss.getDirectionVector1().x *finalBoss.movementSpeed * deltaTime;
@@ -445,7 +463,7 @@ public class GameScreen implements Screen {
         else{
             yMove3 = Math.max(yMove3,downLimit);
         }
-        finalBoss.translate(xMove3,yMove3,WORLD_WIDTH,WORLD_HEIGHT);
+        return finalBoss.translate(xMove3,yMove3,WORLD_WIDTH,WORLD_HEIGHT,bossLifeSpan);
 
     }
 
