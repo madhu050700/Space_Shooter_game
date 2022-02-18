@@ -6,15 +6,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.ListIterator;
+import java.util.Locale;
 
 public class GameScreen implements Screen {
 
@@ -68,6 +73,10 @@ public class GameScreen implements Screen {
     private LinkedList<Enemy> enemyList,enemyList1;
     private LinkedList<Bosses> midBoss,finalBoss;
 
+    //Head-Up display
+    BitmapFont font;
+    float hudVerticalMargin, hudLeftX, hudRightX, hudCentreX, hudRow1Y, hudRow2Y, hudSectionWidth;
+
 
 
 
@@ -118,9 +127,34 @@ public class GameScreen implements Screen {
 
         batch = new SpriteBatch();
 
+        prepareHUD();
+
     }
 
+    private void prepareHUD() {
+        //create a bitmapfont from font file
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal( "EdgeOfTheGalaxyRegular-OVEa6.otf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
+        fontParameter.size = 72;
+        fontParameter.borderWidth = 3.6f;
+        fontParameter.color = new Color(1,1,1,0.3f);
+        fontParameter.borderColor = new Color(0,0,0,0.3f);
+
+        font = fontGenerator.generateFont(fontParameter);
+
+        //scale the font to fit world
+        font.getData().setScale(0.08f);
+
+        //calculate hud margins
+        hudVerticalMargin = font.getCapHeight() /2;
+        hudLeftX = hudVerticalMargin;
+        hudRightX = WORLD_WIDTH * 2 / 3 - hudLeftX;
+        hudCentreX = WORLD_WIDTH / 3;
+        hudRow1Y = WORLD_HEIGHT - hudVerticalMargin;
+        hudRow2Y = hudRow1Y - hudVerticalMargin - font.getCapHeight();
+        hudSectionWidth = WORLD_WIDTH / 3;
+    }
 
     @Override
     public void show() {
@@ -182,8 +216,23 @@ public class GameScreen implements Screen {
         // Projectile.
         renderProjectile(deltaTime);
 
+        //hud rendering
+        updateAndRenderHUD(deltaTime);
+
         batch.end();
 
+    }
+
+    private void updateAndRenderHUD(float deltaTime){
+        stateTime += deltaTime;
+        //render top row label
+        //font.draw(batch,"Score", hudLeftX, hudRow1Y, hudSectionWidth, Align.left, false);
+        font.draw(batch,"Time", hudCentreX, hudRow1Y, hudSectionWidth, Align.center, false);
+        //font.draw(batch,"Lives", hudRightX, hudRow1Y, hudSectionWidth, Align.right, false);
+        //render second row values
+        //font.draw(batch, String.format(Locale.getDefault(), "%.0f", stateTime), hudLeftX, hudRow2Y, hudSectionWidth, Align.center, false);
+        font.draw(batch, String.format(Locale.getDefault(), "%.0f", stateTime), hudCentreX, hudRow2Y, hudSectionWidth, Align.center, false);
+        //font.draw(batch, String.format(Locale.getDefault(), "%02d", 3), hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
     }
 
     private void renderProjectile(float deltaTime)
