@@ -76,8 +76,8 @@ public abstract class Actor {
         else{
             if(boundingBox.x+xChange>0 && (boundingBox.x + boundingBox.width  + xChange)< WORLD_WIDTH && boundingBox.y + boundingBox.height + yChange < WORLD_HEIGHT)
                 boundingBox.setPosition(boundingBox.x+xChange,boundingBox.y+yChange);
-
         }
+
     }
 
 

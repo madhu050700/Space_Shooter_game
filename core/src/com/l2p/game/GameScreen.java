@@ -39,7 +39,7 @@ public class GameScreen implements Screen {
 
     //enemyType1
     private Texture enemyType1Texture;
-    private Texture enemyProjectileTexture;
+    private Texture enemyProjectileTexture, midBossProjectileTexture ,finalBossProjectileTexture;
 
     //enemyType2
     private Texture enemyType2Texture;
@@ -104,10 +104,13 @@ public class GameScreen implements Screen {
         enemyType2Texture = new Texture("enemy2.png");
 
         midBossTexture = new Texture("midboss1.png");
+
+
         finalBossTexture = new Texture("boss1.png");
 
-
         enemyProjectileTexture= new Texture("laserRed10.png");
+        midBossProjectileTexture = new Texture("midBossProjectile1.png");
+        finalBossProjectileTexture= new Texture("bossProjectile1.png");
 
 //        enemyType1 = new Enemy(2,5,10,10,WORLD_WIDTH/2, WORLD_HEIGHT*3/4,0.5f, 0.7f, 5, 50,enemyType1Texture,null,0,0,0 );
 
@@ -339,7 +342,7 @@ public class GameScreen implements Screen {
         stateTime += deltaTime;
         if(stateTime > timetoStartMidBoss && midBoss.size() < 1){
             midBoss.add( new Bosses(60,5,15,15,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 15) + 7.5f, WORLD_HEIGHT - 7.5f,0.5f,
-                    0.7f, 5, 50,midBossTexture,enemyProjectileTexture,0.125f,0.819f,0.05f ));
+                    1f, 7, 50,midBossTexture,midBossProjectileTexture,0.125f,0.819f,0.05f ));
 
             stateTime -= timetoStartMidBoss;
 
@@ -349,8 +352,8 @@ public class GameScreen implements Screen {
     private void finalBossStart(float deltaTime){
         stateTime1 += deltaTime;
         if(stateTime1 > timetoStartFinalBoss  && finalBoss.size() < 1 ){
-            finalBoss.add( new Bosses(40,5,20,20,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 20) + 10, WORLD_HEIGHT - 10,0.5f,
-                    0.3f, 5, 50,finalBossTexture,enemyProjectileTexture,0.125f,0.819f,0.05f ));
+            finalBoss.add( new Bosses(40,5,20,20,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 20) + 10, WORLD_HEIGHT - 10,0.3f,
+                    2f, 10, 50,finalBossTexture,finalBossProjectileTexture,0.125f,0.819f,0.05f ));
 
             stateTime1 -= timetoStartFinalBoss;
 
