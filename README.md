@@ -14,6 +14,8 @@
 
 #Introduction
 
+Instructions to run: Install JAVA and Android studio. Clone the repo and open it using Android studio. Sync gradle files. Create a run configuration for desktop (Select JAVA 11 Android API 32 Platform). Set the classpath module as team-Learn2Play.desktop. Set the main class as com.L2P.DesktopLauncher. Set the working directory to assets. Done!
+
 TODO: Describe the theme and concept of the game
 
 
