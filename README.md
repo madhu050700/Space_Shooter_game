@@ -10,6 +10,8 @@
 
 -Guang-Zheng Lee
 
+
+
 #Introduction
 
 TODO: Describe the theme and concept of the game
@@ -17,6 +19,7 @@ TODO: Describe the theme and concept of the game
 
 
 #Current Features
+
 -Player Character: A purple ship with following abilities:
 
     -Move in 8 directions using ARROW KEYS within bounds of world.
@@ -52,5 +55,6 @@ TODO: Describe the theme and concept of the game
     
 
 Project Vision
+
 TODO: Describe the end product we aim to implement, the features me may add/have not added, the software design patterns that might be applicable. 
 
