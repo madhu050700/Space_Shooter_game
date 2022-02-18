@@ -57,7 +57,8 @@ public class GameScreen implements Screen {
     //world parameters
     private final int WORLD_WIDTH = 72;
     private final int WORLD_HEIGHT= 128;
-
+    private int number_enemy_1 = 2;
+    private int number_enemy_2 = 2;
 
     //game Objects
     private PlayerCharacter playerCharacter;
@@ -312,9 +313,11 @@ public class GameScreen implements Screen {
     private void spawnEnemyShips(float deltaTime){
         enemySpawnTimer += deltaTime;
         if(enemySpawnTimer > timeBetweenEnemySpawns) {
-            enemyList.add(new Enemy(48,1,10,10,Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_WIDTH -1), WORLD_HEIGHT - 5,0.8f,
+            if(enemyList.size() < number_enemy_1)
+                enemyList.add(new Enemy(48,1,10,10,Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_WIDTH -1), WORLD_HEIGHT - 5,0.8f,
                     0.3f, 5, 50,enemyType1Texture,enemyProjectileTexture,0.125f,0.819f,0.05f ));
-            enemyList1.add(new Enemy(48,1,10,10,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 10, WORLD_HEIGHT - 10,0.8f,
+            if(enemyList1.size() < number_enemy_2)
+                enemyList1.add(new Enemy(48,1,10,10,Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 10,WORLD_WIDTH -1), WORLD_HEIGHT - 10,0.8f,
                     0.3f, 5, 50,enemyType2Texture,enemyProjectileTexture,0.138f,0.847f,0.037f ));
             enemySpawnTimer -= timeBetweenEnemySpawns;
         }
@@ -337,7 +340,7 @@ public class GameScreen implements Screen {
         else{
             yMove = Math.max(yMove,downLimit);
         }
-        enemy.translate(xMove,yMove);
+        enemy.translate(xMove,yMove,WORLD_WIDTH,WORLD_HEIGHT);
     }
     private void moveEnemy1(Enemy enemy1,float deltaTime){
         float downLimit;
@@ -355,7 +358,7 @@ public class GameScreen implements Screen {
 
         }
 
-        enemy1.translate(xMove1,yMove1);
+        enemy1.translate(xMove1,yMove1,WORLD_WIDTH,WORLD_HEIGHT);
 
     }
     private void moveMidBoss(Bosses midBoss,float deltaTime){
@@ -376,7 +379,7 @@ public class GameScreen implements Screen {
             xMove2 = xMove2>0?xMove2:0;
             xMove2 = xMove2>WORLD_WIDTH?rightLimit:xMove2;
         }
-        midBoss.translate(xMove2,yMove2);
+        midBoss.translate(xMove2,yMove2,WORLD_WIDTH,WORLD_HEIGHT);
 
     }
     private void moveFinalBoss(Bosses finalBoss,float deltaTime){
@@ -393,7 +396,7 @@ public class GameScreen implements Screen {
         else{
             yMove3 = Math.max(yMove3,downLimit);
         }
-        finalBoss.translate(xMove3,yMove3);
+        finalBoss.translate(xMove3,yMove3,WORLD_WIDTH,WORLD_HEIGHT);
 
     }
 

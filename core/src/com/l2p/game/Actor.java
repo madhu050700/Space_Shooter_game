@@ -63,7 +63,7 @@ public abstract class Actor {
     public abstract Projectile[] fire();
 
 
-    public void translate(float xChange,float yChange){
+    public void translate(float xChange,float yChange, float WORLD_WIDTH, float WORLD_HEIGHT){
 
         if(this.justSpawned)
 
@@ -74,7 +74,7 @@ public abstract class Actor {
         }
 
         else{
-            if(boundingBox.x+xChange>0 && (boundingBox.x + boundingBox.width  + xChange)< 71 && boundingBox.y + boundingBox.height + yChange < 127)
+            if(boundingBox.x+xChange>0 && (boundingBox.x + boundingBox.width  + xChange)< WORLD_WIDTH && boundingBox.y + boundingBox.height + yChange < WORLD_HEIGHT)
                 boundingBox.setPosition(boundingBox.x+xChange,boundingBox.y+yChange);
 
         }
