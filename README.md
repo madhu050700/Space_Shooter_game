@@ -78,8 +78,6 @@ TODO: Describe the theme and concept of the game
 
 #Project Vision
 
-TODO: Describe the end product we aim to implement, the features me may add/have not added, the software design patterns that might be applicable. 
-
 The **Space Shooter** game will have the following features:
 
 -**Linear Description of the game:**
