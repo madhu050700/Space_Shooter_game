@@ -76,15 +76,17 @@ TODO: Describe the theme and concept of the game
 
     
 
-Project Vision
+#Project Vision
 
 TODO: Describe the end product we aim to implement, the features me may add/have not added, the software design patterns that might be applicable. 
 
 The **Space Shooter** game will have the following features:
 
-**Linear Description of the game:**
+-**Linear Description of the game:**
 
-The game starts of as regular enemies (enemy type 1 and type 2) spawning. At time stamp 24s and 30s, mid boss and final boss appear in the game. 
+The game starts of as regular enemies (enemy type 1 and type 2) spawning. The player begins journey of exploring galaxies. At time stamp 0s, the player will start exploring the first galaxy. This galaxy has two types of enemies and two bosses. At time stamp 10s enemy1 and enemy2 will appear. At time stamp 24s mid boss will appear. Finally at time stamp 30s, player shall face the final boss. 
+
+However, we tend to implement different galaxies and each galaxy will have unique regular enemies, mid bosses and final boss.
 
 -**Health features:**
 
@@ -96,14 +98,14 @@ Each character in the game is associated with unique firing abilities. Mid bosse
 
 Midboss and final boss will have more elaborated attacks. For example, when the health drops to 50%, the firing parameters may change, making it more difficult to escape. For example, the time between shots, as well as the bounding box and pattern of the projectile will change, which will provide additional challenge to the player. In the case of final bosss, there may be three stages in which each case firing patterns may be become more frequent increasing the game difficulty level.
 
-**Variable world parameters:**
+-**Variable world parameters:**
 
 For now some parameters are fixed such as the max number of enemies that can be spawned at a given time, lifespan in seconds of enemies, time between shots which is related to the difficulty, enemy movement speed, background images for levels. We intend to make these parameters customizable by reading JSON files, and therefore offering a variation in the gameplay.
 
+-**Platform, Distribution and Architectural constraints:**
 
+One of the advantages of using Libgdx and JAVA is that it supports portability. The same code, with very few changes, can work on multiple platforms such Android, MacOS/PC. However, certain changes maybe required based on the control input (for example, touch input for Android and keyboard for PC). We intend to create the running configuration dynammically based on the platform. In this aspect, we will pursue the feasible software architectural pattern, such as Abstract Factory, to provide the respective user experience.
 
-**TODO:** Describe firing patterns and their damage power.
+-**Future work and Research questions:**
 
-**Notes-1**: Variable world parameters; For now some parameters are fixed such as the max number of enemies that can be spawned at a given time, lifespan in seconds of enemies, time between shots which is related to the difficulty, enemy movement speed, background images for levels. We intend to make these parameters customizable by reading JSON files, and therefore offering a variation in the gameplay.
-
-**Note-2:** midboss and boss will have more elaborated attacks. For example, when the health drops to 50%, the firing parameters may change, making it more difficult to escape. For example, the time between shots, as well as the bounding box and pattern of the projectile will change, which will provide additional challenge to the player
+Logging user input and events maybe an interesting dimension to explore. This may allow to fine tune the parameters of the game. Many contemporary games use the user data and a generative model to add distinctive elements to the game. We do not plan to implement any Machine Learning method to provide this functionality, nevertheless, logging user data will provide the means to explore this question and thereby provide unique gameplay.
