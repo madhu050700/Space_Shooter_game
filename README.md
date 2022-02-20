@@ -13,6 +13,7 @@
 
 
 **#Introduction**
+
 In the past decade, video games have grown by leaps and bound. Gaming has become a global phenomenon due to the increasing availability and popularity of video games, a shift in demographics has made gaming an all-inclusive pastime that crosses cultural, demographic, and gender lines and technology itself has advanced considerably, resulting in some of the most sophisticated game development ever.There are many genres of game and action being one of them.Shooters are subgenre of action games where the entire focuses is in destruction of enemies using the weapon that the player has. These games test the spatial awareness, reflexes, and speed in both isolated single player or networked multiplayer environments.We have planned to create one such game using the Libgdx,a game development framework in JAVA,where the player encounters several level to defeat a wide range of enemies,starting with regular ones to the final boss,whose defeat will end the game with player's victory.Having started with the initial requirements of creating the characters and enabling them to move, we have also laid out the entire proposed plan on developing the end product.
 
 Instructions to run: Install JAVA and Android studio. Clone the repo and open it using Android studio. Sync gradle files. Create a run configuration for desktop (Select JAVA 11 Android API 32 Platform). Set the classpath module as team-Learn2Play.desktop. Set the main class as com.L2P.DesktopLauncher. Set the working directory to assets. Done! 
