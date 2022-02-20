@@ -1,6 +1,6 @@
-#Team Learn2Play
+**#Team Learn2Play**
 
-#Project Members
+**#Project Members**
 
 -Ahsun Tariq (Team Liason)
 
@@ -12,7 +12,7 @@
 
 
 
-#Introduction
+**#Introduction**
 
 Instructions to run: Install JAVA and Android studio. Clone the repo and open it using Android studio. Sync gradle files. Create a run configuration for desktop (Select JAVA 11 Android API 32 Platform). Set the classpath module as team-Learn2Play.desktop. Set the main class as com.L2P.DesktopLauncher. Set the working directory to assets. Done! 
 ![](screendumps/config.PNG)
@@ -23,7 +23,7 @@ TODO: Describe the theme and concept of the game
 ![](screendumps/gameConcept.PNG)
 
 
-#Current Features
+**#Current Features**
 
 -Player Character: A purple ship with following abilities:
 
@@ -39,7 +39,7 @@ TODO: Describe the theme and concept of the game
 
 
 
--Regular Enemy Type 1:
+-**Regular Enemy Type 1:**
 
 ![](screendumps/enemy1.PNG)
 
@@ -48,7 +48,7 @@ TODO: Describe the theme and concept of the game
     -Lifetime is set to 10s, after that the ship leaves. If a ship leaves, a new ship will be spawned.
 
 
--Regular Enemy Type 2:
+**-Regular Enemy Type 2:**
 
 ![](screendumps/enemy2.PNG)
 
@@ -57,7 +57,7 @@ TODO: Describe the theme and concept of the game
 
     -Lifetime is set to 10s, after that the ship leaves. If a ship leaves, a new ship will be spawned.
 
--Mid Boss:
+**-Mid Boss:**
 
 ![](screendumps/midBoss.PNG)
 
@@ -66,7 +66,7 @@ TODO: Describe the theme and concept of the game
     -Fires red projectiles
 
     -Moves faster and is a little harder to dodge.
--Final Boss:
+**-Final Boss:**
 
 ![](screendumps/boss.PNG)
 
@@ -76,7 +76,7 @@ TODO: Describe the theme and concept of the game
 
     
 
-#Project Vision
+**#Project Vision**
 
 The **Space Shooter** game will have the following features:
 
