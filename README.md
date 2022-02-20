@@ -82,8 +82,6 @@ TODO: Describe the end product we aim to implement, the features me may add/have
 
 The **Space Shooter** game will have the following features:
 
-In the final product, there will be two mid bosses and a final final boss. The mid bosses and final boss will be able to fire bullets in different patterns. Also, the damage caused by their shots will be more than the regular enemies.
-
 -**Health features:**
 
 Each Character will have different health points (HP), for example, the health points of bosses will be greater than the regular enemies which will make it difficult to destroy them. The player will have 7 health points at the starting of the game, each regular enemies will 2 health points, mid bosses will have 10 health points and final boss will have 20 health points. The player will be able to refill (upto 7 HP) its health by obtaining health bonuses which will also appear randomly in the game.
@@ -91,3 +89,5 @@ Each Character will have different health points (HP), for example, the health p
 -**Firing features:**
 
 Each character in the game is associated with unique firing abilities. Mid bosses and Final boss will have ability to fire their signature shots which will cause greater damage than their regular bullets. However, these signature moves will not be very frequent as compared to their regular shots. Furthermore, mid bosses and final boss will also have the ability to fire regular shots in different patterns. The player will also have the ability to fire signature shots which will cause more damage than regular bullets but only after obtaining firing bonuses which will appear randomly in the game. For the firing power, bullets of regaular enemies will decrease the player HP by 1, mid boss regular bullets will decrease player HP by 2 points and signature shots by 3 points, final boss regular bullets will decrease player HP by 3 points and signature shots by 4 points. 
+
+**TODO:** Describe firing patterns and their damage power.
