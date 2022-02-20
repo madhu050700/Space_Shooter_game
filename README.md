@@ -82,7 +82,7 @@ The **Space Shooter** game will have the following features:
 
 -**Linear Description of the game:**
 
-The game starts of as regular enemies (enemy type 1 and type 2) spawning. The player begins journey of exploring galaxies. At time stamp 0s, the player will start exploring the first galaxy. This galaxy has two types of enemies and two bosses. At time stamp 10s enemy1 and enemy2 will appear. At time stamp 24s mid boss will appear. Finally at time stamp 30s, player shall face the final boss. 
+The game starts with regular enemies (enemy type 1 and type 2) spawning. The player begins journey of exploring galaxies. At time stamp 0s, the player will start exploring the first galaxy. This galaxy has two types of enemies and two bosses. At time stamp 10s enemy1 and enemy2 will appear. At time stamp 24s mid boss will appear. Finally at time stamp 30s, player shall face the final boss. 
 
 However, we tend to implement different galaxies and each galaxy will have unique regular enemies, mid bosses and final boss.
 
