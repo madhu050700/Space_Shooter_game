@@ -96,7 +96,7 @@ Each character in the game is associated with unique firing abilities. Mid bosse
 
 Midboss and final boss will have more elaborated attacks. For example, when the health drops to 50%, the firing parameters may change, making it more difficult to escape. For example, the time between shots, as well as the bounding box and pattern of the projectile will change, which will provide additional challenge to the player. In the case of final bosss, there may be three stages in which each case firing patterns may be become more frequent increasing the game difficulty level.
 
-**Variable world parameters: **
+**Variable world parameters:**
 
 For now some parameters are fixed such as the max number of enemies that can be spawned at a given time, lifespan in seconds of enemies, time between shots which is related to the difficulty, enemy movement speed, background images for levels. We intend to make these parameters customizable by reading JSON files, and therefore offering a variation in the gameplay.
 
