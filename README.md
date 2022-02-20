@@ -80,3 +80,7 @@ Project Vision
 
 TODO: Describe the end product we aim to implement, the features me may add/have not added, the software design patterns that might be applicable. 
 
+In the final product, there will be two mid bosses and a final final boss. The mid bosses and final boss will be able to fire bullets in different patterns. Also, the damage caused by their shots will be more than the regular enemies. The health points of bosses will also be greater than the regular enemies which will make it difficult to destroy them. Mid bosses and Final boss will have ability to fire their signature shots which will cause greater damage than their regular bullets. However, these signature moves will not be very frequent as compared to regular shots. The player will also have the ability to fire signature shots which is more damaging than regular bullets by obtaining firing bonuses which will appear randomly in the game. Bullets of regaular enemies will decrease the player HP by 1, mid boss regular bullets will decrease player HP by 2 points and signature shots by 3 points, final boss regular bullets will decrease player HP by 3 points and signature shots by 4 points. 
+
+The player will have 7 health points at the starting of the game. Each regular enemies will 2 health points, mid bosses will have 10 health points and final boss will have 20 health points. The player will be able to refill its health by obtaining health bonuses which will also appear randomly in the game.
+
