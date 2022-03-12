@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class BossMovement extends Movement{
 
+    @Override
     public float[] setMovement(Vector2 directionVector, float movementSpeed, float deltaTime, float enemyLifeSpan, Rectangle boundingBox, int WORLD_WIDTH, int WORLD_HEIGHT) {
 
         float leftLimit = 0;
