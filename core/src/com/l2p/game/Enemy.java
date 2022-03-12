@@ -3,6 +3,8 @@ package com.l2p.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.l2p.game.movement.EnemyMovement;
+import com.l2p.game.movement.Movement;
 
 public class Enemy extends Actor{
 
@@ -14,6 +16,10 @@ public class Enemy extends Actor{
     float directionChangeFrequency = 0.75f;
 
 
+    Movement enemyMovement;
+
+
+
 
     public Enemy(float movementSpeed, int health, float width, float height, float center_x, float center_y, float timeBetweenShots, float projectileWidth, float projectileHeight, float projectileSpeed, Texture actorTexture, Texture projectileTexture,
                  float projectile_x1, float projectile_x2, float projectile_y) {
@@ -23,6 +29,10 @@ public class Enemy extends Actor{
         this.projectile_x1 = projectile_x1;
         this.projectile_x2 =projectile_x2;
         this.projectile_y = projectile_y;
+
+
+        enemyMovement = new EnemyMovement();
+
     }
 
     public Vector2 getDirectionVector() {
@@ -57,7 +67,15 @@ public class Enemy extends Actor{
     }
 
 
-//    @Override
+    @Override
+    public Boolean moveActor(float deltaTime, int WORLD_WIDTH, int WORLD_HEIGHT, float lifeSpan){
+        float coord[]=
+                this.enemyMovement.setMovement(this.directionVector, this.movementSpeed, deltaTime, lifeSpan, this.boundingBox, WORLD_WIDTH, WORLD_HEIGHT);
+        return  this.translate(coord[0],coord[1], WORLD_WIDTH,WORLD_HEIGHT, lifeSpan);
+
+    }
+
+    //    @Override
 //    public void draw(Batch batch) {
 //        batch.draw(actorTexture, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
 //    }

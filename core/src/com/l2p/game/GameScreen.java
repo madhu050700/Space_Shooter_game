@@ -192,7 +192,8 @@ public class GameScreen implements Screen {
         ListIterator<Enemy> enemyListIterator = enemyList.listIterator();
         while(enemyListIterator.hasNext()){
             Enemy enemy = enemyListIterator.next();
-            if(moveEnemy(enemy,deltaTime)){
+
+            if(enemy.moveActor(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,enemy1LifeSpan)){
                 enemyListIterator.remove();
                 System.out.println("Enemy 1 left");
             }
@@ -205,7 +206,7 @@ public class GameScreen implements Screen {
 
         while(enemyListIterator.hasNext()){
             Enemy enemy1 = enemyListIterator.next();
-            if(moveEnemy1(enemy1,deltaTime)){
+            if(enemy1.moveActor(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,enemy2LifeSpan)){
                enemyListIterator.remove();
                System.out.println("Enemy 2 left");
             }
@@ -218,7 +219,8 @@ public class GameScreen implements Screen {
         ListIterator<Bosses> midBossIterator = midBoss.listIterator();
         while(midBossIterator.hasNext()){
             Bosses midBoss= midBossIterator.next();
-            moveMidBoss(midBoss,deltaTime);
+            midBoss.moveActor(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,midBossLifeSpan);
+//            moveMidBoss(midBoss,deltaTime);
             midBoss.update(deltaTime);
             midBoss.draw(batch);
         }
@@ -226,7 +228,8 @@ public class GameScreen implements Screen {
         ListIterator<Bosses> finalBossIterator = finalBoss.listIterator();
         while(finalBossIterator.hasNext()){
             Bosses finalBoss= finalBossIterator.next();
-            moveFinalBoss(finalBoss,deltaTime);
+            finalBoss.moveActor(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,bossLifeSpan);
+//            moveFinalBoss(finalBoss,deltaTime);
             finalBoss.update(deltaTime);
             finalBoss.draw(batch);
         }
@@ -389,84 +392,6 @@ public class GameScreen implements Screen {
             enemySpawnTimer -= timeBetweenEnemySpawns;
         }
     }
-
-    private Boolean moveEnemy(Enemy enemy,float deltaTime){
-        float downLimit;
-        downLimit = (float)WORLD_HEIGHT/2 - enemy.boundingBox.y;
-
-        float xMove = enemy.getDirectionVector().x*enemy.movementSpeed * deltaTime;
-        float yMove = enemy.getDirectionVector().y*enemy.movementSpeed * deltaTime;
-
-
-        if(xMove >0){
-            xMove = xMove;
-        }
-        if(yMove > 0){
-            yMove = yMove;
-        }
-        else{
-            yMove = Math.max(yMove,downLimit);
-        }
-        return enemy.translate(xMove,yMove,WORLD_WIDTH,WORLD_HEIGHT,enemy1LifeSpan);
-    }
-    private Boolean moveEnemy1(Enemy enemy1,float deltaTime){
-        float downLimit;
-        downLimit = (float)WORLD_HEIGHT/2 - enemy1.boundingBox.y;
-        float xMove1 =enemy1.getDirectionVector().x *enemy1.movementSpeed * deltaTime;
-        float yMove1 = enemy1.getDirectionVector().y*enemy1.movementSpeed * deltaTime;
-        if(xMove1 > 0){
-            xMove1 = xMove1;
-        }
-        if(yMove1 > 0){
-            yMove1 = yMove1;
-        }
-        else{
-            yMove1 = Math.max(yMove1,downLimit);
-
-        }
-
-        return enemy1.translate(xMove1,yMove1,WORLD_WIDTH,WORLD_HEIGHT,enemy2LifeSpan);
-
-    }
-    private Boolean moveMidBoss(Bosses midBoss,float deltaTime){
-        float leftLimit = 0;
-        float rightLimit = (float)WORLD_WIDTH - midBoss.boundingBox.x;
-        float downLimit;
-        downLimit = (float)WORLD_HEIGHT/2 - midBoss.boundingBox.y;
-        float xMove2 =midBoss.getDirectionVector1().x *midBoss.movementSpeed * deltaTime;
-        float yMove2 = midBoss.getDirectionVector1().y*midBoss.movementSpeed * deltaTime;
-        if(xMove2 >0){
-            xMove2 = xMove2;
-        }
-        if(yMove2 > 0){
-            yMove2 = yMove2;
-        }
-        else{
-            yMove2 = Math.max(yMove2,downLimit);
-            xMove2 = xMove2>0?xMove2:0;
-            xMove2 = xMove2>WORLD_WIDTH?rightLimit:xMove2;
-        }
-        return midBoss.translate(xMove2,yMove2,WORLD_WIDTH,WORLD_HEIGHT,midBossLifeSpan);
-
-    }
-    private Boolean moveFinalBoss(Bosses finalBoss,float deltaTime){
-        float downLimit;
-        downLimit = (float)WORLD_HEIGHT/2 - finalBoss.boundingBox.y;
-        float xMove3 =finalBoss.getDirectionVector1().x *finalBoss.movementSpeed * deltaTime;
-        float yMove3 = finalBoss.getDirectionVector1().y*finalBoss.movementSpeed * deltaTime;
-        if(xMove3 >0){
-            xMove3 = xMove3;
-        }
-        if(yMove3 > 0){
-            yMove3 = yMove3;
-        }
-        else{
-            yMove3 = Math.max(yMove3,downLimit);
-        }
-        return finalBoss.translate(xMove3,yMove3,WORLD_WIDTH,WORLD_HEIGHT,bossLifeSpan);
-
-    }
-
 
     private void playerInput()
     {

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 
-public abstract class Actor {
+public class Actor {
 
 
 
@@ -61,10 +61,20 @@ public abstract class Actor {
     public boolean canFireProjectile()
     {return (timeSinceLastShot - timeBetweenShots >= 0);}
 
-    public abstract Projectile[] fire();
+    public Projectile[] fire(){
 
+        return null;
+    };
 
-    public Boolean translate(float xChange,float yChange, float WORLD_WIDTH, float WORLD_HEIGHT, float lifeSpan){
+    public Rectangle getBoundingBox() {
+        return boundingBox;
+    }
+
+    public float getMovementSpeed() {
+        return movementSpeed;
+    }
+
+    public Boolean translate(float xChange, float yChange, float WORLD_WIDTH, float WORLD_HEIGHT, float lifeSpan){
 
 //        System.out.println(("Time since spawn for"+this.actorTexture.getTextureData()+ " "+ this.timeSinceSpawn));
 
@@ -98,4 +108,14 @@ public abstract class Actor {
     {
         return boundingBox.overlaps(otherRect);
     }
+
+
+    public Boolean moveActor(float deltaTime, int WORLD_WIDTH, int WORLD_HEIGHT, float lifeSpan){
+        return null;
+    }
+
+
 }
+
+
+

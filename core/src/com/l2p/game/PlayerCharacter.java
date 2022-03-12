@@ -18,6 +18,8 @@ public class PlayerCharacter extends Actor{
         this.toggleSpeed = toggleSpeed;
     }
 
+
+    @Override
     public Projectile[] fire() {
         Projectile[] projectile = new Projectile[2];
         projectile[0] = new Projectile(boundingBox.x +boundingBox.width*0.387f,boundingBox.y+boundingBox.height*0.925f, projectileWidth, projectileHeight, projectileSpeed, projectileTexture);
