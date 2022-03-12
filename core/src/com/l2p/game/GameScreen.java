@@ -321,8 +321,7 @@ public class GameScreen implements Screen {
         while(iterator.hasNext()){
             Projectile projectile = iterator.next();
             projectile.draw(batch);
-            projectile.boundingBox.y -= projectile.movementSpeed*deltaTime;
-            if(projectile.boundingBox.y + projectile.boundingBox.height < 0){
+            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT) + projectile.boundingBox.height < 0){
                 iterator.remove();
             }
         }
@@ -330,8 +329,7 @@ public class GameScreen implements Screen {
         while(iterator.hasNext()){
             Projectile projectile = iterator.next();
             projectile.draw(batch);
-            projectile.boundingBox.y -= projectile.movementSpeed*deltaTime;
-            if(projectile.boundingBox.y+ projectile.boundingBox.height < 0){
+            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT)+ projectile.boundingBox.height < 0){
                 iterator.remove();
             }
         }
@@ -339,8 +337,7 @@ public class GameScreen implements Screen {
         while(iterator.hasNext()){
             Projectile projectile = iterator.next();
             projectile.draw(batch);
-            projectile.boundingBox.y -= projectile.movementSpeed*deltaTime;
-            if(projectile.boundingBox.y+ projectile.boundingBox.height < 0){
+            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT) + projectile.boundingBox.height < 0){
                 iterator.remove();
             }
         }
@@ -348,8 +345,7 @@ public class GameScreen implements Screen {
         while(iterator.hasNext()){
             Projectile projectile = iterator.next();
             projectile.draw(batch);
-            projectile.boundingBox.y -= projectile.movementSpeed*deltaTime;
-            if(projectile.boundingBox.y+ projectile.boundingBox.height < 0){
+            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT)+ projectile.boundingBox.height < 0){
                 iterator.remove();
             }
         }
