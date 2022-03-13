@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.l2p.game.movement.EnemyMovement;
 import com.l2p.game.movement.Movement;
+import com.l2p.game.projectile.MidBossProjectile;
+import com.l2p.game.projectile.Projectile;
 
 public class Bosses extends Actor{
     float projectile_x1,projectile_x2, projectile_y;
@@ -53,9 +55,9 @@ public class Bosses extends Actor{
 
     @Override
     public Projectile[] fire() {
-        Projectile[] projectile = new Projectile[2];
-        projectile[0] = new Projectile(boundingBox.x +boundingBox.width*projectile_x1,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture);
-        projectile[1] = new Projectile(boundingBox.x+boundingBox.width*projectile_x2,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture);
+        Projectile[] projectile = new MidBossProjectile[2];
+        projectile[0] = new MidBossProjectile(boundingBox.x +boundingBox.width*projectile_x1,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture);
+        projectile[1] = new MidBossProjectile(boundingBox.x+boundingBox.width*projectile_x2,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture);
         timeSinceLastShot = 0;
         return projectile;
     }

@@ -3,6 +3,7 @@ package com.l2p.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
+import com.l2p.game.projectile.Projectile;
 
 public abstract class Actor {
 

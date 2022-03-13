@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.l2p.game.movement.EnemyMovement;
 import com.l2p.game.movement.Movement;
+import com.l2p.game.projectile.EnemyProjectile;
+import com.l2p.game.projectile.Projectile;
 
 public class Enemy extends Actor{
 
@@ -59,9 +61,9 @@ public class Enemy extends Actor{
 
     @Override
     public Projectile[] fire() {
-        Projectile[] projectile = new Projectile[2];
-        projectile[0] = new Projectile(boundingBox.x +boundingBox.width*projectile_x1,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture);
-        projectile[1] = new Projectile(boundingBox.x+boundingBox.width*projectile_x2,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture);
+        Projectile[] projectile = new EnemyProjectile[2];
+        projectile[0] = new EnemyProjectile(boundingBox.x +boundingBox.width*projectile_x1,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture);
+        projectile[1] = new EnemyProjectile(boundingBox.x+boundingBox.width*projectile_x2,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture);
         timeSinceLastShot = 0;
         return projectile;
     }
