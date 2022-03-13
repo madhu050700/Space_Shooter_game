@@ -1,14 +1,16 @@
-package com.l2p.game;
+package com.l2p.game.actor;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.l2p.game.SpaceShooter;
+import com.l2p.game.actor.Actor;
 import com.l2p.game.movement.EnemyMovement;
 import com.l2p.game.movement.Movement;
 import com.l2p.game.projectile.MidBossProjectile;
 import com.l2p.game.projectile.Projectile;
 
-public class Boss extends Actor{
+public class Boss extends Actor {
     float projectile_x1,projectile_x2, projectile_y;
     Vector2 directionVector1;
     float timeSinceLastChange =0;

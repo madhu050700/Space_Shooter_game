@@ -1,14 +1,15 @@
-package com.l2p.game;
+package com.l2p.game.actor;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.l2p.game.SpaceShooter;
+import com.l2p.game.actor.Actor;
 import com.l2p.game.movement.EnemyMovement;
 import com.l2p.game.movement.Movement;
 import com.l2p.game.projectile.EnemyProjectile;
 import com.l2p.game.projectile.Projectile;
 
-public class Enemy extends Actor{
+public class Enemy extends Actor {
 
 
 

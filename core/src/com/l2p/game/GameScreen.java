@@ -14,6 +14,9 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.l2p.game.actor.Boss;
+import com.l2p.game.actor.Enemy;
+import com.l2p.game.actor.PlayerCharacter;
 import com.l2p.game.projectile.Projectile;
 
 import java.util.Arrays;

@@ -1,14 +1,15 @@
-package com.l2p.game;
+package com.l2p.game.actor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.l2p.game.actor.Actor;
 import com.l2p.game.movement.Movement;
 import com.l2p.game.movement.PlayerMovement;
 import com.l2p.game.projectile.PlayerProjectile;
 import com.l2p.game.projectile.Projectile;
 
-public class PlayerCharacter extends Actor{
+public class PlayerCharacter extends Actor {
 
     private Boolean toggleSpeed = false;
 
