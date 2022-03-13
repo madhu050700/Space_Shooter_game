@@ -32,5 +32,14 @@ public class BossMovement extends Movement{
 
     }
 
+    public float[] setPlayerMovement(Boolean ToggleSpeed, float WORLD_WIDTH, float WORLD_HEIGHT){
+        return null;
+    }
+
+    public float setProjectileMovement(float deltaTime, float y, float movementSpeed, float WORLD_WIDTH, float WORLD_HEIGHT){
+        return 0f;
+    }
+
+
 
 }

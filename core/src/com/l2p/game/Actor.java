@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 
-public class Actor {
+public abstract class Actor {
 
 
 
@@ -61,10 +61,7 @@ public class Actor {
     public boolean canFireProjectile()
     {return (timeSinceLastShot - timeBetweenShots >= 0);}
 
-    public Projectile[] fire(){
-
-        return null;
-    };
+    public abstract Projectile[] fire();
 
     public Rectangle getBoundingBox() {
         return boundingBox;
@@ -88,7 +85,7 @@ public class Actor {
 
         if(boundingBox.x+xChange>0 && (boundingBox.x + boundingBox.width  + xChange)< WORLD_WIDTH && boundingBox.y + boundingBox.height + yChange < WORLD_HEIGHT)
         { boundingBox.setPosition(boundingBox.x+xChange,boundingBox.y+yChange);
-          return false;
+            return false;
         }
 
 
@@ -104,15 +101,15 @@ public class Actor {
     }
 
 
+
+
     public boolean intersects(Rectangle otherRect)
     {
         return boundingBox.overlaps(otherRect);
     }
 
 
-    public Boolean moveActor(float deltaTime, int WORLD_WIDTH, int WORLD_HEIGHT, float lifeSpan){
-        return null;
-    }
+    public abstract Boolean moveActor(float deltaTime, int WORLD_WIDTH, int WORLD_HEIGHT, float lifeSpan);
 
 
 }

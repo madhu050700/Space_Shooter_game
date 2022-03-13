@@ -4,19 +4,13 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.l2p.game.Enemy;
 
-public class Movement {
+public abstract class Movement {
 
 
-    public float[] setMovement(Vector2 directionVector, float movementSpeed, float deltaTime, float enemyLifeSpan, Rectangle boundingBox,int WORLD_WIDTH,int WORLD_HEIGHT){
-        return null;
-    };
+    public abstract float[] setMovement(Vector2 directionVector, float movementSpeed, float deltaTime, float enemyLifeSpan, Rectangle boundingBox,int WORLD_WIDTH,int WORLD_HEIGHT);
 
-    public float[] setPlayerMovement(Boolean ToggleSpeed, float WORLD_WIDTH, float WORLD_HEIGHT){
-        return  null;
-    };
+    public abstract float[] setPlayerMovement(Boolean ToggleSpeed, float WORLD_WIDTH, float WORLD_HEIGHT);
 
-    public float setProjectileMovement(float deltaTime, float y, float movementSpeed, float WORLD_WIDTH, float WORLD_HEIGHT){
-        return 0f;
-    }
+    public abstract float setProjectileMovement(float deltaTime, float y, float movementSpeed, float WORLD_WIDTH, float WORLD_HEIGHT);
 
 }

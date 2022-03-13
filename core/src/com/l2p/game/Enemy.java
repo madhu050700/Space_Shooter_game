@@ -75,9 +75,4 @@ public class Enemy extends Actor{
 
     }
 
-    //    @Override
-//    public void draw(Batch batch) {
-//        batch.draw(actorTexture, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
-//    }
-
 }
