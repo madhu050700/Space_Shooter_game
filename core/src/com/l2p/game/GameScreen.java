@@ -76,7 +76,7 @@ public class GameScreen implements Screen {
     private LinkedList<Projectile> enemyProjectileList,enemyProjectileList1;
     private LinkedList<Projectile> midBossProjectileList,finalBossProjectileList;
     private LinkedList<Enemy> enemyList,enemyList1;
-    private LinkedList<Bosses> midBoss,finalBoss;
+    private LinkedList<Boss> midBoss,finalBoss;
 
     //Head-Up display
     BitmapFont font;
@@ -216,18 +216,18 @@ public class GameScreen implements Screen {
             }
         }
         midBossStart(deltaTime);
-        ListIterator<Bosses> midBossIterator = midBoss.listIterator();
+        ListIterator<Boss> midBossIterator = midBoss.listIterator();
         while(midBossIterator.hasNext()){
-            Bosses midBoss= midBossIterator.next();
+            Boss midBoss= midBossIterator.next();
             midBoss.moveActor(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,midBossLifeSpan);
 //            moveMidBoss(midBoss,deltaTime);
             midBoss.update(deltaTime);
             midBoss.draw(batch);
         }
         finalBossStart(deltaTime);
-        ListIterator<Bosses> finalBossIterator = finalBoss.listIterator();
+        ListIterator<Boss> finalBossIterator = finalBoss.listIterator();
         while(finalBossIterator.hasNext()){
-            Bosses finalBoss= finalBossIterator.next();
+            Boss finalBoss= finalBossIterator.next();
             finalBoss.moveActor(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,bossLifeSpan);
 //            moveFinalBoss(finalBoss,deltaTime);
             finalBoss.update(deltaTime);
@@ -285,24 +285,22 @@ public class GameScreen implements Screen {
                 enemyProjectileList1.addAll(Arrays.asList(projectiles));
             }
         }
-        ListIterator<Bosses> midBossIterator = midBoss.listIterator();
+        ListIterator<Boss> midBossIterator = midBoss.listIterator();
         while(midBossIterator.hasNext()){
-            Bosses midBoss = midBossIterator.next();
+            Boss midBoss = midBossIterator.next();
             if(midBoss.canFireProjectile()){
                 Projectile[] projectiles = midBoss.fire();
                 midBossProjectileList.addAll(Arrays.asList(projectiles));
             }
         }
-        ListIterator<Bosses> finalBossListIterator = finalBoss.listIterator();
+        ListIterator<Boss> finalBossListIterator = finalBoss.listIterator();
         while(finalBossListIterator.hasNext()){
-            Bosses finalBoss = finalBossListIterator.next();
+            Boss finalBoss = finalBossListIterator.next();
             if(finalBoss.canFireProjectile()){
                 Projectile[] projectiles = finalBoss.fire();
                 finalBossProjectileList.addAll(Arrays.asList(projectiles));
             }
         }
-
-
 
         // Draw Projectiles.
         ListIterator<Projectile> iterator = playerProjectileList.listIterator();
@@ -349,13 +347,12 @@ public class GameScreen implements Screen {
                 iterator.remove();
             }
         }
-
     }
 
     private void midBossStart(float deltaTime){
         stateTime += deltaTime;
         if(stateTime > timetoStartMidBoss && midBoss.size() < 1){
-            midBoss.add( new Bosses(60,5,15,15,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 15) + 7.5f, WORLD_HEIGHT - 7.5f,0.5f,
+            midBoss.add( new Boss(60,5,15,15,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 15) + 7.5f, WORLD_HEIGHT - 7.5f,0.5f,
                     1f, 7, 50,midBossTexture,midBossProjectileTexture,0.125f,0.819f,0.05f ));
 
             stateTime -= timetoStartMidBoss;
@@ -366,14 +363,13 @@ public class GameScreen implements Screen {
     private void finalBossStart(float deltaTime){
         stateTime1 += deltaTime;
         if(stateTime1 > timetoStartFinalBoss  && finalBoss.size() < 1 ){
-            finalBoss.add( new Bosses(40,5,20,20,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 20) + 10, WORLD_HEIGHT - 10,0.3f,
+            finalBoss.add( new Boss(40,5,20,20,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 20) + 10, WORLD_HEIGHT - 10,0.3f,
                     2f, 10, 50,finalBossTexture,finalBossProjectileTexture,0.125f,0.819f,0.05f ));
 
             stateTime1 -= timetoStartFinalBoss;
 
         }
     }
-
 
 
     private void spawnEnemyShips(float deltaTime){

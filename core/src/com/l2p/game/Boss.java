@@ -8,7 +8,7 @@ import com.l2p.game.movement.Movement;
 import com.l2p.game.projectile.MidBossProjectile;
 import com.l2p.game.projectile.Projectile;
 
-public class Bosses extends Actor{
+public class Boss extends Actor{
     float projectile_x1,projectile_x2, projectile_y;
     Vector2 directionVector1;
     float timeSinceLastChange =0;
@@ -17,8 +17,8 @@ public class Bosses extends Actor{
     float sizeMultiplier = 2;
     Movement bossMovement;
 
-    public Bosses(float movementSpeed, int health, float width, float height, float center_x, float center_y, float timeBetweenShots, float projectileWidth, float projectileHeight, float projectileSpeed, Texture actorTexture, Texture projectileTexture,
-                 float projectile_x1, float projectile_x2, float projectile_y ) {
+    public Boss(float movementSpeed, int health, float width, float height, float center_x, float center_y, float timeBetweenShots, float projectileWidth, float projectileHeight, float projectileSpeed, Texture actorTexture, Texture projectileTexture,
+                float projectile_x1, float projectile_x2, float projectile_y ) {
         super(movementSpeed, health, width, height, center_x, center_y, timeBetweenShots, projectileWidth, projectileHeight, projectileSpeed, actorTexture, projectileTexture);
 
 
