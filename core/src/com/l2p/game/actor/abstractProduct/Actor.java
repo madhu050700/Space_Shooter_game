@@ -1,4 +1,4 @@
-package com.l2p.game.actor;
+package com.l2p.game.actor.abstractProduct;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -10,27 +10,27 @@ public abstract class Actor {
 
 
     //actor characteristics
-    float movementSpeed; //per second
-    int health;
+    protected float movementSpeed; //per second
+    protected int health;
 
 
     //position and dimensions
-    Rectangle boundingBox;
+    protected Rectangle boundingBox;
 
     //graphics
-    Texture actorTexture;
-    Texture projectileTexture;
+    protected Texture actorTexture;
+    protected Texture projectileTexture;
 
     //projectile information
-    float projectileWidth, projectileHeight;
-    float projectileSpeed;
-    float timeBetweenShots;
-    float timeSinceLastShot = 0;
+    protected float projectileWidth, projectileHeight;
+    protected float projectileSpeed;
+    protected float timeBetweenShots;
+    protected float timeSinceLastShot = 0;
 
-    Boolean justSpawned = false;
-    float timeSinceSpawn = 0;
+    protected Boolean justSpawned = false;
+    protected float timeSinceSpawn = 0;
 
-    Actor(float movementSpeed, int health, float width, float height, float center_x, float center_y,  float timeBetweenShots, float projectileWidth,
+    public Actor(float movementSpeed, int health, float width, float height, float center_x, float center_y,  float timeBetweenShots, float projectileWidth,
           float projectileHeight,float projectileSpeed, Texture actorTexture, Texture projectileTexture){
 
         this.movementSpeed = movementSpeed;
@@ -53,6 +53,9 @@ public abstract class Actor {
 
         batch.draw(actorTexture,boundingBox.x,boundingBox.y,boundingBox.width,boundingBox.height);
     }
+
+
+
 
     public void update(float deltaTime)
     {timeSinceLastShot += deltaTime;

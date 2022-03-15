@@ -1,10 +1,10 @@
-package com.l2p.game.actor;
+package com.l2p.game.actor.concreteProducts;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.l2p.game.SpaceShooter;
-import com.l2p.game.actor.Actor;
+import com.l2p.game.actor.abstractProduct.Actor;
 import com.l2p.game.movement.EnemyMovement;
 import com.l2p.game.movement.Movement;
 import com.l2p.game.projectile.MidBossProjectile;
