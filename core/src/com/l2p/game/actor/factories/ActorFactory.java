@@ -10,7 +10,7 @@ protected Texture projectileTexture;
 
 
 
-public abstract Actor createActor(String type, float movementSpeed, int health, float width, float height, int WORLD_WIDTH, int WORLD_HEIGHT, float timeBetweenShots, float projectileWidth, float projectileHeight, float projectileSpeed, String actorTexture, String projectileTexture,
+public abstract Actor createActor(String type, float movementSpeed, int health, float width, float height, float center_x, float center_y, float timeBetweenShots, float projectileWidth, float projectileHeight, float projectileSpeed, String actorTexture, String projectileTexture,
                                   float projectile_x1, float projectile_x2, float projectile_y);
 
 
