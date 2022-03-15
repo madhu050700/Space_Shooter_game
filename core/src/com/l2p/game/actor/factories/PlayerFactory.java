@@ -1,7 +1,7 @@
 package com.l2p.game.actor.factories;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.l2p.game.actor.abstractProduct.Actor;
+import com.l2p.game.actor.abstractProducts.Actor;
 import com.l2p.game.actor.concreteProducts.PlayerCharacter;
 
 

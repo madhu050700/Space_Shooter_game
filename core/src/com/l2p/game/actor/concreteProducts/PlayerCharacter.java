@@ -3,7 +3,7 @@ package com.l2p.game.actor.concreteProducts;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.l2p.game.actor.abstractProduct.Actor;
+import com.l2p.game.actor.abstractProducts.Actor;
 import com.l2p.game.movement.Movement;
 import com.l2p.game.movement.PlayerMovement;
 import com.l2p.game.projectile.PlayerProjectile;

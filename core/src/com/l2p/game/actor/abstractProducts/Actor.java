@@ -1,4 +1,4 @@
-package com.l2p.game.actor.abstractProduct;
+package com.l2p.game.actor.abstractProducts;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;

@@ -14,15 +14,15 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.l2p.game.actor.abstractProduct.Actor;
-import com.l2p.game.actor.concreteProducts.Boss;
-import com.l2p.game.actor.concreteProducts.Enemy;
-import com.l2p.game.actor.concreteProducts.PlayerCharacter;
+import com.l2p.game.actor.abstractProducts.Actor;
 import com.l2p.game.actor.factories.ActorFactory;
 import com.l2p.game.actor.factories.BossFactory;
 import com.l2p.game.actor.factories.EnemyFactory;
 import com.l2p.game.actor.factories.PlayerFactory;
 import com.l2p.game.projectile.Projectile;
+import com.l2p.game.world.abstractProducts.World;
+import com.l2p.game.world.factories.LevelFactory;
+import com.l2p.game.world.factories.WorldFactory;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -38,13 +38,10 @@ public class GameScreen implements Screen {
 
     //graphics
     private SpriteBatch batch;
-//    private Texture background;
-    private Texture[] backgrounds;
+
 
     //timing
-//    private int backgroundOffset;
-    private float[] backgroundOffsets = {0,0,0,0};
-    private  float backgroundMaxScrollingSpeed;
+
     private float timeBetweenEnemySpawns = 3f;
     private float enemySpawnTimer = 0;
     private float stateTime,stateTime1,playTime=0;
@@ -75,10 +72,13 @@ public class GameScreen implements Screen {
     String texturePathPlayer;
     String texturePathProjectilePlayer;
 
+    String[] texturePathBackgrounds;
+
 
 
 
     //game Objects
+    private World level1;
     private Actor playerCharacter;
     private LinkedList<Projectile> playerProjectileList;
     private LinkedList<Projectile> enemyProjectileList,enemyProjectileList1;
@@ -91,6 +91,7 @@ public class GameScreen implements Screen {
     float hudVerticalMargin, hudLeftX, hudRightX, hudCentreX, hudRow1Y, hudRow2Y, hudSectionWidth;
 
     //Factories
+    WorldFactory levelFactory;
     ActorFactory enemyFactory;
     ActorFactory bossFactory;
     ActorFactory playerFactory;
@@ -99,6 +100,7 @@ public class GameScreen implements Screen {
 
     GameScreen(){
 
+        batch = new SpriteBatch();
 
         enemyFactory = new EnemyFactory();
         texturePathEnemy1 = "enemy1.png";
@@ -117,21 +119,20 @@ public class GameScreen implements Screen {
         playerFactory =  new PlayerFactory();
         texturePathPlayer = "playerShip1.png" ;
         texturePathProjectilePlayer = "playerProjectile2.png";
+        playerCharacter = playerFactory.createActor("player",9,5,10, 10, (float) WORLD_WIDTH/2, (float) WORLD_HEIGHT/4,0.5f,1f,5,45,
+                texturePathPlayer,texturePathProjectilePlayer, 0f,0f,0f);
 
 
         camera = new OrthographicCamera();
         viewport = new StretchViewport(WORLD_WIDTH,WORLD_HEIGHT,camera);
-        backgrounds =  new Texture[4];
-        backgrounds[0] = new Texture("space1.jpg");
-        backgrounds[1] = new Texture("parallex1.png");
-        backgrounds[2] = new Texture("parallex2.png");
-        backgrounds[3] = new Texture("parallex3.png");
-
-        backgroundMaxScrollingSpeed = (float)WORLD_HEIGHT/4;
 
 
-        playerCharacter = playerFactory.createActor("player",9,5,10, 10, (float) WORLD_WIDTH/2, (float) WORLD_HEIGHT/4,0.5f,1f,5,45,
-                texturePathPlayer,texturePathProjectilePlayer, 0f,0f,0f);
+        texturePathBackgrounds = new String[]{"space1.jpg", "parallex1.png", "parallex2.png", "parallex3.png"};
+        levelFactory = new LevelFactory();
+        level1 = levelFactory.createWorld("level1",texturePathBackgrounds,WORLD_WIDTH,WORLD_HEIGHT);
+
+
+
 
         playerProjectileList = new LinkedList<>();
         enemyProjectileList = new LinkedList<>();
@@ -147,7 +148,7 @@ public class GameScreen implements Screen {
         finalBoss = new LinkedList<>();
 
 
-        batch = new SpriteBatch();
+
 
         prepareHUD();
 
@@ -190,7 +191,7 @@ public class GameScreen implements Screen {
         // update time.
         playerCharacter.update(deltaTime);
         //scrolling background
-        renderBackground(deltaTime);
+        level1.renderBackground(deltaTime,batch);
 
         //player
         playerCharacter.draw(batch);
@@ -200,7 +201,6 @@ public class GameScreen implements Screen {
 
 
         //enemy1
-//        enemyType1.draw(batch);
         spawnEnemyShips(deltaTime);
 
         ListIterator<Actor> enemyListIterator = enemyList.listIterator();
@@ -401,22 +401,6 @@ public class GameScreen implements Screen {
     }
 
 
-    private void renderBackground(float deltaTime) {
-        backgroundOffsets[0] += deltaTime * backgroundMaxScrollingSpeed / 8;
-        backgroundOffsets[1] += deltaTime * backgroundMaxScrollingSpeed / 4;
-        backgroundOffsets[2] += deltaTime * backgroundMaxScrollingSpeed / 2;
-        backgroundOffsets[3] += deltaTime * backgroundMaxScrollingSpeed;
-
-
-        for (int layer=0; layer<backgroundOffsets.length; layer++){
-            if(backgroundOffsets[layer]>WORLD_HEIGHT){
-                backgroundOffsets[layer] = 0;
-            }
-            batch.draw(backgrounds[layer],0,-backgroundOffsets[layer],WORLD_WIDTH,WORLD_HEIGHT);
-            batch.draw(backgrounds[layer],0,-backgroundOffsets[layer]+WORLD_HEIGHT,WORLD_WIDTH,WORLD_HEIGHT);
-        }
-
-    }
 
     @Override
     public void resize(int width, int height) {
