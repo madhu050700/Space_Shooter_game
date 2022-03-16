@@ -19,11 +19,14 @@ import com.l2p.game.actor.factories.ActorFactory;
 import com.l2p.game.actor.factories.BossFactory;
 import com.l2p.game.actor.factories.EnemyFactory;
 import com.l2p.game.actor.factories.PlayerFactory;
+import com.l2p.game.collision.EnemyCollisionDetector;
+import com.l2p.game.collision.PlayerCollisionDetector;
 import com.l2p.game.projectile.Projectile;
 import com.l2p.game.world.abstractProducts.World;
 import com.l2p.game.world.factories.LevelFactory;
 import com.l2p.game.world.factories.WorldFactory;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -251,6 +254,10 @@ public class GameScreen implements Screen {
         // Projectile.
         renderProjectile(deltaTime);
 
+        //detect collision
+        detectCollision();
+
+
         //hud rendering
         updateAndRenderHUD(deltaTime);
 
@@ -400,6 +407,23 @@ public class GameScreen implements Screen {
         }
     }
 
+    private void detectCollision() {
+        ListIterator<Projectile> iterator = playerProjectileList.listIterator();
+        EnemyCollisionDetector.detectCollision(playerProjectileList,enemyList);
+        EnemyCollisionDetector.detectCollision(playerProjectileList,enemyList1);
+        EnemyCollisionDetector.detectCollision(playerProjectileList,midBoss);
+        EnemyCollisionDetector.detectCollision(playerProjectileList, finalBoss);
+
+
+        ArrayList<LinkedList<Projectile>> projectileListArray =  new ArrayList<LinkedList<Projectile>>();
+        projectileListArray.add(enemyProjectileList);
+        projectileListArray.add(enemyProjectileList1);
+        projectileListArray.add(midBossProjectileList);
+        projectileListArray.add(finalBossProjectileList);
+
+        PlayerCollisionDetector.detectCollision(projectileListArray,playerCharacter);
+
+    }
 
 
     @Override

@@ -106,10 +106,17 @@ public abstract class Actor {
 
 
 
+    public boolean intersects(Rectangle otherRect) {
+        Rectangle thisRect = new Rectangle(boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
+        return thisRect.overlaps(otherRect);
+    }
 
-    public boolean intersects(Rectangle otherRect)
-    {
-        return boundingBox.overlaps(otherRect);
+    public int hit(Projectile projectile){
+        if(health > 0) {
+            health --;
+            return health;
+        }
+        else return 0;
     }
 
 
