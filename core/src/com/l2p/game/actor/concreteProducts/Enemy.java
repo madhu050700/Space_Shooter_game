@@ -1,10 +1,15 @@
-package com.l2p.game;
+package com.l2p.game.actor.concreteProducts;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.l2p.game.SpaceShooter;
+import com.l2p.game.actor.abstractProducts.Actor;
+import com.l2p.game.movement.EnemyMovement;
+import com.l2p.game.movement.Movement;
+import com.l2p.game.projectile.EnemyProjectile;
+import com.l2p.game.projectile.Projectile;
 
-public class Enemy extends Actor{
+public class Enemy extends Actor {
 
 
 
@@ -12,6 +17,10 @@ public class Enemy extends Actor{
     Vector2 directionVector;
     float timeSinceLastChange =0;
     float directionChangeFrequency = 0.75f;
+
+
+    Movement enemyMovement;
+
 
 
 
@@ -23,6 +32,10 @@ public class Enemy extends Actor{
         this.projectile_x1 = projectile_x1;
         this.projectile_x2 =projectile_x2;
         this.projectile_y = projectile_y;
+
+
+        enemyMovement = new EnemyMovement();
+
     }
 
     public Vector2 getDirectionVector() {
@@ -49,17 +62,20 @@ public class Enemy extends Actor{
 
     @Override
     public Projectile[] fire() {
-        Projectile[] projectile = new Projectile[2];
-        projectile[0] = new Projectile(boundingBox.x +boundingBox.width*projectile_x1,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture);
-        projectile[1] = new Projectile(boundingBox.x+boundingBox.width*projectile_x2,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture);
+        Projectile[] projectile = new EnemyProjectile[2];
+        projectile[0] = new EnemyProjectile(boundingBox.x +boundingBox.width*projectile_x1,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture);
+        projectile[1] = new EnemyProjectile(boundingBox.x+boundingBox.width*projectile_x2,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture);
         timeSinceLastShot = 0;
         return projectile;
     }
 
 
-//    @Override
-//    public void draw(Batch batch) {
-//        batch.draw(actorTexture, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
-//    }
+    @Override
+    public Boolean moveActor(float deltaTime, int WORLD_WIDTH, int WORLD_HEIGHT, float lifeSpan){
+        float coord[]=
+                this.enemyMovement.setMovement(this.directionVector, this.movementSpeed, deltaTime, lifeSpan, this.boundingBox, WORLD_WIDTH, WORLD_HEIGHT);
+        return  this.translate(coord[0],coord[1], WORLD_WIDTH,WORLD_HEIGHT, lifeSpan);
+
+    }
 
 }
