@@ -4,8 +4,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.l2p.game.SpaceShooter;
 import com.l2p.game.actor.abstractProducts.Actor;
-import com.l2p.game.movement.EnemyMovement;
-import com.l2p.game.movement.Movement;
+import com.l2p.game.movement.abstractProducts.Movement;
+import com.l2p.game.movement.concreteProducts.CircularMovement;
+import com.l2p.game.movement.factories.MovementFactory;
+import com.l2p.game.movement.factories.MovementFactoryBuilder;
 import com.l2p.game.projectile.EnemyProjectile;
 import com.l2p.game.projectile.Projectile;
 
@@ -22,19 +24,16 @@ public class Enemy extends Actor {
     Movement enemyMovement;
 
 
-
-
     public Enemy(float movementSpeed, int health, float width, float height, float center_x, float center_y, float timeBetweenShots, float projectileWidth, float projectileHeight, float projectileSpeed, Texture actorTexture, Texture projectileTexture,
-                 float projectile_x1, float projectile_x2, float projectile_y) {
-        super(movementSpeed, health, width, height, center_x, center_y, timeBetweenShots, projectileWidth, projectileHeight, projectileSpeed, actorTexture, projectileTexture);
+                 float projectile_x1, float projectile_x2, float projectile_y, String movementType) {
+        super(movementSpeed, health, width, height, center_x, center_y, timeBetweenShots, projectileWidth, projectileHeight, projectileSpeed, actorTexture, projectileTexture,movementType);
         directionVector = new Vector2(0,-1);
 
         this.projectile_x1 = projectile_x1;
         this.projectile_x2 =projectile_x2;
         this.projectile_y = projectile_y;
 
-
-        enemyMovement = new EnemyMovement();
+        enemyMovement =  movementFactory.createMovement(this.boundingBox);
 
     }
 

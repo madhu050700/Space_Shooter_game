@@ -3,6 +3,8 @@ package com.l2p.game.actor.abstractProducts;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
+import com.l2p.game.movement.factories.MovementFactory;
+import com.l2p.game.movement.factories.MovementFactoryBuilder;
 import com.l2p.game.projectile.Projectile;
 
 public abstract class Actor {
@@ -30,8 +32,12 @@ public abstract class Actor {
     protected Boolean justSpawned = false;
     protected float timeSinceSpawn = 0;
 
+
+    protected MovementFactory movementFactory;
+
+
     public Actor(float movementSpeed, int health, float width, float height, float center_x, float center_y,  float timeBetweenShots, float projectileWidth,
-          float projectileHeight,float projectileSpeed, Texture actorTexture, Texture projectileTexture){
+          float projectileHeight,float projectileSpeed, Texture actorTexture, Texture projectileTexture, String movementType){
 
         this.movementSpeed = movementSpeed;
         this.health =  health;
@@ -46,6 +52,8 @@ public abstract class Actor {
         this.projectileTexture = projectileTexture;
 
         this.justSpawned = true;
+
+        movementFactory = MovementFactoryBuilder.getFactory(movementType);
 
     }
 

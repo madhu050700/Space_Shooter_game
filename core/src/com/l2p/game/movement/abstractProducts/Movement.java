@@ -1,4 +1,4 @@
-package com.l2p.game.movement;
+package com.l2p.game.movement.abstractProducts;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;

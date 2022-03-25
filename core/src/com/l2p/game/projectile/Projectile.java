@@ -3,8 +3,8 @@ package com.l2p.game.projectile;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
-import com.l2p.game.movement.Movement;
-import com.l2p.game.movement.AIProjectileMovement;
+import com.l2p.game.movement.abstractProducts.Movement;
+import com.l2p.game.movement.concreteProducts.AIProjectileMovement;
 
 public abstract class Projectile {
 

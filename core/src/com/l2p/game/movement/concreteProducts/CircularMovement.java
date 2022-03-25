@@ -1,19 +1,28 @@
-package com.l2p.game.movement;
+package com.l2p.game.movement.concreteProducts;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.l2p.game.movement.abstractProducts.Movement;
 
-public class BossMovement extends Movement{
+public class CircularMovement extends Movement {
 
+    float angle = (float) (Math.PI/2);
+    float sign = -1;
     @Override
     public float[] setMovement(Vector2 directionVector, float movementSpeed, float deltaTime, float enemyLifeSpan, Rectangle boundingBox, int WORLD_WIDTH, int WORLD_HEIGHT) {
 
-        float leftLimit = 0;
-        float rightLimit = (float)WORLD_WIDTH - boundingBox.x;
         float downLimit;
         downLimit = (float)WORLD_HEIGHT/2 - boundingBox.y;
-        float xMove =directionVector.x *movementSpeed * deltaTime;
-        float yMove = directionVector.y*movementSpeed * deltaTime;
+
+        float theta = (float) Math.atan(angle);
+
+
+        Vector2 newPos =  directionVector.rotateDeg(10);
+
+        float xMove = (float)(newPos.x*movementSpeed * deltaTime);
+        float yMove = (float)(newPos.y*movementSpeed* deltaTime);
+
+
         if(xMove >0){
             xMove = xMove;
         }
@@ -22,10 +31,7 @@ public class BossMovement extends Movement{
         }
         else{
             yMove = Math.max(yMove,downLimit);
-            xMove = xMove>0?xMove:0;
-            xMove = xMove>WORLD_WIDTH?rightLimit:xMove;
         }
-
         float coord[] = {xMove,yMove};
 
         return coord;
@@ -39,7 +45,6 @@ public class BossMovement extends Movement{
     public float setProjectileMovement(float deltaTime, float y, float movementSpeed, float WORLD_WIDTH, float WORLD_HEIGHT){
         return 0f;
     }
-
 
 
 }
