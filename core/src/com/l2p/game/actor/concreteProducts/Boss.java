@@ -5,12 +5,13 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.l2p.game.SpaceShooter;
 import com.l2p.game.actor.abstractProducts.Actor;
-import com.l2p.game.movement.concreteProducts.EnemyMovement;
 import com.l2p.game.movement.abstractProducts.Movement;
-import com.l2p.game.movement.factories.MovementFactory;
-import com.l2p.game.movement.factories.MovementFactoryBuilder;
-import com.l2p.game.projectile.MidBossProjectile;
-import com.l2p.game.projectile.Projectile;
+import com.l2p.game.projectile.concreteProducts.MidBossProjectile;
+import com.l2p.game.projectile.abstractProducts.Projectile;
+import com.l2p.game.projectile.factories.MidBossProjectileFactory;
+import com.l2p.game.projectile.factories.ProjectileFactory;
+
+import java.util.LinkedList;
 
 public class Boss extends Actor {
     float projectile_x1,projectile_x2, projectile_y;
@@ -59,12 +60,14 @@ public class Boss extends Actor {
 
 
     @Override
-    public Projectile[] fire() {
-        Projectile[] projectile = new MidBossProjectile[2];
-        projectile[0] = new MidBossProjectile(boundingBox.x +boundingBox.width*projectile_x1,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture);
-        projectile[1] = new MidBossProjectile(boundingBox.x+boundingBox.width*projectile_x2,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture);
+    public LinkedList<Projectile> fire() {
+        LinkedList<Projectile> projectiles;
+        projectiles = new LinkedList<>();
+        ProjectileFactory projectile = new MidBossProjectileFactory();
+        projectiles.add(projectile.createProjectile(boundingBox.x +boundingBox.width*projectile_x1,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture));
+        projectiles.add(projectile.createProjectile(boundingBox.x+boundingBox.width*projectile_x2,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture));
         timeSinceLastShot = 0;
-        return projectile;
+        return projectiles;
     }
 
 

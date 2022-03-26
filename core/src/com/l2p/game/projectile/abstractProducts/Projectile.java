@@ -1,16 +1,19 @@
-package com.l2p.game.projectile;
+package com.l2p.game.projectile.abstractProducts;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.l2p.game.movement.abstractProducts.Movement;
 import com.l2p.game.movement.concreteProducts.AIProjectileMovement;
+import com.l2p.game.movement.factories.MovementFactory;
+import com.l2p.game.movement.factories.MovementFactoryBuilder;
 
 public abstract class Projectile {
 
-    Rectangle boundingBox;
-    float movementSpeed;
-    Texture projectileTexture;
+    protected Rectangle boundingBox;
+    protected float movementSpeed;
+    protected Texture projectileTexture;
+    Movement projectileMovement;
 
     public float getMovementSpeed() {
         return movementSpeed;
@@ -20,15 +23,13 @@ public abstract class Projectile {
         return boundingBox;
     }
 
-    Movement projectileMovement;
+
 
     public Projectile(float xCenter, float yCenter, float width, float height, float speed, Texture texture)
     {
         this.boundingBox = new Rectangle(xCenter - width/2, yCenter, width, height);
         this.movementSpeed = speed;
         this.projectileTexture = texture;
-
-        projectileMovement = new AIProjectileMovement();
 
     }
 

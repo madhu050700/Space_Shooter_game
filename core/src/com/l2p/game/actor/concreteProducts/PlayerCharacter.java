@@ -5,12 +5,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.l2p.game.actor.abstractProducts.Actor;
 import com.l2p.game.movement.abstractProducts.Movement;
-import com.l2p.game.movement.concreteProducts.PlayerMovement;
-import com.l2p.game.movement.factories.MovementFactory;
-import com.l2p.game.projectile.PlayerProjectile;
-import com.l2p.game.projectile.Projectile;
+import com.l2p.game.projectile.concreteProducts.PlayerProjectile;
+import com.l2p.game.projectile.abstractProducts.Projectile;
+import com.l2p.game.projectile.factories.PlayerProjectileFactory;
+import com.l2p.game.projectile.factories.ProjectileFactory;
 
-import org.graalvm.compiler.replacements.SnippetCounter;
+import java.util.LinkedList;
 
 public class PlayerCharacter extends Actor {
 
@@ -48,14 +48,15 @@ public class PlayerCharacter extends Actor {
 
 
     @Override
-    public Projectile[] fire() {
-        Projectile[] projectile = new PlayerProjectile[2];
-        projectile[0] = new PlayerProjectile(boundingBox.x +boundingBox.width*0.387f,boundingBox.y+boundingBox.height*0.925f, projectileWidth, projectileHeight, projectileSpeed, projectileTexture);
-        projectile[1] = new PlayerProjectile(boundingBox.x+boundingBox.width*0.575f,boundingBox.y+boundingBox.height*0.925f, projectileWidth, projectileHeight, projectileSpeed, projectileTexture);
+    public LinkedList<Projectile> fire() {
+        LinkedList<Projectile> projectiles;
+        projectiles = new LinkedList<>();
+        ProjectileFactory projectile = new PlayerProjectileFactory();
+        projectiles.add(projectile.createProjectile(boundingBox.x +boundingBox.width*0.387f,boundingBox.y+boundingBox.height*0.925f, projectileWidth, projectileHeight, projectileSpeed, projectileTexture));
+        projectiles.add(projectile.createProjectile(boundingBox.x+boundingBox.width*0.575f,boundingBox.y+boundingBox.height*0.925f, projectileWidth, projectileHeight, projectileSpeed, projectileTexture));
 
         timeSinceLastShot = 0;
-
-        return projectile;
+        return projectiles;
     }
 
 

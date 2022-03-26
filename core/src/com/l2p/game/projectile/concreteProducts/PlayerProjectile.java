@@ -1,6 +1,7 @@
-package com.l2p.game.projectile;
+package com.l2p.game.projectile.concreteProducts;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.l2p.game.projectile.abstractProducts.Projectile;
 
 public class PlayerProjectile extends Projectile {
     public PlayerProjectile(float xCenter, float yCenter, float width, float height, float speed, Texture texture) {

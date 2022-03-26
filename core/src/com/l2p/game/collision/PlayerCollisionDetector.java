@@ -1,10 +1,8 @@
 package com.l2p.game.collision;
 
 import com.l2p.game.actor.abstractProducts.Actor;
-import com.l2p.game.actor.concreteProducts.PlayerCharacter;
-import com.l2p.game.projectile.Projectile;
+import com.l2p.game.projectile.abstractProducts.Projectile;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ListIterator;

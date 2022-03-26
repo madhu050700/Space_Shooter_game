@@ -12,6 +12,7 @@ public class MovementFactoryBuilder {
         if(type.equals("player"))
             factory =  new PlayerMovementFactory();
 
+
         return factory;
     }
 

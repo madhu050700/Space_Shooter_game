@@ -5,11 +5,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.l2p.game.SpaceShooter;
 import com.l2p.game.actor.abstractProducts.Actor;
 import com.l2p.game.movement.abstractProducts.Movement;
-import com.l2p.game.movement.concreteProducts.CircularMovement;
-import com.l2p.game.movement.factories.MovementFactory;
-import com.l2p.game.movement.factories.MovementFactoryBuilder;
-import com.l2p.game.projectile.EnemyProjectile;
-import com.l2p.game.projectile.Projectile;
+import com.l2p.game.projectile.concreteProducts.EnemyProjectile;
+import com.l2p.game.projectile.abstractProducts.Projectile;
+import com.l2p.game.projectile.factories.EnemyProjectileFactory;
+import com.l2p.game.projectile.factories.ProjectileFactory;
+
+import java.util.LinkedList;
 
 public class Enemy extends Actor {
 
@@ -19,6 +20,7 @@ public class Enemy extends Actor {
     Vector2 directionVector;
     float timeSinceLastChange =0;
     float directionChangeFrequency = 0.75f;
+    String movementType;
 
 
     Movement enemyMovement;
@@ -34,6 +36,7 @@ public class Enemy extends Actor {
         this.projectile_y = projectile_y;
 
         enemyMovement =  movementFactory.createMovement(this.boundingBox);
+
 
     }
 
@@ -60,12 +63,14 @@ public class Enemy extends Actor {
 
 
     @Override
-    public Projectile[] fire() {
-        Projectile[] projectile = new EnemyProjectile[2];
-        projectile[0] = new EnemyProjectile(boundingBox.x +boundingBox.width*projectile_x1,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture);
-        projectile[1] = new EnemyProjectile(boundingBox.x+boundingBox.width*projectile_x2,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture);
+    public LinkedList<Projectile> fire() {
+        LinkedList<Projectile> projectiles;
+        projectiles = new LinkedList<>();
+        ProjectileFactory projectileFactory = new EnemyProjectileFactory();
+        projectiles.add(projectileFactory.createProjectile(boundingBox.x +boundingBox.width*projectile_x1,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture));
+        projectiles.add(projectileFactory.createProjectile(boundingBox.x+boundingBox.width*projectile_x2,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture));
         timeSinceLastShot = 0;
-        return projectile;
+        return projectiles;
     }
 
 

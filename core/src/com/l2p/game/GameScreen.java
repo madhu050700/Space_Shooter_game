@@ -7,7 +7,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -21,7 +20,9 @@ import com.l2p.game.actor.factories.EnemyFactory;
 import com.l2p.game.actor.factories.PlayerFactory;
 import com.l2p.game.collision.EnemyCollisionDetector;
 import com.l2p.game.collision.PlayerCollisionDetector;
-import com.l2p.game.projectile.Projectile;
+import com.l2p.game.projectile.abstractProducts.Projectile;
+import com.l2p.game.projectile.factories.EnemyProjectileFactory;
+import com.l2p.game.projectile.factories.ProjectileFactory;
 import com.l2p.game.world.abstractProducts.World;
 import com.l2p.game.world.factories.LevelFactory;
 import com.l2p.game.world.factories.WorldFactory;
@@ -98,6 +99,11 @@ public class GameScreen implements Screen {
     ActorFactory enemyFactory;
     ActorFactory bossFactory;
     ActorFactory playerFactory;
+    ProjectileFactory enemyProjectileFactory;
+    ProjectileFactory playerProjectileFactory;
+    ProjectileFactory midBossProjectileFactory;
+    ProjectileFactory finalBossProjectileFactory;
+
 
 
 
@@ -282,7 +288,7 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             // Create projectile for playerCharacter.
             if (playerCharacter.canFireProjectile()) {
-                Projectile[] projectiles = playerCharacter.fire();
+                LinkedList<Projectile> projectiles = playerCharacter.fire();
                 for (Projectile proj : projectiles) {
                     playerProjectileList.add(proj);
                 }
@@ -294,32 +300,32 @@ public class GameScreen implements Screen {
         while(enemyListIterator.hasNext()){
             Actor enemy = enemyListIterator.next();
             if(enemy.canFireProjectile()){
-                Projectile[] projectiles = enemy.fire();
-                enemyProjectileList.addAll(Arrays.asList(projectiles));
+                LinkedList<Projectile> projectiles = enemy.fire();
+                enemyProjectileList.addAll(projectiles);
             }
         }
         enemyListIterator = enemyList1.listIterator();
         while(enemyListIterator.hasNext()){
             Actor enemy1 = enemyListIterator.next();
             if(enemy1.canFireProjectile()){
-                Projectile[] projectiles = enemy1.fire();
-                enemyProjectileList1.addAll(Arrays.asList(projectiles));
+                LinkedList<Projectile> projectiles = enemy1.fire();
+                enemyProjectileList1.addAll(projectiles);
             }
         }
         ListIterator<Actor> midBossIterator = midBoss.listIterator();
         while(midBossIterator.hasNext()){
             Actor midBoss = midBossIterator.next();
             if(midBoss.canFireProjectile()){
-                Projectile[] projectiles = midBoss.fire();
-                midBossProjectileList.addAll(Arrays.asList(projectiles));
+                LinkedList<Projectile> projectiles= midBoss.fire();
+                midBossProjectileList.addAll(projectiles);
             }
         }
         ListIterator<Actor> finalBossListIterator = finalBoss.listIterator();
         while(finalBossListIterator.hasNext()){
             Actor finalBoss = finalBossListIterator.next();
             if(finalBoss.canFireProjectile()){
-                Projectile[] projectiles = finalBoss.fire();
-                finalBossProjectileList.addAll(Arrays.asList(projectiles));
+                LinkedList<Projectile> projectiles = finalBoss.fire();
+                finalBossProjectileList.addAll(projectiles);
             }
         }
 

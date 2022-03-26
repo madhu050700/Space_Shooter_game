@@ -5,7 +5,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.l2p.game.movement.factories.MovementFactory;
 import com.l2p.game.movement.factories.MovementFactoryBuilder;
-import com.l2p.game.projectile.Projectile;
+import com.l2p.game.projectile.abstractProducts.Projectile;
+import com.l2p.game.projectile.factories.ProjectileFactory;
+
+import java.util.LinkedList;
 
 public abstract class Actor {
 
@@ -73,7 +76,7 @@ public abstract class Actor {
     public boolean canFireProjectile()
     {return (timeSinceLastShot - timeBetweenShots >= 0);}
 
-    public abstract Projectile[] fire();
+    public abstract LinkedList<Projectile> fire();
 
     public Rectangle getBoundingBox() {
         return boundingBox;
