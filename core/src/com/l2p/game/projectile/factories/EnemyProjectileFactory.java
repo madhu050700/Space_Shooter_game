@@ -8,8 +8,8 @@ import com.l2p.game.projectile.concreteProducts.EnemyProjectile;
 public class EnemyProjectileFactory extends ProjectileFactory{
 
     @Override
-    public Projectile createProjectile(float xCenter, float yCenter, float width, float height, float speed, Texture texture) {
-        Projectile enemyProjectile = new EnemyProjectile(xCenter,yCenter,width,height,speed,texture);
+    public Projectile createProjectile(float xCenter, float yCenter, float width, float height, float speed, Texture texture, String movementType) {
+        Projectile enemyProjectile = new EnemyProjectile(xCenter,yCenter,width,height,speed,texture,movementType);
         return enemyProjectile;
 
     }

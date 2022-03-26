@@ -52,8 +52,10 @@ public class PlayerCharacter extends Actor {
         LinkedList<Projectile> projectiles;
         projectiles = new LinkedList<>();
         ProjectileFactory projectile = new PlayerProjectileFactory();
-        projectiles.add(projectile.createProjectile(boundingBox.x +boundingBox.width*0.387f,boundingBox.y+boundingBox.height*0.925f, projectileWidth, projectileHeight, projectileSpeed, projectileTexture));
-        projectiles.add(projectile.createProjectile(boundingBox.x+boundingBox.width*0.575f,boundingBox.y+boundingBox.height*0.925f, projectileWidth, projectileHeight, projectileSpeed, projectileTexture));
+        projectiles.add(projectile.createProjectile(boundingBox.x +boundingBox.width*0.387f,boundingBox.y+boundingBox.height*0.925f, projectileWidth,
+                projectileHeight, projectileSpeed, projectileTexture,"linearProjectile"));
+        projectiles.add(projectile.createProjectile(boundingBox.x+boundingBox.width*0.575f,boundingBox.y+boundingBox.height*0.925f, projectileWidth,
+                projectileHeight, projectileSpeed, projectileTexture, "linearProjectile"));
 
         timeSinceLastShot = 0;
         return projectiles;

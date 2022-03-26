@@ -10,6 +10,7 @@ public abstract class Movement {
 
     public abstract float[] setPlayerMovement(Boolean ToggleSpeed, float WORLD_WIDTH, float WORLD_HEIGHT);
 
-    public abstract float setProjectileMovement(float deltaTime, float y, float movementSpeed, float WORLD_WIDTH, float WORLD_HEIGHT);
+    public abstract float setProjectileMovement(float deltaTime,float y, float movementSpeed, float WORLD_WIDTH, float WORLD_HEIGHT, String direction);
+
 
 }

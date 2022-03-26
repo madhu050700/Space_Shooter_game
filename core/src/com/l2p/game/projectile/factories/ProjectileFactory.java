@@ -5,5 +5,5 @@ import com.l2p.game.projectile.abstractProducts.Projectile;
 
 public abstract class ProjectileFactory {
 
-    public abstract Projectile createProjectile(float xCenter, float yCenter, float width, float height, float speed, Texture texture);
+    public abstract Projectile createProjectile(float xCenter, float yCenter, float width, float height, float speed, Texture texture, String movementType);
 }

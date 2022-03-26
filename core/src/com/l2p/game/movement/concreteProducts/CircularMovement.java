@@ -42,7 +42,7 @@ public class CircularMovement extends Movement {
         return null;
     }
 
-    public float setProjectileMovement(float deltaTime, float y, float movementSpeed, float WORLD_WIDTH, float WORLD_HEIGHT){
+    public float setProjectileMovement(float deltaTime, float y, float movementSpeed, float WORLD_WIDTH, float WORLD_HEIGHT, String direction){
         return 0f;
     }
 

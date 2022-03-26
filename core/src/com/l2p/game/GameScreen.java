@@ -336,8 +336,8 @@ public class GameScreen implements Screen {
         {
             Projectile projectile = iterator.next();
             projectile.draw(batch);
-            projectile.getBoundingBox().y += projectile.getMovementSpeed() * deltaTime;
-            if (projectile.getBoundingBox().y > WORLD_HEIGHT)
+//            projectile.getBoundingBox().y += projectile.getMovementSpeed() * deltaTime;
+            if (projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,"up") + projectile.getBoundingBox().height > WORLD_HEIGHT)
                 iterator.remove();
         }
 
@@ -346,7 +346,7 @@ public class GameScreen implements Screen {
         while(iterator.hasNext()){
             Projectile projectile = iterator.next();
             projectile.draw(batch);
-            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT) + projectile.getBoundingBox().height < 0){
+            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,"down") + projectile.getBoundingBox().height < 0){
                 iterator.remove();
             }
         }
@@ -354,7 +354,7 @@ public class GameScreen implements Screen {
         while(iterator.hasNext()){
             Projectile projectile = iterator.next();
             projectile.draw(batch);
-            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT)+ projectile.getBoundingBox().height < 0){
+            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,"down")+ projectile.getBoundingBox().height < 0){
                 iterator.remove();
             }
         }
@@ -362,7 +362,7 @@ public class GameScreen implements Screen {
         while(iterator.hasNext()){
             Projectile projectile = iterator.next();
             projectile.draw(batch);
-            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT) + projectile.getBoundingBox().height < 0){
+            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,"down") + projectile.getBoundingBox().height < 0){
                 iterator.remove();
             }
         }
@@ -370,7 +370,7 @@ public class GameScreen implements Screen {
         while(iterator.hasNext()){
             Projectile projectile = iterator.next();
             projectile.draw(batch);
-            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT)+ projectile.getBoundingBox().height < 0){
+            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,"down")+ projectile.getBoundingBox().height < 0){
                 iterator.remove();
             }
         }

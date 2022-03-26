@@ -64,8 +64,10 @@ public class Boss extends Actor {
         LinkedList<Projectile> projectiles;
         projectiles = new LinkedList<>();
         ProjectileFactory projectile = new MidBossProjectileFactory();
-        projectiles.add(projectile.createProjectile(boundingBox.x +boundingBox.width*projectile_x1,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture));
-        projectiles.add(projectile.createProjectile(boundingBox.x+boundingBox.width*projectile_x2,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture));
+        projectiles.add(projectile.createProjectile(boundingBox.x +boundingBox.width*projectile_x1,boundingBox.y-projectileHeight,
+                projectileWidth, projectileHeight, projectileSpeed, projectileTexture,"linearProjectile"));
+        projectiles.add(projectile.createProjectile(boundingBox.x+boundingBox.width*projectile_x2,boundingBox.y-projectileHeight, projectileWidth, projectileHeight,
+                projectileSpeed, projectileTexture,"linearProjectile"));
         timeSinceLastShot = 0;
         return projectiles;
     }

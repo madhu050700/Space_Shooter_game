@@ -6,9 +6,9 @@ import com.l2p.game.projectile.concreteProducts.PlayerProjectile;
 
 public class PlayerProjectileFactory extends ProjectileFactory{
     @Override
-    public Projectile createProjectile( float xCenter, float yCenter, float width, float height, float speed, Texture texture) {
+    public Projectile createProjectile( float xCenter, float yCenter, float width, float height, float speed, Texture texture, String movementType) {
 
-        PlayerProjectile playerProjectile = new PlayerProjectile(xCenter, yCenter, width, height, speed, texture);
+        PlayerProjectile playerProjectile = new PlayerProjectile(xCenter, yCenter, width, height, speed, texture,movementType);
 
         return playerProjectile;
     }

@@ -67,8 +67,10 @@ public class Enemy extends Actor {
         LinkedList<Projectile> projectiles;
         projectiles = new LinkedList<>();
         ProjectileFactory projectileFactory = new EnemyProjectileFactory();
-        projectiles.add(projectileFactory.createProjectile(boundingBox.x +boundingBox.width*projectile_x1,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture));
-        projectiles.add(projectileFactory.createProjectile(boundingBox.x+boundingBox.width*projectile_x2,boundingBox.y-projectileHeight, projectileWidth, projectileHeight, projectileSpeed, projectileTexture));
+        projectiles.add(projectileFactory.createProjectile(boundingBox.x +boundingBox.width*projectile_x1,boundingBox.y-projectileHeight, projectileWidth,
+                projectileHeight, projectileSpeed, projectileTexture, "linearProjectile"));
+        projectiles.add(projectileFactory.createProjectile(boundingBox.x+boundingBox.width*projectile_x2,boundingBox.y-projectileHeight, projectileWidth,
+                projectileHeight, projectileSpeed, projectileTexture, "linearProjectile"));
         timeSinceLastShot = 0;
         return projectiles;
     }

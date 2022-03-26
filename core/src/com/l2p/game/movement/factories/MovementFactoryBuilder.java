@@ -11,6 +11,8 @@ public class MovementFactoryBuilder {
             factory =  new CircularMovementFactory();
         if(type.equals("player"))
             factory =  new PlayerMovementFactory();
+        if(type.equals("linearProjectile"))
+            factory = new LinearProjectileMovementFactory();
 
 
         return factory;
