@@ -14,9 +14,6 @@ public class CircularMovement extends Movement {
         float downLimit;
         downLimit = (float)WORLD_HEIGHT/2 - boundingBox.y;
 
-        float theta = (float) Math.atan(angle);
-
-
         Vector2 newPos =  directionVector.rotateDeg(10);
 
         float xMove = (float)(newPos.x*movementSpeed * deltaTime);
