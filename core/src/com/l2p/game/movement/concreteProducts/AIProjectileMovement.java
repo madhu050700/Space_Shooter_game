@@ -1,7 +1,8 @@
-package com.l2p.game.movement;
+package com.l2p.game.movement.concreteProducts;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.l2p.game.movement.abstractProducts.Movement;
 
 public class AIProjectileMovement extends Movement {
 

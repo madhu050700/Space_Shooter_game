@@ -5,8 +5,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.l2p.game.SpaceShooter;
 import com.l2p.game.actor.abstractProducts.Actor;
-import com.l2p.game.movement.EnemyMovement;
-import com.l2p.game.movement.Movement;
+import com.l2p.game.movement.concreteProducts.EnemyMovement;
+import com.l2p.game.movement.abstractProducts.Movement;
+import com.l2p.game.movement.factories.MovementFactory;
+import com.l2p.game.movement.factories.MovementFactoryBuilder;
 import com.l2p.game.projectile.MidBossProjectile;
 import com.l2p.game.projectile.Projectile;
 
@@ -20,8 +22,8 @@ public class Boss extends Actor {
     Movement bossMovement;
 
     public Boss(float movementSpeed, int health, float width, float height, float center_x, float center_y, float timeBetweenShots, float projectileWidth, float projectileHeight, float projectileSpeed, Texture actorTexture, Texture projectileTexture,
-                float projectile_x1, float projectile_x2, float projectile_y ) {
-        super(movementSpeed, health, width, height, center_x, center_y, timeBetweenShots, projectileWidth, projectileHeight, projectileSpeed, actorTexture, projectileTexture);
+                float projectile_x1, float projectile_x2, float projectile_y, String movementType  ) {
+        super(movementSpeed, health, width, height, center_x, center_y, timeBetweenShots, projectileWidth, projectileHeight, projectileSpeed, actorTexture, projectileTexture, movementType);
 
 
         directionVector1 = new Vector2(0,-1);
@@ -30,7 +32,8 @@ public class Boss extends Actor {
         this.projectile_x2 =projectile_x2;
         this.projectile_y = projectile_y;
 
-        bossMovement =  new EnemyMovement();
+
+        bossMovement =  movementFactory.createMovement(this.boundingBox);
     }
 
     public Vector2 getDirectionVector1() {

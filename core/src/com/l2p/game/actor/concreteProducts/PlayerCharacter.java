@@ -4,10 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.l2p.game.actor.abstractProducts.Actor;
-import com.l2p.game.movement.Movement;
-import com.l2p.game.movement.PlayerMovement;
+import com.l2p.game.movement.abstractProducts.Movement;
+import com.l2p.game.movement.concreteProducts.PlayerMovement;
+import com.l2p.game.movement.factories.MovementFactory;
 import com.l2p.game.projectile.PlayerProjectile;
 import com.l2p.game.projectile.Projectile;
+
+import org.graalvm.compiler.replacements.SnippetCounter;
 
 public class PlayerCharacter extends Actor {
 
@@ -15,10 +18,11 @@ public class PlayerCharacter extends Actor {
 
     Movement playerMovement;
 
-    public PlayerCharacter(float movementSpeed, int health, float width, float height, float center_x, float center_y, float timeBetweenShots, float projectileWidth, float projectileHeight, float projectileSpeed, Texture actorTexture, Texture projectileTexture) {
-        super(movementSpeed, health, width, height, center_x, center_y, timeBetweenShots, projectileWidth, projectileHeight, projectileSpeed, actorTexture, projectileTexture);
+    public PlayerCharacter(float movementSpeed, int health, float width, float height, float center_x, float center_y, float timeBetweenShots, float projectileWidth, float projectileHeight
+            , float projectileSpeed, Texture actorTexture, Texture projectileTexture, String movementType) {
+        super(movementSpeed, health, width, height, center_x, center_y, timeBetweenShots, projectileWidth, projectileHeight, projectileSpeed, actorTexture, projectileTexture,movementType);
 
-        playerMovement = new PlayerMovement(this.boundingBox.x, this.boundingBox.y, this.boundingBox.width, this.boundingBox.height);
+        playerMovement = movementFactory.createMovement(this.boundingBox);
     }
 
     public Boolean getToggleSpeed() {

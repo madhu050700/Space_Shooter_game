@@ -123,7 +123,7 @@ public class GameScreen implements Screen {
         texturePathPlayer = "playerShip1.png" ;
         texturePathProjectilePlayer = "playerProjectile2.png";
         playerCharacter = playerFactory.createActor("player",9,5,10, 10, (float) WORLD_WIDTH/2, (float) WORLD_HEIGHT/4,0.5f,1f,5,45,
-                texturePathPlayer,texturePathProjectilePlayer, 0f,0f,0f);
+                texturePathPlayer,texturePathProjectilePlayer, 0f,0f,0f,"player");
 
 
         camera = new OrthographicCamera();
@@ -374,7 +374,7 @@ public class GameScreen implements Screen {
         stateTime += deltaTime;
         if(stateTime > timetoStartMidBoss && midBoss.size() < 1){
             midBoss.add(bossFactory.createActor("boss",60,5,15,15,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 15) + 7.5f, WORLD_HEIGHT - 7.5f,0.5f,
-                    1f, 7, 50,texturePathMidBoss,texturePathProjectileMidBoss,0.125f,0.819f,0.05f ));
+                    1f, 7, 50,texturePathMidBoss,texturePathProjectileMidBoss,0.125f,0.819f,0.05f, "regular" ));
 
             stateTime -= timetoStartMidBoss;
 
@@ -385,7 +385,7 @@ public class GameScreen implements Screen {
         stateTime1 += deltaTime;
         if(stateTime1 > timetoStartFinalBoss  && finalBoss.size() < 1 ){
             finalBoss.add(bossFactory.createActor("boss",40,5,20,20,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 20) + 10, WORLD_HEIGHT - 10,0.3f,
-                    2f, 10, 50,texturePathFinalBoss,texturePathProjectileFinalBoss,0.125f,0.819f,0.05f ));
+                    2f, 10, 50,texturePathFinalBoss,texturePathProjectileFinalBoss,0.125f,0.819f,0.05f, "regular"));
 
             stateTime1 -= timetoStartFinalBoss;
 
@@ -398,11 +398,11 @@ public class GameScreen implements Screen {
         if(enemySpawnTimer > timeBetweenEnemySpawns) {
             if(enemyList.size() < number_enemy_1)
                 enemyList.add(enemyFactory.createActor("enemy",48, 1, 10, 10, Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_WIDTH -1), WORLD_HEIGHT - 5, 0.8f,
-                        0.3f, 5, 50, texturePathEnemy1, texturePathProjectileEnemy1, 0.125f, 0.819f, 0.05f));
+                        0.3f, 5, 50, texturePathEnemy1, texturePathProjectileEnemy1, 0.125f, 0.819f, 0.05f, "regular"));
 
             if(enemyList1.size() < number_enemy_2)
                 enemyList1.add(enemyFactory.createActor("enemy",48,1,10,10,Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_WIDTH -1), WORLD_HEIGHT - 5,0.8f,
-                    0.3f, 5, 50,texturePathEnemy2,texturePathProjectileEnemy2,0.138f,0.847f,0.037f ));
+                    0.3f, 5, 50,texturePathEnemy2,texturePathProjectileEnemy2,0.138f,0.847f,0.037f, "circular" ));
             enemySpawnTimer -= timeBetweenEnemySpawns;
         }
     }
