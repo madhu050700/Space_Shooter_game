@@ -382,7 +382,7 @@ public class GameScreen implements Screen {
         stateTime += deltaTime;
         if(stateTime > timetoStartMidBoss && midBoss.size() < 1){
             midBoss.add(bossFactory.createActor("boss",60,5,15,15,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 15) + 7.5f, WORLD_HEIGHT - 7.5f,0.5f,
-                    1f, 7, 50,texturePathMidBoss,texturePathProjectileMidBoss,0.125f,0.819f,0.05f, "regular" ));
+                    1f, 7, 50,texturePathMidBoss,texturePathProjectileMidBoss,0.125f,0.819f,0.05f, "boss" ));
 
             stateTime -= timetoStartMidBoss;
 
@@ -393,7 +393,7 @@ public class GameScreen implements Screen {
         stateTime1 += deltaTime;
         if(stateTime1 > timetoStartFinalBoss  && finalBoss.size() < 1 ){
             finalBoss.add(bossFactory.createActor("boss",40,5,20,20,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 20) + 10, WORLD_HEIGHT - 10,0.3f,
-                    2f, 10, 50,texturePathFinalBoss,texturePathProjectileFinalBoss,0.125f,0.819f,0.05f, "regular"));
+                    2f, 10, 50,texturePathFinalBoss,texturePathProjectileFinalBoss,0.125f,0.819f,0.05f, "boss"));
 
             stateTime1 -= timetoStartFinalBoss;
 
