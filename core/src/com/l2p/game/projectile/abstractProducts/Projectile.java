@@ -3,11 +3,14 @@ package com.l2p.game.projectile.abstractProducts;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
+import com.l2p.game.composite.ActorComponent;
 import com.l2p.game.movement.abstractProducts.Movement;
 import com.l2p.game.movement.factories.MovementFactory;
 import com.l2p.game.movement.factories.MovementFactoryBuilder;
 
-public abstract class Projectile {
+import java.util.LinkedList;
+
+public abstract class Projectile extends ActorComponent {
 
     protected Rectangle boundingBox;
     protected float movementSpeed;
@@ -31,6 +34,7 @@ public abstract class Projectile {
         this.boundingBox = new Rectangle(xCenter - width/2, yCenter, width, height);
         this.movementSpeed = speed;
         this.projectileTexture = texture;
+        this.type = "projectile";
 //        projectileMovement = new AIProjectileMovement();
         movementFactory = MovementFactoryBuilder.getFactory(movementType);
 
@@ -45,6 +49,10 @@ public abstract class Projectile {
 
         this.boundingBox.y =  projectileMovement.setProjectileMovement(deltaTime,this.boundingBox.y, this.movementSpeed, WORLD_WIDTH,WORLD_HEIGHT,direction);
         return this.boundingBox.y;
+    }
+
+    public LinkedList<Projectile> fire()
+    { return null;
     }
 
 

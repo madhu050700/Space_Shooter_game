@@ -3,6 +3,7 @@ package com.l2p.game.actor.abstractProducts;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
+import com.l2p.game.composite.ActorComponent;
 import com.l2p.game.movement.factories.MovementFactory;
 import com.l2p.game.movement.factories.MovementFactoryBuilder;
 import com.l2p.game.projectile.abstractProducts.Projectile;
@@ -10,7 +11,7 @@ import com.l2p.game.projectile.factories.ProjectileFactory;
 
 import java.util.LinkedList;
 
-public abstract class Actor {
+public abstract class Actor extends ActorComponent {
 
 
 
@@ -44,7 +45,7 @@ public abstract class Actor {
 
         this.movementSpeed = movementSpeed;
         this.health =  health;
-
+        this.type = "actor";
         this.timeBetweenShots = timeBetweenShots;
         this.projectileHeight = projectileHeight;
         this.projectileWidth = projectileWidth;
@@ -78,7 +79,7 @@ public abstract class Actor {
     public boolean canFireProjectile()
     {return (timeSinceLastShot - timeBetweenShots >= 0);}
 
-    public abstract LinkedList<Projectile> fire();
+
 
     public Rectangle getBoundingBox() {
         return boundingBox;
