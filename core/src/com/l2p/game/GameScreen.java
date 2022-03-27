@@ -20,15 +20,15 @@ import com.l2p.game.actor.factories.EnemyFactory;
 import com.l2p.game.actor.factories.PlayerFactory;
 import com.l2p.game.collision.EnemyCollisionDetector;
 import com.l2p.game.collision.PlayerCollisionDetector;
+import com.l2p.game.controllers.SpawnController.SpawnController;
+import com.l2p.game.controllers.SpawnController.SpawnState;
 import com.l2p.game.projectile.abstractProducts.Projectile;
-import com.l2p.game.projectile.factories.EnemyProjectileFactory;
 import com.l2p.game.projectile.factories.ProjectileFactory;
 import com.l2p.game.world.abstractProducts.World;
 import com.l2p.game.world.factories.LevelFactory;
 import com.l2p.game.world.factories.WorldFactory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Locale;
@@ -49,8 +49,8 @@ public class GameScreen implements Screen {
     private float timeBetweenEnemySpawns = 3f;
     private float enemySpawnTimer = 0;
     private float stateTime,stateTime1,playTime=0;
-    private float timetoStartMidBoss = 24f;
-    private float timetoStartFinalBoss = 30f;
+    private float timetoStartMidBoss = 3f;
+    private float timetoStartFinalBoss = 5f;
 
 
 
@@ -58,7 +58,7 @@ public class GameScreen implements Screen {
     private final int WORLD_WIDTH = 72;
     private final int WORLD_HEIGHT= 128;
     private int number_enemy_1 = 2;
-    private int number_enemy_2 = 2;
+    private int number_enemy_2 = 3;
     private float enemy1LifeSpan = 10f;
     private float enemy2LifeSpan = 10f;
     private float midBossLifeSpan = 100000f;
@@ -96,28 +96,24 @@ public class GameScreen implements Screen {
 
     //Factories
     WorldFactory levelFactory;
-    ActorFactory enemyFactory;
-    ActorFactory bossFactory;
+
     ActorFactory playerFactory;
-    ProjectileFactory enemyProjectileFactory;
-    ProjectileFactory playerProjectileFactory;
-    ProjectileFactory midBossProjectileFactory;
-    ProjectileFactory finalBossProjectileFactory;
 
 
+    SpawnController spawnController;
+    SpawnState spawnState;
 
 
     GameScreen(){
 
         batch = new SpriteBatch();
 
-        enemyFactory = new EnemyFactory();
+
         texturePathEnemy1 = "enemy1.png";
         texturePathEnemy2 = "enemy2.png";
         texturePathProjectileEnemy1 = "laserRed10.png";
         texturePathProjectileEnemy2 = "laserRed10.png";
 
-        bossFactory = new BossFactory();
         texturePathMidBoss = "midboss1.png";
         texturePathFinalBoss = "boss1.png";
         texturePathProjectileMidBoss = "midBossProjectile1.png";
@@ -151,13 +147,14 @@ public class GameScreen implements Screen {
 
 
 
+
         enemyList = new LinkedList<>();
         enemyList1 = new LinkedList<>();
         midBoss = new LinkedList<>();
         finalBoss = new LinkedList<>();
 
 
-
+        spawnController = new SpawnController(WORLD_WIDTH,WORLD_HEIGHT);
 
         prepareHUD();
 
@@ -211,7 +208,14 @@ public class GameScreen implements Screen {
 
 
         //enemy1
-        spawnEnemyShips(deltaTime);
+//        spawnEnemyShips(deltaTime);
+        enemyList = spawnController.spawnEnemyShips("type1", deltaTime,enemySpawnTimer,timeBetweenEnemySpawns,enemyList,number_enemy_1,
+                "enemy",48, 1, 10, 10, Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_WIDTH -1), WORLD_HEIGHT - 5, 0.8f,
+                0.3f, 5, 50, texturePathEnemy1, texturePathProjectileEnemy1, 0.125f, 0.819f, 0.05f, "regular");
+
+        enemyList1 = spawnController.spawnEnemyShips("type2",deltaTime,enemySpawnTimer,timeBetweenEnemySpawns,enemyList1,number_enemy_2,
+                "enemy",48,1,10,10,Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_WIDTH -1), WORLD_HEIGHT - 5,0.8f,
+                0.3f, 5, 50,texturePathEnemy2,texturePathProjectileEnemy2,0.138f,0.847f,0.037f, "circular");
 
         ListIterator<Actor> enemyListIterator = enemyList.listIterator();
         while(enemyListIterator.hasNext()){
@@ -239,7 +243,13 @@ public class GameScreen implements Screen {
                 enemy1.draw(batch);
             }
         }
-        midBossStart(deltaTime);
+
+
+        spawnState = spawnController.spawnBoss("midBoss",deltaTime,stateTime,timetoStartMidBoss,midBoss,"boss",60,5,15,15,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 15) + 7.5f, WORLD_HEIGHT - 7.5f,0.5f,
+                1f, 7, 50,texturePathMidBoss,texturePathProjectileMidBoss,0.125f,0.819f,0.05f, "boss");
+        midBoss = spawnState.getActorList();
+        stateTime = spawnState.getStateTime();
+
         ListIterator<Actor> midBossIterator = midBoss.listIterator();
         while(midBossIterator.hasNext()){
             Actor midBoss= midBossIterator.next();
@@ -248,7 +258,13 @@ public class GameScreen implements Screen {
             midBoss.update(deltaTime);
             midBoss.draw(batch);
         }
-        finalBossStart(deltaTime);
+
+        spawnState = spawnController.spawnBoss("finalBoss",deltaTime,stateTime,timetoStartFinalBoss,finalBoss,"boss",40,5,20,20,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 20) + 10, WORLD_HEIGHT - 10,0.3f,
+                2f, 10, 50,texturePathFinalBoss,texturePathProjectileFinalBoss,0.125f,0.819f,0.05f, "boss");
+        finalBoss = spawnState.getActorList();
+        stateTime = spawnState.getStateTime();
+
+
         ListIterator<Actor> finalBossIterator = finalBoss.listIterator();
         while(finalBossIterator.hasNext()){
             Actor finalBoss= finalBossIterator.next();
@@ -375,43 +391,6 @@ public class GameScreen implements Screen {
             if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,"down")+ projectile.getBoundingBox().height < 0){
                 iterator.remove();
             }
-        }
-    }
-
-    private void midBossStart(float deltaTime){
-        stateTime += deltaTime;
-        if(stateTime > timetoStartMidBoss && midBoss.size() < 1){
-            midBoss.add(bossFactory.createActor("boss",60,5,15,15,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 15) + 7.5f, WORLD_HEIGHT - 7.5f,0.5f,
-                    1f, 7, 50,texturePathMidBoss,texturePathProjectileMidBoss,0.125f,0.819f,0.05f, "boss" ));
-
-            stateTime -= timetoStartMidBoss;
-
-        }
-    }
-
-    private void finalBossStart(float deltaTime){
-        stateTime1 += deltaTime;
-        if(stateTime1 > timetoStartFinalBoss  && finalBoss.size() < 1 ){
-            finalBoss.add(bossFactory.createActor("boss",40,5,20,20,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 20) + 10, WORLD_HEIGHT - 10,0.3f,
-                    2f, 10, 50,texturePathFinalBoss,texturePathProjectileFinalBoss,0.125f,0.819f,0.05f, "boss"));
-
-            stateTime1 -= timetoStartFinalBoss;
-
-        }
-    }
-
-
-    private void spawnEnemyShips(float deltaTime){
-        enemySpawnTimer += deltaTime;
-        if(enemySpawnTimer > timeBetweenEnemySpawns) {
-            if(enemyList.size() < number_enemy_1)
-                enemyList.add(enemyFactory.createActor("enemy",48, 1, 10, 10, Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_WIDTH -1), WORLD_HEIGHT - 5, 0.8f,
-                        0.3f, 5, 50, texturePathEnemy1, texturePathProjectileEnemy1, 0.125f, 0.819f, 0.05f, "regular"));
-
-            if(enemyList1.size() < number_enemy_2)
-                enemyList1.add(enemyFactory.createActor("enemy",48,1,10,10,Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_WIDTH -1), WORLD_HEIGHT - 5,0.8f,
-                    0.3f, 5, 50,texturePathEnemy2,texturePathProjectileEnemy2,0.138f,0.847f,0.037f, "circular" ));
-            enemySpawnTimer -= timeBetweenEnemySpawns;
         }
     }
 
