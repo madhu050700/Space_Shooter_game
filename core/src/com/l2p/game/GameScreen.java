@@ -188,6 +188,7 @@ public class GameScreen implements Screen {
         hudSectionWidth = WORLD_WIDTH / 3;
     }
 
+
     @Override
     public void show() {
 
@@ -276,12 +277,13 @@ public class GameScreen implements Screen {
         //render top row label
         //font.draw(batch,"Score", hudLeftX, hudRow1Y, hudSectionWidth, Align.left, false);
         font.draw(batch,"Time", hudCentreX, hudRow1Y, hudSectionWidth, Align.center, false);
-        //font.draw(batch,"Lives", hudRightX, hudRow1Y, hudSectionWidth, Align.right, false);
+        font.draw(batch,"Health", hudRightX, hudRow1Y, hudSectionWidth, Align.right, false);
         //render second row values
         //font.draw(batch, String.format(Locale.getDefault(), "%.0f", stateTime), hudLeftX, hudRow2Y, hudSectionWidth, Align.center, false);
         font.draw(batch, String.format(Locale.getDefault(), "%.0f", playTime), hudCentreX, hudRow2Y, hudSectionWidth, Align.center, false);
-        //font.draw(batch, String.format(Locale.getDefault(), "%02d", 3), hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
+        font.draw(batch, String.format(Locale.getDefault(), "%02d", playerCharacter.getHealth()), hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
     }
+
 
     private void renderProjectile(float deltaTime)
     {

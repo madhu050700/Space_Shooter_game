@@ -37,7 +37,7 @@ public abstract class Actor {
 
 
     protected MovementFactory movementFactory;
-
+    protected Boolean respawn = false;
 
     public Actor(float movementSpeed, int health, float width, float height, float center_x, float center_y,  float timeBetweenShots, float projectileWidth,
           float projectileHeight,float projectileSpeed, Texture actorTexture, Texture projectileTexture, String movementType){
@@ -66,7 +66,9 @@ public abstract class Actor {
     }
 
 
-
+    public int getHealth(){
+        return this.health;
+    }
 
     public void update(float deltaTime)
     {timeSinceLastShot += deltaTime;

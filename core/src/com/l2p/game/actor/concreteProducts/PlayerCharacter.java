@@ -36,12 +36,17 @@ public class PlayerCharacter extends Actor {
 
     @Override
     public Boolean moveActor(float deltaTime, int WORLD_WIDTH, int WORLD_HEIGHT, float lifeSpan){
-
+        if (respawn) {
+            float coord[] = playerMovement.setPlayerMovement(this.toggleSpeed,WORLD_WIDTH,WORLD_HEIGHT,this.respawn);
+            this.boundingBox.setPosition(coord[0], coord[1]);
+            respawn = false;
+            return true;
+        }
         if (Gdx.input.isKeyJustPressed(Input.Keys.CAPS_LOCK)){
             this.setToggleSpeed(!this.getToggleSpeed());
         }
 
-        float coord[] = playerMovement.setPlayerMovement(this.toggleSpeed,WORLD_WIDTH,WORLD_HEIGHT);
+        float coord[] = playerMovement.setPlayerMovement(this.toggleSpeed,WORLD_WIDTH,WORLD_HEIGHT,this.respawn);
         this.boundingBox.setPosition(coord[0], coord[1]);
         return true;
     }

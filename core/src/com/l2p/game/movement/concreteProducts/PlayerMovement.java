@@ -22,7 +22,13 @@ public class PlayerMovement extends Movement {
     }
 
     @Override
-    public float[] setPlayerMovement(Boolean ToggleSpeed, float WORLD_WIDTH, float WORLD_HEIGHT){
+    public float[] setPlayerMovement(Boolean ToggleSpeed, float WORLD_WIDTH, float WORLD_HEIGHT, Boolean respawn){
+
+        if (respawn) {
+            x_coord = WORLD_WIDTH/2;
+            y_coord = WORLD_HEIGHT/2;
+        }
+
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && (x_coord - 1) >= 0)
             x_coord = (ToggleSpeed)?x_coord-1: x_coord-2;
 

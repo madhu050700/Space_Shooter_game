@@ -33,7 +33,7 @@ public class BossMovement extends Movement {
 
     }
 
-    public float[] setPlayerMovement(Boolean ToggleSpeed, float WORLD_WIDTH, float WORLD_HEIGHT){
+    public float[] setPlayerMovement(Boolean ToggleSpeed, float WORLD_WIDTH, float WORLD_HEIGHT, Boolean respawn){
         return null;
     }
 
