@@ -51,7 +51,10 @@ public class PlayerCharacter extends Actor {
         return true;
     }
 
-
+    @Override
+    public void setRespawn(){
+        this.respawn = true;
+    }
     @Override
     public LinkedList<Projectile> fire() {
         LinkedList<Projectile> projectiles;

@@ -117,7 +117,7 @@ public abstract class Actor {
 
     }
 
-
+    public void setRespawn(){}
 
     public boolean intersects(Rectangle otherRect) {
         Rectangle thisRect = new Rectangle(boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
