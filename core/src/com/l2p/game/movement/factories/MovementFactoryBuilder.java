@@ -7,10 +7,15 @@ public class MovementFactoryBuilder {
 
         if(type.equals("regular"))
             factory =  new RegularMovementFactory();
+        if(type.equals("boss"))
+            factory =  new BossMovementFactory();
         if(type.equals("circular"))
             factory =  new CircularMovementFactory();
         if(type.equals("player"))
             factory =  new PlayerMovementFactory();
+        if(type.equals("linearProjectile"))
+            factory = new LinearProjectileMovementFactory();
+
 
         return factory;
     }

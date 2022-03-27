@@ -3,11 +3,15 @@ package com.l2p.game.actor.abstractProducts;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
+import com.l2p.game.composite.ActorComponent;
 import com.l2p.game.movement.factories.MovementFactory;
 import com.l2p.game.movement.factories.MovementFactoryBuilder;
-import com.l2p.game.projectile.Projectile;
+import com.l2p.game.projectile.abstractProducts.Projectile;
+import com.l2p.game.projectile.factories.ProjectileFactory;
 
-public abstract class Actor {
+import java.util.LinkedList;
+
+public abstract class Actor extends ActorComponent {
 
 
 
@@ -34,14 +38,14 @@ public abstract class Actor {
 
 
     protected MovementFactory movementFactory;
-
+    protected Boolean respawn = false;
 
     public Actor(float movementSpeed, int health, float width, float height, float center_x, float center_y,  float timeBetweenShots, float projectileWidth,
           float projectileHeight,float projectileSpeed, Texture actorTexture, Texture projectileTexture, String movementType){
 
         this.movementSpeed = movementSpeed;
         this.health =  health;
-
+        this.type = "actor";
         this.timeBetweenShots = timeBetweenShots;
         this.projectileHeight = projectileHeight;
         this.projectileWidth = projectileWidth;
@@ -63,7 +67,9 @@ public abstract class Actor {
     }
 
 
-
+    public int getHealth(){
+        return this.health;
+    }
 
     public void update(float deltaTime)
     {timeSinceLastShot += deltaTime;
@@ -73,7 +79,7 @@ public abstract class Actor {
     public boolean canFireProjectile()
     {return (timeSinceLastShot - timeBetweenShots >= 0);}
 
-    public abstract Projectile[] fire();
+
 
     public Rectangle getBoundingBox() {
         return boundingBox;
@@ -112,7 +118,7 @@ public abstract class Actor {
 
     }
 
-
+    public void setRespawn(){}
 
     public boolean intersects(Rectangle otherRect) {
         Rectangle thisRect = new Rectangle(boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);

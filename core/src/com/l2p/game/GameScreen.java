@@ -7,7 +7,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -21,7 +20,9 @@ import com.l2p.game.actor.factories.EnemyFactory;
 import com.l2p.game.actor.factories.PlayerFactory;
 import com.l2p.game.collision.EnemyCollisionDetector;
 import com.l2p.game.collision.PlayerCollisionDetector;
-import com.l2p.game.projectile.Projectile;
+import com.l2p.game.projectile.abstractProducts.Projectile;
+import com.l2p.game.projectile.factories.EnemyProjectileFactory;
+import com.l2p.game.projectile.factories.ProjectileFactory;
 import com.l2p.game.world.abstractProducts.World;
 import com.l2p.game.world.factories.LevelFactory;
 import com.l2p.game.world.factories.WorldFactory;
@@ -98,6 +99,11 @@ public class GameScreen implements Screen {
     ActorFactory enemyFactory;
     ActorFactory bossFactory;
     ActorFactory playerFactory;
+    ProjectileFactory enemyProjectileFactory;
+    ProjectileFactory playerProjectileFactory;
+    ProjectileFactory midBossProjectileFactory;
+    ProjectileFactory finalBossProjectileFactory;
+
 
 
 
@@ -181,6 +187,7 @@ public class GameScreen implements Screen {
         hudRow2Y = hudRow1Y - hudVerticalMargin - font.getCapHeight();
         hudSectionWidth = WORLD_WIDTH / 3;
     }
+
 
     @Override
     public void show() {
@@ -270,19 +277,20 @@ public class GameScreen implements Screen {
         //render top row label
         //font.draw(batch,"Score", hudLeftX, hudRow1Y, hudSectionWidth, Align.left, false);
         font.draw(batch,"Time", hudCentreX, hudRow1Y, hudSectionWidth, Align.center, false);
-        //font.draw(batch,"Lives", hudRightX, hudRow1Y, hudSectionWidth, Align.right, false);
+        font.draw(batch,"Health", hudRightX, hudRow1Y, hudSectionWidth, Align.right, false);
         //render second row values
         //font.draw(batch, String.format(Locale.getDefault(), "%.0f", stateTime), hudLeftX, hudRow2Y, hudSectionWidth, Align.center, false);
         font.draw(batch, String.format(Locale.getDefault(), "%.0f", playTime), hudCentreX, hudRow2Y, hudSectionWidth, Align.center, false);
-        //font.draw(batch, String.format(Locale.getDefault(), "%02d", 3), hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
+        font.draw(batch, String.format(Locale.getDefault(), "%02d", playerCharacter.getHealth()), hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
     }
+
 
     private void renderProjectile(float deltaTime)
     {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             // Create projectile for playerCharacter.
             if (playerCharacter.canFireProjectile()) {
-                Projectile[] projectiles = playerCharacter.fire();
+                LinkedList<Projectile> projectiles = playerCharacter.fire();
                 for (Projectile proj : projectiles) {
                     playerProjectileList.add(proj);
                 }
@@ -294,32 +302,32 @@ public class GameScreen implements Screen {
         while(enemyListIterator.hasNext()){
             Actor enemy = enemyListIterator.next();
             if(enemy.canFireProjectile()){
-                Projectile[] projectiles = enemy.fire();
-                enemyProjectileList.addAll(Arrays.asList(projectiles));
+                LinkedList<Projectile> projectiles = enemy.fire();
+                enemyProjectileList.addAll(projectiles);
             }
         }
         enemyListIterator = enemyList1.listIterator();
         while(enemyListIterator.hasNext()){
             Actor enemy1 = enemyListIterator.next();
             if(enemy1.canFireProjectile()){
-                Projectile[] projectiles = enemy1.fire();
-                enemyProjectileList1.addAll(Arrays.asList(projectiles));
+                LinkedList<Projectile> projectiles = enemy1.fire();
+                enemyProjectileList1.addAll(projectiles);
             }
         }
         ListIterator<Actor> midBossIterator = midBoss.listIterator();
         while(midBossIterator.hasNext()){
             Actor midBoss = midBossIterator.next();
             if(midBoss.canFireProjectile()){
-                Projectile[] projectiles = midBoss.fire();
-                midBossProjectileList.addAll(Arrays.asList(projectiles));
+                LinkedList<Projectile> projectiles= midBoss.fire();
+                midBossProjectileList.addAll(projectiles);
             }
         }
         ListIterator<Actor> finalBossListIterator = finalBoss.listIterator();
         while(finalBossListIterator.hasNext()){
             Actor finalBoss = finalBossListIterator.next();
             if(finalBoss.canFireProjectile()){
-                Projectile[] projectiles = finalBoss.fire();
-                finalBossProjectileList.addAll(Arrays.asList(projectiles));
+                LinkedList<Projectile> projectiles = finalBoss.fire();
+                finalBossProjectileList.addAll(projectiles);
             }
         }
 
@@ -330,8 +338,8 @@ public class GameScreen implements Screen {
         {
             Projectile projectile = iterator.next();
             projectile.draw(batch);
-            projectile.getBoundingBox().y += projectile.getMovementSpeed() * deltaTime;
-            if (projectile.getBoundingBox().y > WORLD_HEIGHT)
+//            projectile.getBoundingBox().y += projectile.getMovementSpeed() * deltaTime;
+            if (projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,"up") + projectile.getBoundingBox().height > WORLD_HEIGHT)
                 iterator.remove();
         }
 
@@ -340,7 +348,7 @@ public class GameScreen implements Screen {
         while(iterator.hasNext()){
             Projectile projectile = iterator.next();
             projectile.draw(batch);
-            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT) + projectile.getBoundingBox().height < 0){
+            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,"down") + projectile.getBoundingBox().height < 0){
                 iterator.remove();
             }
         }
@@ -348,7 +356,7 @@ public class GameScreen implements Screen {
         while(iterator.hasNext()){
             Projectile projectile = iterator.next();
             projectile.draw(batch);
-            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT)+ projectile.getBoundingBox().height < 0){
+            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,"down")+ projectile.getBoundingBox().height < 0){
                 iterator.remove();
             }
         }
@@ -356,7 +364,7 @@ public class GameScreen implements Screen {
         while(iterator.hasNext()){
             Projectile projectile = iterator.next();
             projectile.draw(batch);
-            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT) + projectile.getBoundingBox().height < 0){
+            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,"down") + projectile.getBoundingBox().height < 0){
                 iterator.remove();
             }
         }
@@ -364,7 +372,7 @@ public class GameScreen implements Screen {
         while(iterator.hasNext()){
             Projectile projectile = iterator.next();
             projectile.draw(batch);
-            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT)+ projectile.getBoundingBox().height < 0){
+            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,"down")+ projectile.getBoundingBox().height < 0){
                 iterator.remove();
             }
         }
@@ -374,7 +382,7 @@ public class GameScreen implements Screen {
         stateTime += deltaTime;
         if(stateTime > timetoStartMidBoss && midBoss.size() < 1){
             midBoss.add(bossFactory.createActor("boss",60,5,15,15,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 15) + 7.5f, WORLD_HEIGHT - 7.5f,0.5f,
-                    1f, 7, 50,texturePathMidBoss,texturePathProjectileMidBoss,0.125f,0.819f,0.05f, "regular" ));
+                    1f, 7, 50,texturePathMidBoss,texturePathProjectileMidBoss,0.125f,0.819f,0.05f, "boss" ));
 
             stateTime -= timetoStartMidBoss;
 
@@ -385,7 +393,7 @@ public class GameScreen implements Screen {
         stateTime1 += deltaTime;
         if(stateTime1 > timetoStartFinalBoss  && finalBoss.size() < 1 ){
             finalBoss.add(bossFactory.createActor("boss",40,5,20,20,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 20) + 10, WORLD_HEIGHT - 10,0.3f,
-                    2f, 10, 50,texturePathFinalBoss,texturePathProjectileFinalBoss,0.125f,0.819f,0.05f, "regular"));
+                    2f, 10, 50,texturePathFinalBoss,texturePathProjectileFinalBoss,0.125f,0.819f,0.05f, "boss"));
 
             stateTime1 -= timetoStartFinalBoss;
 
