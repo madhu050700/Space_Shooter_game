@@ -20,6 +20,7 @@ import com.l2p.game.collision.EnemyCollisionDetector;
 import com.l2p.game.collision.PlayerCollisionDetector;
 import com.l2p.game.actor.controllers.SpawnController;
 import com.l2p.game.actor.controllers.SpawnState;
+import com.l2p.game.movement.controllers.MovementController;
 import com.l2p.game.projectile.abstractProducts.Projectile;
 import com.l2p.game.projectile.controllers.LinearProjectileController;
 import com.l2p.game.world.abstractProducts.World;
@@ -103,6 +104,8 @@ public class GameScreen implements Screen {
 
     LinearProjectileController linearProjectileController;
 
+    MovementController movementController;
+
     GameScreen(){
 
         batch = new SpriteBatch();
@@ -155,6 +158,7 @@ public class GameScreen implements Screen {
 
         spawnController = new SpawnController(WORLD_WIDTH,WORLD_HEIGHT);
         linearProjectileController =  new LinearProjectileController();
+        movementController = new MovementController();
 
         prepareHUD();
 
@@ -217,32 +221,10 @@ public class GameScreen implements Screen {
                 "enemy",48,1,10,10,Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_WIDTH -1), WORLD_HEIGHT - 5,0.8f,
                 0.3f, 5, 50,texturePathEnemy2,texturePathProjectileEnemy2,0.138f,0.847f,0.037f, "circular");
 
-        ListIterator<Actor> enemyListIterator = enemyList.listIterator();
-        while(enemyListIterator.hasNext()){
-            Actor enemy = enemyListIterator.next();
 
-            if(enemy.moveActor(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,enemy1LifeSpan)){
-                enemyListIterator.remove();
-                System.out.println("Enemy 1 left");
-            }
-            else {
-                enemy.update(deltaTime);
-                enemy.draw(batch);
-            }
-        }
-        enemyListIterator = enemyList1.listIterator();
 
-        while(enemyListIterator.hasNext()){
-            Actor enemy1 = enemyListIterator.next();
-            if(enemy1.moveActor(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,enemy2LifeSpan)){
-               enemyListIterator.remove();
-               System.out.println("Enemy 2 left");
-            }
-            else{
-                enemy1.update(deltaTime);
-                enemy1.draw(batch);
-            }
-        }
+        enemyList = movementController.moveAI(batch,deltaTime,WORLD_WIDTH,WORLD_HEIGHT,enemyList,enemy1LifeSpan);
+        enemyList1 = movementController.moveAI(batch,deltaTime,WORLD_WIDTH,WORLD_HEIGHT,enemyList1,enemy2LifeSpan);
 
 
         spawnState = spawnController.spawnBoss("midBoss",deltaTime,stateTime,timetoStartMidBoss,midBoss,"boss",60,5,15,15,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 15) + 7.5f, WORLD_HEIGHT - 7.5f,0.5f,
@@ -250,29 +232,17 @@ public class GameScreen implements Screen {
         midBoss = spawnState.getActorList();
         stateTime = spawnState.getStateTime();
 
-        ListIterator<Actor> midBossIterator = midBoss.listIterator();
-        while(midBossIterator.hasNext()){
-            Actor midBoss= midBossIterator.next();
-            midBoss.moveActor(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,midBossLifeSpan);
-//            moveMidBoss(midBoss,deltaTime);
-            midBoss.update(deltaTime);
-            midBoss.draw(batch);
-        }
+
+        movementController.moveAI(batch,deltaTime,WORLD_WIDTH,WORLD_HEIGHT,midBoss,midBossLifeSpan);
+
 
         spawnState = spawnController.spawnBoss("finalBoss",deltaTime,stateTime,timetoStartFinalBoss,finalBoss,"boss",40,5,20,20,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 20) + 10, WORLD_HEIGHT - 10,0.3f,
                 2f, 10, 50,texturePathFinalBoss,texturePathProjectileFinalBoss,0.125f,0.819f,0.05f, "boss");
         finalBoss = spawnState.getActorList();
         stateTime = spawnState.getStateTime();
 
+        movementController.moveAI(batch,deltaTime,WORLD_WIDTH,WORLD_HEIGHT,finalBoss,bossLifeSpan);
 
-        ListIterator<Actor> finalBossIterator = finalBoss.listIterator();
-        while(finalBossIterator.hasNext()){
-            Actor finalBoss= finalBossIterator.next();
-            finalBoss.moveActor(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,bossLifeSpan);
-//            moveFinalBoss(finalBoss,deltaTime);
-            finalBoss.update(deltaTime);
-            finalBoss.draw(batch);
-        }
 
         // Projectile.
 
