@@ -6,7 +6,7 @@ import com.l2p.game.movement.concreteProducts.EnemyMovement;
 
 public class RegularMovementFactory extends MovementFactory {
 
-    public Movement createMovement(Shape2D boundingBox){
+    public Movement createMovement(Shape2D boundingBox) {
         return new EnemyMovement();
     }
 }

@@ -7,12 +7,8 @@ import com.l2p.game.composite.ActorComponent;
 import com.l2p.game.movement.factories.MovementFactory;
 import com.l2p.game.movement.factories.MovementFactoryBuilder;
 import com.l2p.game.projectile.abstractProducts.Projectile;
-import com.l2p.game.projectile.factories.ProjectileFactory;
-
-import java.util.LinkedList;
 
 public abstract class Actor extends ActorComponent {
-
 
 
     //actor characteristics
@@ -40,18 +36,18 @@ public abstract class Actor extends ActorComponent {
     protected MovementFactory movementFactory;
     protected Boolean respawn = false;
 
-    public Actor(float movementSpeed, int health, float width, float height, float center_x, float center_y,  float timeBetweenShots, float projectileWidth,
-          float projectileHeight,float projectileSpeed, Texture actorTexture, Texture projectileTexture, String movementType){
+    public Actor(float movementSpeed, int health, float width, float height, float center_x, float center_y, float timeBetweenShots, float projectileWidth,
+                 float projectileHeight, float projectileSpeed, Texture actorTexture, Texture projectileTexture, String movementType) {
 
         this.movementSpeed = movementSpeed;
-        this.health =  health;
+        this.health = health;
         this.type = "actor";
         this.timeBetweenShots = timeBetweenShots;
         this.projectileHeight = projectileHeight;
         this.projectileWidth = projectileWidth;
-        this.projectileSpeed= projectileSpeed;
+        this.projectileSpeed = projectileSpeed;
 
-        this.boundingBox = new Rectangle(center_x - width/2, center_y - width/2,width,height);
+        this.boundingBox = new Rectangle(center_x - width / 2, center_y - width / 2, width, height);
         this.actorTexture = actorTexture;
         this.projectileTexture = projectileTexture;
 
@@ -61,24 +57,24 @@ public abstract class Actor extends ActorComponent {
 
     }
 
-    public void draw(Batch batch){
+    public void draw(Batch batch) {
 
-        batch.draw(actorTexture,boundingBox.x,boundingBox.y,boundingBox.width,boundingBox.height);
+        batch.draw(actorTexture, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
     }
 
 
-    public int getHealth(){
+    public int getHealth() {
         return this.health;
     }
 
-    public void update(float deltaTime)
-    {timeSinceLastShot += deltaTime;
-      timeSinceSpawn+=deltaTime;
+    public void update(float deltaTime) {
+        timeSinceLastShot += deltaTime;
+        timeSinceSpawn += deltaTime;
     }
 
-    public boolean canFireProjectile()
-    {return (timeSinceLastShot - timeBetweenShots >= 0);}
-
+    public boolean canFireProjectile() {
+        return (timeSinceLastShot - timeBetweenShots >= 0);
+    }
 
 
     public Rectangle getBoundingBox() {
@@ -89,27 +85,26 @@ public abstract class Actor extends ActorComponent {
         return movementSpeed;
     }
 
-    public Boolean translate(float xChange, float yChange, float WORLD_WIDTH, float WORLD_HEIGHT, float lifeSpan){
+    public Boolean translate(float xChange, float yChange, float WORLD_WIDTH, float WORLD_HEIGHT, float lifeSpan) {
 
 //        System.out.println(("Time since spawn for"+this.actorTexture.getTextureData()+ " "+ this.timeSinceSpawn));
 
-        if(this.justSpawned)
-        {
-            boundingBox.setPosition(boundingBox.x+xChange,boundingBox.y+yChange);
+        if (this.justSpawned) {
+            boundingBox.setPosition(boundingBox.x + xChange, boundingBox.y + yChange);
             this.justSpawned = false;
             return false;
 
         }
 
-        if(boundingBox.x+xChange>0 && (boundingBox.x + boundingBox.width  + xChange)< WORLD_WIDTH && boundingBox.y + boundingBox.height + yChange < WORLD_HEIGHT)
-        { boundingBox.setPosition(boundingBox.x+xChange,boundingBox.y+yChange);
+        if (boundingBox.x + xChange > 0 && (boundingBox.x + boundingBox.width + xChange) < WORLD_WIDTH && boundingBox.y + boundingBox.height + yChange < WORLD_HEIGHT) {
+            boundingBox.setPosition(boundingBox.x + xChange, boundingBox.y + yChange);
             return false;
         }
 
 
-        if(timeSinceSpawn>lifeSpan){
+        if (timeSinceSpawn > lifeSpan) {
             //TODO: object moves out and is destroyed
-            boundingBox.setPosition(boundingBox.x,boundingBox.y+100);
+            boundingBox.setPosition(boundingBox.x, boundingBox.y + 100);
             return true;
 
         }
@@ -118,19 +113,19 @@ public abstract class Actor extends ActorComponent {
 
     }
 
-    public void setRespawn(){}
+    public void setRespawn() {
+    }
 
     public boolean intersects(Rectangle otherRect) {
         Rectangle thisRect = new Rectangle(boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
         return thisRect.overlaps(otherRect);
     }
 
-    public int hit(Projectile projectile){
-        if(health > 0) {
-            health --;
+    public int hit(Projectile projectile) {
+        if (health > 0) {
+            health--;
             return health;
-        }
-        else return 0;
+        } else return 0;
     }
 
 

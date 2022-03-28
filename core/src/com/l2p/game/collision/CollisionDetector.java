@@ -7,7 +7,7 @@ import java.util.LinkedList;
 
 public abstract class CollisionDetector {
 
-    public static void detectCollision(LinkedList<Projectile> projectileList, LinkedList<Actor> actorList){
+    public static void detectCollision(LinkedList<Projectile> projectileList, LinkedList<Actor> actorList) {
 
     }
 
