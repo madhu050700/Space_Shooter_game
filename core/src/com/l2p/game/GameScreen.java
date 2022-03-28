@@ -21,6 +21,7 @@ import com.l2p.game.collision.PlayerCollisionDetector;
 import com.l2p.game.actor.controllers.SpawnController;
 import com.l2p.game.actor.controllers.SpawnState;
 import com.l2p.game.projectile.abstractProducts.Projectile;
+import com.l2p.game.projectile.controllers.LinearProjectileController;
 import com.l2p.game.world.abstractProducts.World;
 import com.l2p.game.world.factories.LevelFactory;
 import com.l2p.game.world.factories.WorldFactory;
@@ -46,8 +47,8 @@ public class GameScreen implements Screen {
     private float timeBetweenEnemySpawns = 3f;
     private float enemySpawnTimer = 0;
     private float stateTime,stateTime1,playTime=0;
-    private float timetoStartMidBoss = 3f;
-    private float timetoStartFinalBoss = 5f;
+    private float timetoStartMidBoss = 20f;
+    private float timetoStartFinalBoss = 40f;
 
 
 
@@ -100,6 +101,7 @@ public class GameScreen implements Screen {
     SpawnController spawnController;
     SpawnState spawnState;
 
+    LinearProjectileController linearProjectileController;
 
     GameScreen(){
 
@@ -152,6 +154,7 @@ public class GameScreen implements Screen {
 
 
         spawnController = new SpawnController(WORLD_WIDTH,WORLD_HEIGHT);
+        linearProjectileController =  new LinearProjectileController();
 
         prepareHUD();
 
@@ -272,8 +275,21 @@ public class GameScreen implements Screen {
         }
 
         // Projectile.
-        renderProjectile(deltaTime);
 
+        playerProjectileList=linearProjectileController.renderPlayerProjectiles(batch,WORLD_WIDTH,WORLD_HEIGHT,deltaTime,
+                playerCharacter,playerProjectileList);
+
+        enemyProjectileList=linearProjectileController.renderAIProjectiles(batch,WORLD_WIDTH,WORLD_HEIGHT,deltaTime,
+                enemyList,enemyProjectileList);
+
+        enemyProjectileList1=linearProjectileController.renderAIProjectiles(batch,WORLD_WIDTH,WORLD_HEIGHT,deltaTime,
+                enemyList1,enemyProjectileList1);
+
+        midBossProjectileList=linearProjectileController.renderAIProjectiles(batch,WORLD_WIDTH,WORLD_HEIGHT,deltaTime,
+                midBoss,midBossProjectileList);
+
+        finalBossProjectileList = linearProjectileController.renderAIProjectiles(batch,WORLD_WIDTH,WORLD_HEIGHT,deltaTime,
+                finalBoss,finalBossProjectileList);
         //detect collision
         detectCollision();
 
@@ -299,99 +315,6 @@ public class GameScreen implements Screen {
         font.draw(batch, String.format(Locale.getDefault(), "%02d", playerCharacter.getHealth()), hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
     }
 
-
-    private void renderProjectile(float deltaTime)
-    {
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            // Create projectile for playerCharacter.
-            if (playerCharacter.canFireProjectile()) {
-                LinkedList<Projectile> projectiles = playerCharacter.fire();
-                for (Projectile proj : projectiles) {
-                    playerProjectileList.add(proj);
-                }
-            }
-        }
-
-
-        ListIterator<Actor> enemyListIterator = enemyList.listIterator();
-        while(enemyListIterator.hasNext()){
-            Actor enemy = enemyListIterator.next();
-            if(enemy.canFireProjectile()){
-                LinkedList<Projectile> projectiles = enemy.fire();
-                enemyProjectileList.addAll(projectiles);
-            }
-        }
-        enemyListIterator = enemyList1.listIterator();
-        while(enemyListIterator.hasNext()){
-            Actor enemy1 = enemyListIterator.next();
-            if(enemy1.canFireProjectile()){
-                LinkedList<Projectile> projectiles = enemy1.fire();
-                enemyProjectileList1.addAll(projectiles);
-            }
-        }
-        ListIterator<Actor> midBossIterator = midBoss.listIterator();
-        while(midBossIterator.hasNext()){
-            Actor midBoss = midBossIterator.next();
-            if(midBoss.canFireProjectile()){
-                LinkedList<Projectile> projectiles= midBoss.fire();
-                midBossProjectileList.addAll(projectiles);
-            }
-        }
-        ListIterator<Actor> finalBossListIterator = finalBoss.listIterator();
-        while(finalBossListIterator.hasNext()){
-            Actor finalBoss = finalBossListIterator.next();
-            if(finalBoss.canFireProjectile()){
-                LinkedList<Projectile> projectiles = finalBoss.fire();
-                finalBossProjectileList.addAll(projectiles);
-            }
-        }
-
-        // Draw Projectiles.
-        ListIterator<Projectile> iterator = playerProjectileList.listIterator();
-
-        while (iterator.hasNext())
-        {
-            Projectile projectile = iterator.next();
-            projectile.draw(batch);
-//            projectile.getBoundingBox().y += projectile.getMovementSpeed() * deltaTime;
-            if (projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,"up") + projectile.getBoundingBox().height > WORLD_HEIGHT)
-                iterator.remove();
-        }
-
-
-        iterator = enemyProjectileList.listIterator();
-        while(iterator.hasNext()){
-            Projectile projectile = iterator.next();
-            projectile.draw(batch);
-            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,"down") + projectile.getBoundingBox().height < 0){
-                iterator.remove();
-            }
-        }
-        iterator = enemyProjectileList1.listIterator();
-        while(iterator.hasNext()){
-            Projectile projectile = iterator.next();
-            projectile.draw(batch);
-            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,"down")+ projectile.getBoundingBox().height < 0){
-                iterator.remove();
-            }
-        }
-        iterator = midBossProjectileList.listIterator();
-        while(iterator.hasNext()){
-            Projectile projectile = iterator.next();
-            projectile.draw(batch);
-            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,"down") + projectile.getBoundingBox().height < 0){
-                iterator.remove();
-            }
-        }
-        iterator = finalBossProjectileList.listIterator();
-        while(iterator.hasNext()){
-            Projectile projectile = iterator.next();
-            projectile.draw(batch);
-            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,"down")+ projectile.getBoundingBox().height < 0){
-                iterator.remove();
-            }
-        }
-    }
 
     private void detectCollision() {
         ListIterator<Projectile> iterator = playerProjectileList.listIterator();
