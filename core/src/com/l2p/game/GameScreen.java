@@ -20,6 +20,7 @@ import com.l2p.game.collision.EnemyCollisionDetector;
 import com.l2p.game.collision.PlayerCollisionDetector;
 import com.l2p.game.actor.controllers.SpawnController;
 import com.l2p.game.actor.controllers.SpawnState;
+import com.l2p.game.collision.services.CollisionDetectionService;
 import com.l2p.game.movement.controllers.MovementController;
 import com.l2p.game.projectile.abstractProducts.Projectile;
 import com.l2p.game.projectile.controllers.LinearProjectileController;
@@ -106,6 +107,9 @@ public class GameScreen implements Screen {
 
     MovementController movementController;
 
+
+    CollisionDetectionService collisionDetectionService;
+
     GameScreen(){
 
         batch = new SpriteBatch();
@@ -159,6 +163,8 @@ public class GameScreen implements Screen {
         spawnController = new SpawnController(WORLD_WIDTH,WORLD_HEIGHT);
         linearProjectileController =  new LinearProjectileController();
         movementController = new MovementController();
+
+        collisionDetectionService = new CollisionDetectionService();
 
         prepareHUD();
 
@@ -260,8 +266,11 @@ public class GameScreen implements Screen {
 
         finalBossProjectileList = linearProjectileController.renderAIProjectiles(batch,WORLD_WIDTH,WORLD_HEIGHT,deltaTime,
                 finalBoss,finalBossProjectileList);
+
+
         //detect collision
-        detectCollision();
+        collisionDetectionService.run(score,playerCharacter,playerProjectileList,enemyList,enemyProjectileList,
+                enemyList1,enemyProjectileList1,midBoss,midBossProjectileList,finalBoss,finalBossProjectileList);
 
 
         //hud rendering
@@ -286,24 +295,6 @@ public class GameScreen implements Screen {
     }
 
 
-    private void detectCollision() {
-        ListIterator<Projectile> iterator = playerProjectileList.listIterator();
-        score = EnemyCollisionDetector.detectCollision(playerProjectileList,enemyList,score);
-        score = EnemyCollisionDetector.detectCollision(playerProjectileList,enemyList1,score);
-        score = EnemyCollisionDetector.detectCollision(playerProjectileList,midBoss,score);
-        score = EnemyCollisionDetector.detectCollision(playerProjectileList, finalBoss,score);
-
-
-
-        ArrayList<LinkedList<Projectile>> projectileListArray =  new ArrayList<LinkedList<Projectile>>();
-        projectileListArray.add(enemyProjectileList);
-        projectileListArray.add(enemyProjectileList1);
-        projectileListArray.add(midBossProjectileList);
-        projectileListArray.add(finalBossProjectileList);
-
-        PlayerCollisionDetector.detectCollision(projectileListArray,playerCharacter);
-
-    }
 
 
     @Override
