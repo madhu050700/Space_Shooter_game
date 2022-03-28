@@ -1,4 +1,4 @@
-package com.l2p.game.controllers.SpawnController;
+package com.l2p.game.actor.controllers;
 
 import com.l2p.game.SpaceShooter;
 import com.l2p.game.actor.abstractProducts.Actor;
@@ -55,17 +55,6 @@ public class SpawnController {
         }
         enemySpawnTimers.put(agent,spawnTimer);
         return new SpawnState(stateTime,bossList);
-    }
-
-    public void finalBossStart(float deltaTime, float stateTime1, float timetoStartFinalBoss, LinkedList<Actor> finalBoss, String texturePathFinalBoss, String texturePathProjectileFinalBoss ){
-        stateTime1 += deltaTime;
-        if(stateTime1 > timetoStartFinalBoss  && finalBoss.size() < 1 ){
-            finalBoss.add(bossFactory.createActor("boss",40,5,20,20,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 20) + 10, WORLD_HEIGHT - 10,0.3f,
-                    2f, 10, 50,texturePathFinalBoss,texturePathProjectileFinalBoss,0.125f,0.819f,0.05f, "boss"));
-
-            stateTime1 -= timetoStartFinalBoss;
-
-        }
     }
 
 

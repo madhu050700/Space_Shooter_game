@@ -1,4 +1,4 @@
-package com.l2p.game.controllers.SpawnController;
+package com.l2p.game.actor.controllers;
 
 import com.l2p.game.actor.abstractProducts.Actor;
 

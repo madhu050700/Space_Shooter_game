@@ -15,15 +15,12 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.l2p.game.actor.abstractProducts.Actor;
 import com.l2p.game.actor.factories.ActorFactory;
-import com.l2p.game.actor.factories.BossFactory;
-import com.l2p.game.actor.factories.EnemyFactory;
 import com.l2p.game.actor.factories.PlayerFactory;
 import com.l2p.game.collision.EnemyCollisionDetector;
 import com.l2p.game.collision.PlayerCollisionDetector;
-import com.l2p.game.controllers.SpawnController.SpawnController;
-import com.l2p.game.controllers.SpawnController.SpawnState;
+import com.l2p.game.actor.controllers.SpawnController;
+import com.l2p.game.actor.controllers.SpawnState;
 import com.l2p.game.projectile.abstractProducts.Projectile;
-import com.l2p.game.projectile.factories.ProjectileFactory;
 import com.l2p.game.world.abstractProducts.World;
 import com.l2p.game.world.factories.LevelFactory;
 import com.l2p.game.world.factories.WorldFactory;
@@ -93,7 +90,7 @@ public class GameScreen implements Screen {
     //Head-Up display
     BitmapFont font;
     float hudVerticalMargin, hudLeftX, hudRightX, hudCentreX, hudRow1Y, hudRow2Y, hudSectionWidth;
-
+    private int score = 0;
     //Factories
     WorldFactory levelFactory;
 
@@ -293,9 +290,11 @@ public class GameScreen implements Screen {
         //render top row label
         //font.draw(batch,"Score", hudLeftX, hudRow1Y, hudSectionWidth, Align.left, false);
         font.draw(batch,"Time", hudCentreX, hudRow1Y, hudSectionWidth, Align.center, false);
+        font.draw(batch,"Score", hudLeftX, hudRow1Y, hudSectionWidth, Align.left, false);
         font.draw(batch,"Health", hudRightX, hudRow1Y, hudSectionWidth, Align.right, false);
         //render second row values
         //font.draw(batch, String.format(Locale.getDefault(), "%.0f", stateTime), hudLeftX, hudRow2Y, hudSectionWidth, Align.center, false);
+        font.draw(batch, String.format(Locale.getDefault(), "%06d", score), hudLeftX, hudRow2Y, hudSectionWidth, Align.center, false);
         font.draw(batch, String.format(Locale.getDefault(), "%.0f", playTime), hudCentreX, hudRow2Y, hudSectionWidth, Align.center, false);
         font.draw(batch, String.format(Locale.getDefault(), "%02d", playerCharacter.getHealth()), hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
     }
@@ -396,10 +395,11 @@ public class GameScreen implements Screen {
 
     private void detectCollision() {
         ListIterator<Projectile> iterator = playerProjectileList.listIterator();
-        EnemyCollisionDetector.detectCollision(playerProjectileList,enemyList);
-        EnemyCollisionDetector.detectCollision(playerProjectileList,enemyList1);
-        EnemyCollisionDetector.detectCollision(playerProjectileList,midBoss);
-        EnemyCollisionDetector.detectCollision(playerProjectileList, finalBoss);
+        score = EnemyCollisionDetector.detectCollision(playerProjectileList,enemyList,score);
+        score = EnemyCollisionDetector.detectCollision(playerProjectileList,enemyList1,score);
+        score = EnemyCollisionDetector.detectCollision(playerProjectileList,midBoss,score);
+        score = EnemyCollisionDetector.detectCollision(playerProjectileList, finalBoss,score);
+
 
 
         ArrayList<LinkedList<Projectile>> projectileListArray =  new ArrayList<LinkedList<Projectile>>();
