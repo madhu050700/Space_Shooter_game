@@ -1,7 +1,6 @@
 package com.l2p.game.projectile.concreteProducts;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.l2p.game.movement.abstractProducts.Movement;
 import com.l2p.game.projectile.abstractProducts.Projectile;
 
 

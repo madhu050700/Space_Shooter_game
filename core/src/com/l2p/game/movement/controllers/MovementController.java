@@ -10,17 +10,16 @@ public class MovementController {
 
 
     public LinkedList<Actor> moveAI(SpriteBatch batch, float deltaTime, int WORLD_WIDTH, int WORLD_HEIGHT,
-                                      LinkedList<Actor> enemyList, float lifeSpan){
+                                    LinkedList<Actor> enemyList, float lifeSpan) {
 
         ListIterator<Actor> enemyListIterator = enemyList.listIterator();
-        while(enemyListIterator.hasNext()){
+        while (enemyListIterator.hasNext()) {
             Actor enemy = enemyListIterator.next();
 
-            if(enemy.moveActor(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,lifeSpan)){
+            if (enemy.moveActor(deltaTime, WORLD_WIDTH, WORLD_HEIGHT, lifeSpan)) {
                 enemyListIterator.remove();
 //                System.out.println("Enemy left");
-            }
-            else {
+            } else {
                 enemy.update(deltaTime);
                 enemy.draw(batch);
             }

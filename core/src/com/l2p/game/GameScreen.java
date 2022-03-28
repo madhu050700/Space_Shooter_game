@@ -48,21 +48,20 @@ public class GameScreen implements Screen {
 
     private float timeBetweenEnemySpawns = 3f;
     private float enemySpawnTimer = 0;
-    private float stateTime,stateTime1,playTime=0;
+    private float stateTime, stateTime1, playTime = 0;
     private float timetoStartMidBoss = 20f;
     private float timetoStartFinalBoss = 40f;
 
 
-
     //world parameters
     private final int WORLD_WIDTH = 72;
-    private final int WORLD_HEIGHT= 128;
+    private final int WORLD_HEIGHT = 128;
     private int number_enemy_1 = 2;
     private int number_enemy_2 = 3;
     private float enemy1LifeSpan = 10f;
     private float enemy2LifeSpan = 10f;
     private float midBossLifeSpan = 100000f;
-    private  float bossLifeSpan = 100000f;
+    private float bossLifeSpan = 100000f;
 
     //Texture Paths
     String texturePathEnemy1;
@@ -79,16 +78,14 @@ public class GameScreen implements Screen {
     String[] texturePathBackgrounds;
 
 
-
-
     //game Objects
     private World level1;
     private Actor playerCharacter;
     private LinkedList<Projectile> playerProjectileList;
-    private LinkedList<Projectile> enemyProjectileList,enemyProjectileList1;
-    private LinkedList<Projectile> midBossProjectileList,finalBossProjectileList;
-    private LinkedList<Actor> enemyList,enemyList1;
-    private LinkedList<Actor> midBoss,finalBoss;
+    private LinkedList<Projectile> enemyProjectileList, enemyProjectileList1;
+    private LinkedList<Projectile> midBossProjectileList, finalBossProjectileList;
+    private LinkedList<Actor> enemyList, enemyList1;
+    private LinkedList<Actor> midBoss, finalBoss;
 
     //Head-Up display
     BitmapFont font;
@@ -110,7 +107,7 @@ public class GameScreen implements Screen {
 
     CollisionDetectionService collisionDetectionService;
 
-    GameScreen(){
+    GameScreen() {
 
         batch = new SpriteBatch();
 
@@ -126,23 +123,20 @@ public class GameScreen implements Screen {
         texturePathProjectileFinalBoss = "bossProjectile1.png";
 
 
-
-        playerFactory =  new PlayerFactory();
-        texturePathPlayer = "playerShip1.png" ;
+        playerFactory = new PlayerFactory();
+        texturePathPlayer = "playerShip1.png";
         texturePathProjectilePlayer = "playerProjectile2.png";
-        playerCharacter = playerFactory.createActor("player",9,5,10, 10, (float) WORLD_WIDTH/2, (float) WORLD_HEIGHT/4,0.5f,1f,5,45,
-                texturePathPlayer,texturePathProjectilePlayer, 0f,0f,0f,"player");
+        playerCharacter = playerFactory.createActor("player", 9, 5, 10, 10, (float) WORLD_WIDTH / 2, (float) WORLD_HEIGHT / 4, 0.5f, 1f, 5, 45,
+                texturePathPlayer, texturePathProjectilePlayer, 0f, 0f, 0f, "player");
 
 
         camera = new OrthographicCamera();
-        viewport = new StretchViewport(WORLD_WIDTH,WORLD_HEIGHT,camera);
+        viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
 
         texturePathBackgrounds = new String[]{"space1.jpg", "parallex1.png", "parallex2.png", "parallex3.png"};
         levelFactory = new LevelFactory();
-        level1 = levelFactory.createWorld("level1",texturePathBackgrounds,WORLD_WIDTH,WORLD_HEIGHT);
-
-
+        level1 = levelFactory.createWorld("level1", texturePathBackgrounds, WORLD_WIDTH, WORLD_HEIGHT);
 
 
         playerProjectileList = new LinkedList<>();
@@ -152,16 +146,14 @@ public class GameScreen implements Screen {
         finalBossProjectileList = new LinkedList<>();
 
 
-
-
         enemyList = new LinkedList<>();
         enemyList1 = new LinkedList<>();
         midBoss = new LinkedList<>();
         finalBoss = new LinkedList<>();
 
 
-        spawnController = new SpawnController(WORLD_WIDTH,WORLD_HEIGHT);
-        linearProjectileController =  new LinearProjectileController();
+        spawnController = new SpawnController(WORLD_WIDTH, WORLD_HEIGHT);
+        linearProjectileController = new LinearProjectileController();
         movementController = new MovementController();
 
         collisionDetectionService = new CollisionDetectionService();
@@ -172,13 +164,13 @@ public class GameScreen implements Screen {
 
     private void prepareHUD() {
         //create a bitmapfont from font file
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal( "EdgeOfTheGalaxyRegular-OVEa6.otf"));
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("EdgeOfTheGalaxyRegular-OVEa6.otf"));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         fontParameter.size = 72;
         fontParameter.borderWidth = 3.6f;
-        fontParameter.color = new Color(1,1,1,0.3f);
-        fontParameter.borderColor = new Color(0,0,0,0.3f);
+        fontParameter.color = new Color(1, 1, 1, 0.3f);
+        fontParameter.borderColor = new Color(0, 0, 0, 0.3f);
 
         font = fontGenerator.generateFont(fontParameter);
 
@@ -186,7 +178,7 @@ public class GameScreen implements Screen {
         font.getData().setScale(0.08f);
 
         //calculate hud margins
-        hudVerticalMargin = font.getCapHeight() /2;
+        hudVerticalMargin = font.getCapHeight() / 2;
         hudLeftX = hudVerticalMargin;
         hudRightX = WORLD_WIDTH * 2 / 3 - hudLeftX;
         hudCentreX = WORLD_WIDTH / 3;
@@ -208,69 +200,68 @@ public class GameScreen implements Screen {
         // update time.
         playerCharacter.update(deltaTime);
         //scrolling background
-        level1.renderBackground(deltaTime,batch);
+        level1.renderBackground(deltaTime, batch);
 
         //player
         playerCharacter.draw(batch);
 
         // Update playerCharacter position based on user input.
-        playerCharacter.moveActor(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,.0f);
+        playerCharacter.moveActor(deltaTime, WORLD_WIDTH, WORLD_HEIGHT, .0f);
 
 
         //enemy1
 //        spawnEnemyShips(deltaTime);
-        enemyList = spawnController.spawnEnemyShips("type1", deltaTime,enemySpawnTimer,timeBetweenEnemySpawns,enemyList,number_enemy_1,
-                "enemy",48, 1, 10, 10, Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_WIDTH -1), WORLD_HEIGHT - 5, 0.8f,
+        enemyList = spawnController.spawnEnemyShips("type1", deltaTime, enemySpawnTimer, timeBetweenEnemySpawns, enemyList, number_enemy_1,
+                "enemy", 48, 1, 10, 10, Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_WIDTH - 1), WORLD_HEIGHT - 5, 0.8f,
                 0.3f, 5, 50, texturePathEnemy1, texturePathProjectileEnemy1, 0.125f, 0.819f, 0.05f, "regular");
 
-        enemyList1 = spawnController.spawnEnemyShips("type2",deltaTime,enemySpawnTimer,timeBetweenEnemySpawns,enemyList1,number_enemy_2,
-                "enemy",48,1,10,10,Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_WIDTH -1), WORLD_HEIGHT - 5,0.8f,
-                0.3f, 5, 50,texturePathEnemy2,texturePathProjectileEnemy2,0.138f,0.847f,0.037f, "circular");
+        enemyList1 = spawnController.spawnEnemyShips("type2", deltaTime, enemySpawnTimer, timeBetweenEnemySpawns, enemyList1, number_enemy_2,
+                "enemy", 48, 1, 10, 10, Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_WIDTH - 1), WORLD_HEIGHT - 5, 0.8f,
+                0.3f, 5, 50, texturePathEnemy2, texturePathProjectileEnemy2, 0.138f, 0.847f, 0.037f, "circular");
 
 
+        enemyList = movementController.moveAI(batch, deltaTime, WORLD_WIDTH, WORLD_HEIGHT, enemyList, enemy1LifeSpan);
+        enemyList1 = movementController.moveAI(batch, deltaTime, WORLD_WIDTH, WORLD_HEIGHT, enemyList1, enemy2LifeSpan);
 
-        enemyList = movementController.moveAI(batch,deltaTime,WORLD_WIDTH,WORLD_HEIGHT,enemyList,enemy1LifeSpan);
-        enemyList1 = movementController.moveAI(batch,deltaTime,WORLD_WIDTH,WORLD_HEIGHT,enemyList1,enemy2LifeSpan);
 
-
-        spawnState = spawnController.spawnBoss("midBoss",deltaTime,stateTime,timetoStartMidBoss,midBoss,"boss",60,5,15,15,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 15) + 7.5f, WORLD_HEIGHT - 7.5f,0.5f,
-                1f, 7, 50,texturePathMidBoss,texturePathProjectileMidBoss,0.125f,0.819f,0.05f, "boss");
+        spawnState = spawnController.spawnBoss("midBoss", deltaTime, stateTime, timetoStartMidBoss, midBoss, "boss", 60, 5, 15, 15, SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 15) + 7.5f, WORLD_HEIGHT - 7.5f, 0.5f,
+                1f, 7, 50, texturePathMidBoss, texturePathProjectileMidBoss, 0.125f, 0.819f, 0.05f, "boss");
         midBoss = spawnState.getActorList();
         stateTime = spawnState.getStateTime();
 
 
-        movementController.moveAI(batch,deltaTime,WORLD_WIDTH,WORLD_HEIGHT,midBoss,midBossLifeSpan);
+        movementController.moveAI(batch, deltaTime, WORLD_WIDTH, WORLD_HEIGHT, midBoss, midBossLifeSpan);
 
 
-        spawnState = spawnController.spawnBoss("finalBoss",deltaTime,stateTime,timetoStartFinalBoss,finalBoss,"boss",40,5,20,20,SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 20) + 10, WORLD_HEIGHT - 10,0.3f,
-                2f, 10, 50,texturePathFinalBoss,texturePathProjectileFinalBoss,0.125f,0.819f,0.05f, "boss");
+        spawnState = spawnController.spawnBoss("finalBoss", deltaTime, stateTime, timetoStartFinalBoss, finalBoss, "boss", 40, 5, 20, 20, SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 20) + 10, WORLD_HEIGHT - 10, 0.3f,
+                2f, 10, 50, texturePathFinalBoss, texturePathProjectileFinalBoss, 0.125f, 0.819f, 0.05f, "boss");
         finalBoss = spawnState.getActorList();
         stateTime = spawnState.getStateTime();
 
-        movementController.moveAI(batch,deltaTime,WORLD_WIDTH,WORLD_HEIGHT,finalBoss,bossLifeSpan);
+        movementController.moveAI(batch, deltaTime, WORLD_WIDTH, WORLD_HEIGHT, finalBoss, bossLifeSpan);
 
 
         // Projectile.
 
-        playerProjectileList=linearProjectileController.renderPlayerProjectiles(batch,WORLD_WIDTH,WORLD_HEIGHT,deltaTime,
-                playerCharacter,playerProjectileList);
+        playerProjectileList = linearProjectileController.renderPlayerProjectiles(batch, WORLD_WIDTH, WORLD_HEIGHT, deltaTime,
+                playerCharacter, playerProjectileList);
 
-        enemyProjectileList=linearProjectileController.renderAIProjectiles(batch,WORLD_WIDTH,WORLD_HEIGHT,deltaTime,
-                enemyList,enemyProjectileList);
+        enemyProjectileList = linearProjectileController.renderAIProjectiles(batch, WORLD_WIDTH, WORLD_HEIGHT, deltaTime,
+                enemyList, enemyProjectileList);
 
-        enemyProjectileList1=linearProjectileController.renderAIProjectiles(batch,WORLD_WIDTH,WORLD_HEIGHT,deltaTime,
-                enemyList1,enemyProjectileList1);
+        enemyProjectileList1 = linearProjectileController.renderAIProjectiles(batch, WORLD_WIDTH, WORLD_HEIGHT, deltaTime,
+                enemyList1, enemyProjectileList1);
 
-        midBossProjectileList=linearProjectileController.renderAIProjectiles(batch,WORLD_WIDTH,WORLD_HEIGHT,deltaTime,
-                midBoss,midBossProjectileList);
+        midBossProjectileList = linearProjectileController.renderAIProjectiles(batch, WORLD_WIDTH, WORLD_HEIGHT, deltaTime,
+                midBoss, midBossProjectileList);
 
-        finalBossProjectileList = linearProjectileController.renderAIProjectiles(batch,WORLD_WIDTH,WORLD_HEIGHT,deltaTime,
-                finalBoss,finalBossProjectileList);
+        finalBossProjectileList = linearProjectileController.renderAIProjectiles(batch, WORLD_WIDTH, WORLD_HEIGHT, deltaTime,
+                finalBoss, finalBossProjectileList);
 
 
         //detect collision
-        collisionDetectionService.run(score,playerCharacter,playerProjectileList,enemyList,enemyProjectileList,
-                enemyList1,enemyProjectileList1,midBoss,midBossProjectileList,finalBoss,finalBossProjectileList);
+        collisionDetectionService.run(score, playerCharacter, playerProjectileList, enemyList, enemyProjectileList,
+                enemyList1, enemyProjectileList1, midBoss, midBossProjectileList, finalBoss, finalBossProjectileList);
 
 
         //hud rendering
@@ -280,13 +271,13 @@ public class GameScreen implements Screen {
 
     }
 
-    private void updateAndRenderHUD(float deltaTime){
+    private void updateAndRenderHUD(float deltaTime) {
         playTime += deltaTime;
         //render top row label
         //font.draw(batch,"Score", hudLeftX, hudRow1Y, hudSectionWidth, Align.left, false);
-        font.draw(batch,"Time", hudCentreX, hudRow1Y, hudSectionWidth, Align.center, false);
-        font.draw(batch,"Score", hudLeftX, hudRow1Y, hudSectionWidth, Align.left, false);
-        font.draw(batch,"Health", hudRightX, hudRow1Y, hudSectionWidth, Align.right, false);
+        font.draw(batch, "Time", hudCentreX, hudRow1Y, hudSectionWidth, Align.center, false);
+        font.draw(batch, "Score", hudLeftX, hudRow1Y, hudSectionWidth, Align.left, false);
+        font.draw(batch, "Health", hudRightX, hudRow1Y, hudSectionWidth, Align.right, false);
         //render second row values
         //font.draw(batch, String.format(Locale.getDefault(), "%.0f", stateTime), hudLeftX, hudRow2Y, hudSectionWidth, Align.center, false);
         font.draw(batch, String.format(Locale.getDefault(), "%06d", score), hudLeftX, hudRow2Y, hudSectionWidth, Align.center, false);
@@ -295,11 +286,9 @@ public class GameScreen implements Screen {
     }
 
 
-
-
     @Override
     public void resize(int width, int height) {
-        viewport.update(width,height,true);
+        viewport.update(width, height, true);
         batch.setProjectionMatrix(camera.combined);
     }
 

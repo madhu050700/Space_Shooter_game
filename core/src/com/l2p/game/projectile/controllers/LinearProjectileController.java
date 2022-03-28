@@ -12,10 +12,9 @@ import java.util.ListIterator;
 public class LinearProjectileController {
 
 
-
     public LinkedList<Projectile> renderPlayerProjectiles(SpriteBatch batch, int WORLD_WIDTH, int WORLD_HEIGHT,
                                                           float deltaTime, Actor playerCharacter,
-                                                          LinkedList<Projectile> projectileList){
+                                                          LinkedList<Projectile> projectileList) {
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             // Create projectile for playerCharacter.
@@ -29,12 +28,10 @@ public class LinearProjectileController {
 
         ListIterator<Projectile> iterator = projectileList.listIterator();
 
-        while (iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             Projectile projectile = iterator.next();
             projectile.draw(batch);
-//            projectile.getBoundingBox().y += projectile.getMovementSpeed() * deltaTime;
-            if (projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,"up") + projectile.getBoundingBox().height > WORLD_HEIGHT)
+            if (projectile.move(deltaTime, WORLD_WIDTH, WORLD_HEIGHT, "up") + projectile.getBoundingBox().height > WORLD_HEIGHT)
                 iterator.remove();
         }
 
@@ -43,31 +40,29 @@ public class LinearProjectileController {
     }
 
     public LinkedList<Projectile> renderAIProjectiles(SpriteBatch batch, int WORLD_WIDTH, int WORLD_HEIGHT,
-                                                          float deltaTime, LinkedList<Actor>enemyList,
-                                                          LinkedList<Projectile> projectileList){
+                                                      float deltaTime, LinkedList<Actor> enemyList,
+                                                      LinkedList<Projectile> projectileList) {
 
 
         ListIterator<Actor> enemyListIterator = enemyList.listIterator();
-        while(enemyListIterator.hasNext()){
+        while (enemyListIterator.hasNext()) {
             Actor enemy = enemyListIterator.next();
-            if(enemy.canFireProjectile()){
+            if (enemy.canFireProjectile()) {
                 LinkedList<Projectile> projectiles = enemy.fire();
                 projectileList.addAll(projectiles);
             }
         }
 
-        ListIterator<Projectile>  iterator = projectileList.listIterator();
-        while(iterator.hasNext()){
+        ListIterator<Projectile> iterator = projectileList.listIterator();
+        while (iterator.hasNext()) {
             Projectile projectile = iterator.next();
             projectile.draw(batch);
-            if(projectile.move(deltaTime,WORLD_WIDTH,WORLD_HEIGHT,"down") + projectile.getBoundingBox().height < 0){
+            if (projectile.move(deltaTime, WORLD_WIDTH, WORLD_HEIGHT, "down") + projectile.getBoundingBox().height < 0) {
                 iterator.remove();
             }
         }
-        return  projectileList;
+        return projectileList;
     }
-
-
 
 
 }

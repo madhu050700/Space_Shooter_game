@@ -25,11 +25,10 @@ public class SpawnState {
         this.actorList = actorList;
     }
 
-    public SpawnState(float time, LinkedList<Actor> list){
+    public SpawnState(float time, LinkedList<Actor> list) {
         stateTime = time;
         actorList = list;
     }
-
 
 
 }

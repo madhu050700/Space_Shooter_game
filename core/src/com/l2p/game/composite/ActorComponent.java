@@ -7,6 +7,7 @@ import java.util.LinkedList;
 public abstract class ActorComponent {
 
     protected String type;
+
     public abstract LinkedList<Projectile> fire();
 
 }
