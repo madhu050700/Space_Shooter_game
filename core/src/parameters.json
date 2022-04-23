@@ -1,0 +1,123 @@
+{
+
+"WORLD": {
+  "timeBetweenEnemySpawns": 3,
+  "enemySpawnTimer": 0,
+  "timeToStartMidBoss": 20,
+  "timeToStartFinalBoss": 40,
+  "WORLD_WIDTH": 72,
+  "WORLD_HEIGHT": 128,
+
+  "backgrounds": {
+    "bg1": "space1.jpg",
+    "bg2": "parallex1.png",
+    "bg3": "parallex2.png",
+    "bg4": "parallex3.png"
+  }
+},
+
+  "HUD": {
+    "size": 72,
+    "borderwidth": 3.6,
+    "color": {
+      "r": 1,
+      "g": 1,
+      "b": 1,
+      "a": 0.3
+    },
+    "borderColor": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0.3
+    },
+    "scale": 0.08
+  },
+
+  "enemy1": {
+    "agent": "type1",
+    "max_num": 2,
+    "lifespan": 10,
+    "texturePath": "enemy1.png",
+    "texturePathProjectile": "laserRed10.png",
+    "type": "enemy",
+    "movementSpeed": 48,
+    "health": 1,
+    "width": 10,
+    "height": 10,
+    "timeBetweenShots": 0.8,
+    "projectileWidth": 0.3,
+    "projectileHeight": 5,
+    "projectileSpeed": 50,
+    "projectile_x1": 0.125,
+    "projectile_x2": 0.819,
+    "projectile_y": 0.05,
+    "movementType": "regular"
+  },
+
+  "enemy2": {
+    "agent": "type2",
+    "max_num": 3,
+    "lifespan": 10,
+    "texturePath": "enemy2.png",
+    "texturePathProjectile": "laserRed10.png",
+    "type": "enemy",
+    "movementSpeed": 48,
+    "health": 1,
+    "width": 10,
+    "height": 10,
+    "timeBetweenShots": 0.8,
+    "projectileWidth": 0.3,
+    "projectileHeight": 5,
+    "projectileSpeed": 50,
+    "projectile_x1": 0.138,
+    "projectile_x2": 0.847,
+    "projectile_y": 0.037,
+    "movementType": "circular"
+  },
+
+
+  "midBoss": {
+    "agent": "midBoss",
+    "lifespan": 10000,
+    "texturePath": "midboss1.png",
+    "texturePathProjectile": "midBossProjectile1.png",
+    "type": "boss",
+    "movementSpeed": 60,
+    "health": 5,
+    "width": 15,
+    "height": 15,
+    "timeBetweenShots": 0.5,
+    "projectileWidth": 1,
+    "projectileHeight": 7,
+    "projectileSpeed": 50,
+    "projectile_x1": 0.125,
+    "projectile_x2": 0.819,
+    "projectile_y": 0.05,
+    "movementType": "boss"
+  },
+
+  "boss": {
+    "agent": "finalBoss",
+    "lifespan": 10000,
+    "texturePath": "boss1.png",
+    "texturePathProjectile": "bossProjectile1.png",
+    "type": "boss",
+    "movementSpeed": 40,
+    "health": 5,
+    "width": 20,
+    "height": 20,
+    "timeBetweenShots": 0.3,
+    "projectileWidth": 2,
+    "projectileHeight": 10,
+    "projectileSpeed": 50,
+    "projectile_x1": 0.125,
+    "projectile_x2": 0.819,
+    "projectile_y": 0.05,
+    "movementType": "boss"
+  }
+
+
+
+
+}
