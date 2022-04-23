@@ -2,7 +2,6 @@
 package com.l2p.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
@@ -16,8 +15,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.l2p.game.actor.abstractProducts.Actor;
 import com.l2p.game.actor.factories.ActorFactory;
 import com.l2p.game.actor.factories.PlayerFactory;
-import com.l2p.game.collision.EnemyCollisionDetector;
-import com.l2p.game.collision.PlayerCollisionDetector;
 import com.l2p.game.actor.controllers.SpawnController;
 import com.l2p.game.actor.controllers.SpawnState;
 import com.l2p.game.collision.services.CollisionDetectionService;
@@ -28,9 +25,19 @@ import com.l2p.game.world.abstractProducts.World;
 import com.l2p.game.world.factories.LevelFactory;
 import com.l2p.game.world.factories.WorldFactory;
 
-import java.util.ArrayList;
+
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+
 import java.util.LinkedList;
-import java.util.ListIterator;
 import java.util.Locale;
 
 public class GameScreen implements Screen {
@@ -45,6 +52,9 @@ public class GameScreen implements Screen {
 
 
     //timing
+
+
+    //TODO Only declare variables here, set values from hasmap that is returned by readJSON
 
     private float timeBetweenEnemySpawns = 3f;
     private float enemySpawnTimer = 0;
@@ -108,6 +118,9 @@ public class GameScreen implements Screen {
     CollisionDetectionService collisionDetectionService;
 
     GameScreen() {
+
+        //TODO load jsondata: create new hashmap
+        readJSON();
 
         batch = new SpriteBatch();
 
@@ -208,6 +221,9 @@ public class GameScreen implements Screen {
         // Update playerCharacter position based on user input.
         playerCharacter.moveActor(deltaTime, WORLD_WIDTH, WORLD_HEIGHT, .0f);
 
+
+
+        //TODO: set variables
 
         //enemy1
 //        spawnEnemyShips(deltaTime);
@@ -311,4 +327,47 @@ public class GameScreen implements Screen {
     public void dispose() {
 
     }
+
+
+    public HashMap<String, String> readJSON(){
+        JSONParser parser = new JSONParser();
+        HashMap<String, HashMap<String,String>> jsonData = new HashMap();
+        try {
+           JSONObject data = (JSONObject) parser.parse(new FileReader("parameters.json"));
+
+           //TODO WORLD
+           JSONObject world = (JSONObject) data.get("WORLD");
+           HashMap<String,String> worldData= new HashMap<>();
+           worldData.put("WORLD_WIDTH",(String) world.get("WORLD_WIDTH"));
+           worldData.put("WORLD_HEIGHT",(String) world.get("WORLD_HEIGHT"));
+
+           //TODO HUD
+
+
+            //TODO ENEMY1
+
+            //TODO ENEMY2
+
+
+            //TODO MIDBOSS
+
+            //TODO BOSS
+
+           jsonData.put("WORLD_WIDTH",worldData);
+           System.out.println(jsonData.get("WORLD_WIDTH"));
+
+
+            } catch (ParseException parseException) {
+            parseException.printStackTrace();
+        } catch (FileNotFoundException fileNotFoundException) {
+            fileNotFoundException.printStackTrace();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+
+        //RETURN jsonData
+        return null;
+    }
+
+
 }
