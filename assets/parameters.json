@@ -1,31 +1,49 @@
 {
 
-"WORLD": {
-  "timeBetweenEnemySpawns": "3",
-  "enemySpawnTimer": "0",
-  "timeToStartMidBoss": "20",
-  "timeToStartFinalBoss": "40",
-  "WORLD_WIDTH": "72",
-  "WORLD_HEIGHT": "128",
-  "background1": "space1.jpg",
-  "background2": "parallex1.png",
-  "background3": "parallex2.png",
-  "background4": "parallex3.png"
-
-},
+  "WORLD": {
+    "timeBetweenEnemySpawns": "3",
+    "enemySpawnTimer": "0",
+    "timeToStartMidBoss": "20",
+    "timeToStartFinalBoss": "40",
+    "WORLD_WIDTH": "72",
+    "WORLD_HEIGHT": "128",
+    "background1": "space1.jpg",
+    "background2": "parallex1.png",
+    "background3": "parallex2.png",
+    "background4": "parallex3.png"
+  },
 
   "HUD": {
     "size": "72",
     "borderwidth": "3.6",
-      "color_r": "1",
-      "color_g": "1",
-      "color_b": "1",
-      "color_a": "0.3",
-      "border_r": "0",
-      "border_g": "0",
-      "border_b": "0",
-      "border_a": "0.3",
+    "color_r": "1",
+    "color_g": "1",
+    "color_b": "1",
+    "color_a": "0.3",
+    "border_r": "0",
+    "border_g": "0",
+    "border_b": "0",
+    "border_a": "0.3",
     "scale": "0.08"
+  },
+
+  "player": {
+    "agent": "player",
+    "texturePath": "playerShip1.png",
+    "texturePathProjectile": "playerProjectile2.png",
+    "type": "player",
+    "movementSpeed": "9",
+    "health": "5",
+    "width": "10",
+    "height": "10",
+    "timeBetweenShots": "0.5",
+    "projectileWidth": "1",
+    "projectileHeight": "5",
+    "projectileSpeed": "45",
+    "projectile_x1": "0",
+    "projectile_x2": "0",
+    "projectile_y": "0",
+    "movementType": "player"
   },
 
   "enemy1": {
@@ -110,8 +128,5 @@
     "projectile_y": "0.05",
     "movementType": "boss"
   }
-
-
-
 
 }
