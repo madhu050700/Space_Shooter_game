@@ -247,9 +247,28 @@ public class GameScreen implements Screen {
 
         //enemy1
 //        spawnEnemyShips(deltaTime);
-        enemyList = spawnController.spawnEnemyShips("type1", deltaTime, enemySpawnTimer, timeBetweenEnemySpawns, enemyList, number_enemy_1,
-                "enemy", 48, 1, 10, 10, Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_WIDTH - 1), WORLD_HEIGHT - 5, 0.8f,
-                0.3f, 5, 50, texturePathEnemy1, texturePathProjectileEnemy1, 0.125f, 0.819f, 0.05f, "regular");
+        enemyList = spawnController.spawnEnemyShips(
+                "type1",
+                deltaTime,
+                enemySpawnTimer,
+                timeBetweenEnemySpawns,
+                enemyList,
+                number_enemy_1,
+                "enemy",
+                48,
+                1,
+                10,
+                10,
+                Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_WIDTH - 1), WORLD_HEIGHT - 5, 0.8f,
+                0.3f,
+                5,
+                50,
+                texturePathEnemy1,
+                texturePathProjectileEnemy1,
+                0.125f,
+                0.819f,
+                0.05f,
+                "regular");
 
         enemyList1 = spawnController.spawnEnemyShips("type2", deltaTime, enemySpawnTimer, timeBetweenEnemySpawns, enemyList1, number_enemy_2,
                 "enemy", 48, 1, 10, 10, Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_WIDTH - 1), WORLD_HEIGHT - 5, 0.8f,
