@@ -17,6 +17,11 @@ buildscript {
 
 allprojects {
     apply plugin: "eclipse"
+    configurations.all {
+        resolutionStrategy.dependencySubstitution {
+            substitute module('org.hamcrest:hamcrest-core:1.1') with module('junit:junit:4.10')
+        }
+    }
 
     version = '1.0'
     ext {
@@ -37,6 +42,7 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
         maven { url "https://jitpack.io" }
+        jcenter()
     }
 }
 
@@ -49,6 +55,7 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         implementation "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+        implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
     }
 }
 
@@ -69,6 +76,7 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-arm64-v8a"
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86_64"
+        implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 
     }
 }
@@ -80,6 +88,7 @@ project(":core") {
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+        implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 
     }
 }
