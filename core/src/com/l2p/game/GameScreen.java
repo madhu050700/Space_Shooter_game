@@ -201,15 +201,18 @@ public class GameScreen implements Screen {
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("EdgeOfTheGalaxyRegular-OVEa6.otf"));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        fontParameter.size = 72;
-        fontParameter.borderWidth = 3.6f;
-        fontParameter.color = new Color(1, 1, 1, 0.3f);
-        fontParameter.borderColor = new Color(0, 0, 0, 0.3f);
+        fontParameter.size = Integer.parseInt(gameData.get("HUD").get("size"));
+        fontParameter.borderWidth = Float.parseFloat(gameData.get("HUD").get("borderwidth"));
+        fontParameter.color = new Color(Integer.parseInt(gameData.get("HUD").get("color_r")), Integer.parseInt(gameData.get("HUD").get("color_g")),
+                Integer.parseInt(gameData.get("HUD").get("color_b")), Float.parseFloat(gameData.get("HUD").get("color_a")));
+
+        fontParameter.borderColor = new Color(Integer.parseInt(gameData.get("HUD").get("border_r")), Integer.parseInt(gameData.get("HUD").get("border_g")),
+                Integer.parseInt(gameData.get("HUD").get("border_b")), Float.parseFloat(gameData.get("HUD").get("border_a")));
 
         font = fontGenerator.generateFont(fontParameter);
 
         //scale the font to fit world
-        font.getData().setScale(0.08f);
+        font.getData().setScale(Float.parseFloat(gameData.get("HUD").get("scale")));
 
         //calculate hud margins
         hudVerticalMargin = font.getCapHeight() / 2;
@@ -243,53 +246,94 @@ public class GameScreen implements Screen {
         playerCharacter.moveActor(deltaTime, WORLD_WIDTH, WORLD_HEIGHT, .0f);
 
 
-        //TODO: set variables
+        //TODO: set variables. Health is the only int else all floats
 
         //enemy1
 //        spawnEnemyShips(deltaTime);
         enemyList = spawnController.spawnEnemyShips(
-                "type1",
-                deltaTime,
-                enemySpawnTimer,
-                timeBetweenEnemySpawns,
-                enemyList,
-                number_enemy_1,
-                "enemy",
-                48,
-                1,
-                10,
-                10,
-                Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_WIDTH - 1), WORLD_HEIGHT - 5, 0.8f,
-                0.3f,
-                5,
-                50,
-                texturePathEnemy1,
-                texturePathProjectileEnemy1,
-                0.125f,
-                0.819f,
-                0.05f,
-                "regular");
+                gameData.get("enemy1").get("agent"),
+                deltaTime, enemySpawnTimer,timeBetweenEnemySpawns,enemyList,number_enemy_1,
+                gameData.get("enemy1").get("type"),
+                Integer.parseInt(gameData.get("enemy1").get("movementSpeed")),
+                Integer.parseInt(gameData.get("enemy1").get("health")),
+                Integer.parseInt(gameData.get("enemy1").get("width")),
+                Integer.parseInt(gameData.get("enemy1").get("height")),
+                Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_WIDTH - 1), WORLD_HEIGHT - 5,
+                Float.parseFloat(gameData.get("enemy1").get("timeBetweenShots")),
+                Float.parseFloat(gameData.get("enemy1").get("projectileWidth")),
+                Float.parseFloat(gameData.get("enemy1").get("projectileHeight")),
+                Float.parseFloat(gameData.get("enemy1").get("projectileSpeed")),
+                texturePathEnemy1,texturePathProjectileEnemy1,
+                Float.parseFloat(gameData.get("enemy1").get("projectile_x1")),
+                Float.parseFloat(gameData.get("enemy1").get("projectile_x2")),
+                Float.parseFloat(gameData.get("enemy1").get("projectile_y")),
+                gameData.get("enemy1").get("movementType"));
 
-        enemyList1 = spawnController.spawnEnemyShips("type2", deltaTime, enemySpawnTimer, timeBetweenEnemySpawns, enemyList1, number_enemy_2,
-                "enemy", 48, 1, 10, 10, Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_WIDTH - 1), WORLD_HEIGHT - 5, 0.8f,
-                0.3f, 5, 50, texturePathEnemy2, texturePathProjectileEnemy2, 0.138f, 0.847f, 0.037f, "circular");
-
+        enemyList1 = spawnController.spawnEnemyShips(
+                gameData.get("enemy2").get("agent"),
+                deltaTime, enemySpawnTimer, timeBetweenEnemySpawns, enemyList1, number_enemy_2,
+                gameData.get("enemy2").get("type"),
+                Integer.parseInt(gameData.get("enemy2").get("movementSpeed")),
+                Integer.parseInt(gameData.get("enemy2").get("health")),
+                Integer.parseInt(gameData.get("enemy2").get("width")),
+                Integer.parseInt(gameData.get("enemy2").get("height")),
+                Math.min(SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 10) + 5, WORLD_WIDTH - 1), WORLD_HEIGHT - 5,
+                Float.parseFloat(gameData.get("enemy2").get("timeBetweenShots")),
+                Float.parseFloat(gameData.get("enemy2").get("projectileWidth")),
+                Float.parseFloat(gameData.get("enemy2").get("projectileHeight")),
+                Float.parseFloat(gameData.get("enemy2").get("projectileSpeed")),
+                texturePathEnemy2, texturePathProjectileEnemy2,
+                Float.parseFloat(gameData.get("enemy2").get("projectile_x1")),
+                Float.parseFloat(gameData.get("enemy2").get("projectile_x2")),
+                Float.parseFloat(gameData.get("enemy2").get("projectile_y")),
+                gameData.get("enemy2").get("movementType"));
 
         enemyList = movementController.moveAI(batch, deltaTime, WORLD_WIDTH, WORLD_HEIGHT, enemyList, enemy1LifeSpan);
         enemyList1 = movementController.moveAI(batch, deltaTime, WORLD_WIDTH, WORLD_HEIGHT, enemyList1, enemy2LifeSpan);
 
+        spawnState = spawnController.spawnBoss(
+                gameData.get("midBoss").get("agent"),
+                deltaTime, stateTime, timetoStartMidBoss, midBoss,
+                gameData.get("midBoss").get("type"),
+                Integer.parseInt(gameData.get("midBoss").get("movementSpeed")),
+                Integer.parseInt(gameData.get("midBoss").get("health")),
+                Integer.parseInt(gameData.get("midBoss").get("width")),
+                Integer.parseInt(gameData.get("midBoss").get("height")),
+                SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 15) + 7.5f, WORLD_HEIGHT - 7.5f,
+                Float.parseFloat(gameData.get("midBoss").get("timeBetweenShots")),
+                Float.parseFloat(gameData.get("midBoss").get("projectileWidth")),
+                Float.parseFloat(gameData.get("midBoss").get("projectileHeight")),
+                Float.parseFloat(gameData.get("midBoss").get("projectileSpeed")),
+                texturePathMidBoss, texturePathProjectileMidBoss,
+                Float.parseFloat(gameData.get("midBoss").get("projectile_x1")),
+                Float.parseFloat(gameData.get("midBoss").get("projectile_x2")),
+                Float.parseFloat(gameData.get("midBoss").get("projectile_y")),
+                gameData.get("midBoss").get("movementType"));
 
-        spawnState = spawnController.spawnBoss("midBoss", deltaTime, stateTime, timetoStartMidBoss, midBoss, "boss", 60, 5, 15, 15, SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 15) + 7.5f, WORLD_HEIGHT - 7.5f, 0.5f,
-                1f, 7, 50, texturePathMidBoss, texturePathProjectileMidBoss, 0.125f, 0.819f, 0.05f, "boss");
         midBoss = spawnState.getActorList();
         stateTime = spawnState.getStateTime();
 
-
         movementController.moveAI(batch, deltaTime, WORLD_WIDTH, WORLD_HEIGHT, midBoss, midBossLifeSpan);
 
+        spawnState = spawnController.spawnBoss(
+                gameData.get("boss").get("agent"),
+                deltaTime, stateTime, timetoStartFinalBoss, finalBoss,
+                gameData.get("boss").get("type"),
+                Integer.parseInt(gameData.get("boss").get("movementSpeed")),
+                Integer.parseInt(gameData.get("boss").get("health")),
+                Integer.parseInt(gameData.get("boss").get("width")),
+                Integer.parseInt(gameData.get("boss").get("height")),
+                SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 20) + 10, WORLD_HEIGHT - 10,
+                Float.parseFloat(gameData.get("boss").get("timeBetweenShots")),
+                Float.parseFloat(gameData.get("boss").get("projectileWidth")),
+                Float.parseFloat(gameData.get("boss").get("projectileHeight")),
+                Float.parseFloat(gameData.get("boss").get("projectileSpeed")),
+                texturePathFinalBoss, texturePathProjectileFinalBoss,
+                Float.parseFloat(gameData.get("boss").get("projectile_x1")),
+                Float.parseFloat(gameData.get("boss").get("projectile_x2")),
+                Float.parseFloat(gameData.get("boss").get("projectile_y")),
+                gameData.get("boss").get("movementType"));
 
-        spawnState = spawnController.spawnBoss("finalBoss", deltaTime, stateTime, timetoStartFinalBoss, finalBoss, "boss", 40, 5, 20, 20, SpaceShooter.random.nextFloat() * (WORLD_WIDTH - 20) + 10, WORLD_HEIGHT - 10, 0.3f,
-                2f, 10, 50, texturePathFinalBoss, texturePathProjectileFinalBoss, 0.125f, 0.819f, 0.05f, "boss");
         finalBoss = spawnState.getActorList();
         stateTime = spawnState.getStateTime();
 
