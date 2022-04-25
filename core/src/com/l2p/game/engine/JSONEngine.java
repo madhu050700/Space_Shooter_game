@@ -78,6 +78,7 @@ public class JSONEngine {
             enemy1Data.put("agent", (String) enemy1.get("agent"));
             enemy1Data.put("max_num", (String) enemy1.get("max_num"));
             enemy1Data.put("lifespan", (String) enemy1.get("lifespan"));
+            enemy1Data.put("type", (String) enemy1.get("type"));
             enemy1Data.put("texturePath", (String) enemy1.get("texturePath"));
             enemy1Data.put("texturePathProjectile", (String) enemy1.get("texturePathProjectile"));
             enemy1Data.put("movementSpeed", (String) enemy1.get("movementSpeed"));
@@ -100,6 +101,7 @@ public class JSONEngine {
             enemy2Data.put("agent", (String) enemy2.get("agent"));
             enemy2Data.put("max_num", (String) enemy2.get("max_num"));
             enemy2Data.put("lifespan", (String) enemy2.get("lifespan"));
+            enemy2Data.put("type", (String) enemy2.get("type"));
             enemy2Data.put("texturePath", (String) enemy2.get("texturePath"));
             enemy2Data.put("texturePathProjectile", (String) enemy2.get("texturePathProjectile"));
             enemy2Data.put("movementSpeed", (String) enemy2.get("movementSpeed"));
