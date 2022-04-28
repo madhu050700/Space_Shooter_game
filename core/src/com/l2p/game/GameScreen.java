@@ -359,7 +359,7 @@ public class GameScreen implements Screen {
 
 
         //detect collision
-        collisionDetectionService.run(score, playerCharacter, playerProjectileList, enemyList, enemyProjectileList,
+        collisionDetectionService.run(score,deltaTime, playerCharacter, playerProjectileList, enemyList, enemyProjectileList,
                 enemyList1, enemyProjectileList1, midBoss, midBossProjectileList, finalBoss, finalBossProjectileList);
 
 
