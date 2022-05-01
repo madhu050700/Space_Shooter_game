@@ -11,11 +11,13 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.l2p.game.PowerUp.PowerUpController;
 import com.l2p.game.actor.abstractProducts.Actor;
 import com.l2p.game.actor.controllers.SpawnController;
 import com.l2p.game.actor.controllers.SpawnState;
 import com.l2p.game.actor.factories.ActorFactory;
 import com.l2p.game.actor.factories.PlayerFactory;
+import com.l2p.game.collision.State.CollisionDetectionState;
 import com.l2p.game.collision.services.CollisionDetectionService;
 import com.l2p.game.engine.JSONEngine;
 import com.l2p.game.movement.controllers.MovementController;
@@ -61,6 +63,7 @@ public class GameScreen implements Screen {
     LinearProjectileController linearProjectileController;
     MovementController movementController;
     CollisionDetectionService collisionDetectionService;
+    PowerUpController powerUpController;
     //screen
     private Camera camera;
     private Viewport viewport;
@@ -90,6 +93,7 @@ public class GameScreen implements Screen {
     private LinkedList<Actor> midBoss, finalBoss;
     private int score = 0;
     private HashMap<String, HashMap<String, String>> gameData;
+    private CollisionDetectionState collisionDetectionState;
 
 
     private JSONEngine engine;
@@ -189,8 +193,10 @@ public class GameScreen implements Screen {
         spawnController = new SpawnController(WORLD_WIDTH, WORLD_HEIGHT);
         linearProjectileController = new LinearProjectileController();
         movementController = new MovementController();
+        powerUpController = new PowerUpController();
 
         collisionDetectionService = new CollisionDetectionService();
+        collisionDetectionState = new CollisionDetectionState(score,powerUpController);
 
         prepareHUD();
 
@@ -359,9 +365,12 @@ public class GameScreen implements Screen {
 
 
         //detect collision
-        collisionDetectionService.run(score,deltaTime, playerCharacter, playerProjectileList, enemyList, enemyProjectileList,
-                enemyList1, enemyProjectileList1, midBoss, midBossProjectileList, finalBoss, finalBossProjectileList);
-
+        collisionDetectionState = collisionDetectionService.run(score,deltaTime,batch,playerCharacter,playerProjectileList,enemyList,enemyProjectileList,enemyList1,
+                enemyProjectileList1,midBoss,midBossProjectileList,finalBoss,finalBossProjectileList,powerUpController,collisionDetectionState);
+        this.score = collisionDetectionState.getScore();
+        //powerup
+        this.powerUpController = collisionDetectionState.getPowerUpController();
+        this.powerUpController.drawPowerUp(deltaTime,batch);
 
         //hud rendering
         updateAndRenderHUD(deltaTime);

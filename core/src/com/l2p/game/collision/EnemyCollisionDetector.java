@@ -1,7 +1,9 @@
 package com.l2p.game.collision;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.l2p.game.PowerUp.PowerUpController;
 import com.l2p.game.actor.abstractProducts.Actor;
+import com.l2p.game.collision.State.CollisionDetectionState;
 import com.l2p.game.projectile.abstractProducts.Projectile;
 
 import java.util.LinkedList;
@@ -10,10 +12,9 @@ import java.util.ListIterator;
 
 public class EnemyCollisionDetector extends CollisionDetector {
 
-    public static SpriteBatch batch;
+//private static CollisionDetectionState currentState ;
 
-
-    public static int detectCollision(LinkedList<Projectile> projectileList, LinkedList<Actor> actorList, int score,float deltaTime) {
+    public static CollisionDetectionState detectCollision(LinkedList<Projectile> projectileList, LinkedList<Actor> actorList, int score, float deltaTime, SpriteBatch batch, PowerUpController powerUpController,CollisionDetectionState collisionDetectionState) {
         ListIterator<Projectile> iterator = projectileList.listIterator();
         while (iterator.hasNext()) {
             Projectile projectile = iterator.next();
@@ -24,26 +25,17 @@ public class EnemyCollisionDetector extends CollisionDetector {
                     int health = enemy1.hit(projectile);
                     System.out.println("Enemy1 got hit");
                     score += 100;
+                    collisionDetectionState.setScore(score);
                     iterator.remove();
                     if (health == 0) {
-                       // LinkedList<PowerUps> powerUps = new LinkedList<>();
-                        //Texture powerup = new Texture("ufoYellow.png");
-                        //PowerUps p = new PowerUps(176,160,4*16,4*16,70,powerup);
-                        //powerUps.add(p);
-                        //ListIterator<PowerUps> iterator1 = powerUps.listIterator();
-                        //while (iterator1.hasNext()) {
-                          //  PowerUps powerups = iterator1.next();
-                            //powerups.draw(batch);
-                            //if (powerups.move(deltaTime) + powerups.getBoundingBox().height < 0) {
-                              //  iterator1.remove();
-                            //}
-                        //}
+                        powerUpController.addPowerUp(enemy1);
+                        collisionDetectionState.setPowerUpController(powerUpController);
                         enemyListIterator1.remove();
                     }
                 }
             }
         }
-        return score;
+        return collisionDetectionState;
     }
 
 

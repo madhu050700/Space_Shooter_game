@@ -3,16 +3,22 @@ package com.l2p.game.PowerUp;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 public class PowerUps {
-    private Texture powerUpTexture;
-    private  float movementSpeed;
-    private  Rectangle boundingBox;
+    protected Texture powerUpTexture;
+    protected float movementSpeed;
+    protected  Rectangle boundingBox;
+    protected float powerUpTimer;
+    Vector2 directionVector;
 
-    public PowerUps(float xCenter, float yCenter, float width, float height, float speed, Texture texture) {
-        this.boundingBox = new Rectangle(xCenter - width / 2, yCenter, width, height);
+
+    public PowerUps(Rectangle boundingBox, float speed, Texture texture) {
+        this.boundingBox = boundingBox;
         this.movementSpeed = speed;
         this.powerUpTexture = texture;
+
+        powerUpTimer =0;
     }
     public void draw(Batch batch) {
         batch.draw(powerUpTexture, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
@@ -21,9 +27,12 @@ public class PowerUps {
         return boundingBox;
     }
 
+    public void update(float deltaTime){
+        powerUpTimer += deltaTime;
+    }
 
     public float move(float deltaTime){
-        this.boundingBox.y = this.boundingBox.y - movementSpeed * deltaTime;
+        this.boundingBox.y = this.boundingBox.y - movementSpeed*deltaTime;
         return this.boundingBox.y;
 
     }
