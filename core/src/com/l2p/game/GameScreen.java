@@ -370,7 +370,16 @@ public class GameScreen implements Screen {
         this.score = collisionDetectionState.getScore();
         //powerup
         this.powerUpController = collisionDetectionState.getPowerUpController();
+
         this.powerUpController.drawPowerUp(deltaTime,batch);
+        float duration = this.powerUpController.triggerPowerUp()+playTime;
+        if(playTime<duration){
+            playerCharacter.setTimeBetweenShots(0);
+        }
+        else{
+            playerCharacter.setTimeBetweenShots(Float.parseFloat(gameData.get("player").get("timeBetweenShots")));
+        }
+
 
         //hud rendering
         updateAndRenderHUD(deltaTime);

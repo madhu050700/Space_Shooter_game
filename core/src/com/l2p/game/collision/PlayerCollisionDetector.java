@@ -33,9 +33,10 @@ public class PlayerCollisionDetector extends CollisionDetector {
         powerUpArray = powerUpController.getPowerUps();
         ListIterator<PowerUps> powerUpsListIterator = powerUpArray.listIterator();
         while(powerUpsListIterator.hasNext()){
-            PowerUps powerUps = powerUpsListIterator.next();
-            if(playerCharacter.intersects(powerUps.getBoundingBox())){
+            PowerUps powerUp = powerUpsListIterator.next();
+            if(playerCharacter.intersects(powerUp.getBoundingBox())){
                 System.out.println("Powerup absorbed");
+                powerUpController.absorbedPowerUp(powerUp);
 
                 powerUpsListIterator.remove();
             }

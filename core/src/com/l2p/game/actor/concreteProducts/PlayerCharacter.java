@@ -15,6 +15,7 @@ public class PlayerCharacter extends Actor {
 
     Movement playerMovement;
     private Boolean toggleSpeed = false;
+    private Boolean powerUpToggle = false;
 
     public PlayerCharacter(float movementSpeed, int health, float width, float height, float center_x, float center_y, float timeBetweenShots, float projectileWidth, float projectileHeight
             , float projectileSpeed, Texture actorTexture, Texture projectileTexture, String movementType) {
@@ -67,6 +68,7 @@ public class PlayerCharacter extends Actor {
         timeSinceLastShot = 0;
         return projectiles;
     }
+
 
 
 }

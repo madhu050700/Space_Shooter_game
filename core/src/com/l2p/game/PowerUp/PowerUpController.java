@@ -11,10 +11,12 @@ public class PowerUpController {
 
 
     private LinkedList<PowerUps> powerUps;
+    private LinkedList<PowerUps> absorbedPowerUps;
     private Texture powerUpTexture;
     public PowerUpController(){
         powerUps = new LinkedList<>();
         powerUpTexture = new Texture("ufoYellow.png");
+        absorbedPowerUps = new LinkedList<>();
     }
 
     public void addPowerUp(Actor e){
@@ -38,5 +40,21 @@ public class PowerUpController {
 
     public void setPowerUps(LinkedList<PowerUps> powerUps) {
         this.powerUps = powerUps;
+    }
+
+    public void absorbedPowerUp(PowerUps p){
+        absorbedPowerUps.add(p);
+    }
+
+    public LinkedList<PowerUps> getAbsorbedPowerUps() {
+        return absorbedPowerUps;
+    }
+
+    public float triggerPowerUp(){
+        float duration =absorbedPowerUps.size();
+        this.absorbedPowerUps = new LinkedList<>();
+        return duration;
+       // ListIterator<PowerUps> absorbedListIterator = this.absorbedPowerUps.listIterator();
+
     }
 }
