@@ -13,6 +13,7 @@ import java.util.LinkedList;
 
 public class CollisionDetectionService {
 private CollisionDetectionState currentState;
+private PowerUpController currentPowerUpController;
 
     public CollisionDetectionState run(int score, float deltatime, SpriteBatch batch, Actor playerCharacter, LinkedList<Projectile> playerProjectileList, LinkedList<Actor> enemyList1,
                    LinkedList<Projectile> enemyProjectileList1,
@@ -32,7 +33,8 @@ private CollisionDetectionState currentState;
         projectileListArray.add(midBossProjectileList);
         projectileListArray.add(finalBossProjectileList);
 
-        PlayerCollisionDetector.detectCollision(projectileListArray, playerCharacter);
+       currentPowerUpController= PlayerCollisionDetector.detectCollision(projectileListArray, playerCharacter,powerUpController);
+       currentState.setPowerUpController(currentPowerUpController);
         return currentState;
     }
 

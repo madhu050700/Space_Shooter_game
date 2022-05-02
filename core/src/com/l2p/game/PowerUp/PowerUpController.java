@@ -35,4 +35,8 @@ public class PowerUpController {
     public LinkedList<PowerUps> getPowerUps() {
         return powerUps;
     }
+
+    public void setPowerUps(LinkedList<PowerUps> powerUps) {
+        this.powerUps = powerUps;
+    }
 }
