@@ -19,7 +19,8 @@ private PowerUpController currentPowerUpController;
                    LinkedList<Projectile> enemyProjectileList1,
                    LinkedList<Actor> enemyList2, LinkedList<Projectile> enemyProjectileList2,
                    LinkedList<Actor> midBoss, LinkedList<Projectile> midBossProjectileList,
-                   LinkedList<Actor> finalBoss, LinkedList<Projectile> finalBossProjectileList, PowerUpController powerUpController,CollisionDetectionState collisionDetectionState) {
+                   LinkedList<Actor> finalBoss, LinkedList<Projectile> finalBossProjectileList, PowerUpController powerUpController,CollisionDetectionState collisionDetectionState,
+                                       boolean cheating) {
 
         currentState= EnemyCollisionDetector.detectCollision(playerProjectileList, enemyList1, score,deltatime,batch,powerUpController,collisionDetectionState);
         currentState= EnemyCollisionDetector.detectCollision(playerProjectileList, enemyList2, score,deltatime,batch,powerUpController,collisionDetectionState);
@@ -33,7 +34,7 @@ private PowerUpController currentPowerUpController;
         projectileListArray.add(midBossProjectileList);
         projectileListArray.add(finalBossProjectileList);
 
-       currentPowerUpController= PlayerCollisionDetector.detectCollision(projectileListArray, playerCharacter,powerUpController);
+       currentPowerUpController= PlayerCollisionDetector.detectCollision(projectileListArray, playerCharacter,powerUpController, cheating);
        currentState.setPowerUpController(currentPowerUpController);
         return currentState;
     }

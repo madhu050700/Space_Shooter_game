@@ -1,7 +1,9 @@
 package com.l2p.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -52,9 +54,9 @@ public class GameScreen implements Screen {
     String texturePathPlayer;
     String texturePathProjectilePlayer;
     String[] texturePathBackgrounds;
-    //Head-Up display
+    //isplay setting
     BitmapFont font;
-    float hudVerticalMargin, hudLeftX, hudRightX, hudCentreX, hudRow1Y, hudRow2Y, hudSectionWidth;
+    float hudVerticalMargin, hudLeftX, hudRightX, hudCentreX, hudRow1Y, hudRow2Y, hudSectionWidth, bottomY,bottom2Y;
     //Factories
     WorldFactory levelFactory;
     ActorFactory playerFactory;
@@ -96,7 +98,9 @@ public class GameScreen implements Screen {
     private int score = 0;
     private HashMap<String, HashMap<String, String>> gameData;
     private CollisionDetectionState collisionDetectionState;
+    private boolean cheating=false;
     private JSONEngine engine;
+    private Music eightBitSurf;
 
     GameScreen() {
 
@@ -198,10 +202,16 @@ public class GameScreen implements Screen {
         collisionDetectionService = new CollisionDetectionService();
         collisionDetectionState = new CollisionDetectionState(score, powerUpController);
 
+        prepareBGM();
         prepareHUD();
 
     }
-
+    private void prepareBGM(){
+        eightBitSurf = Gdx.audio.newMusic(Gdx.files.internal("8_Bit_Surf.mp3"));
+        eightBitSurf.setLooping(true);
+        eightBitSurf.setVolume(0.1f);
+        eightBitSurf.play();
+    }
     private void prepareHUD() {
         //create a bitmapfont from font file
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("EdgeOfTheGalaxyRegular-OVEa6.otf"));
@@ -228,6 +238,8 @@ public class GameScreen implements Screen {
         hudRow1Y = WORLD_HEIGHT - hudVerticalMargin;
         hudRow2Y = hudRow1Y - hudVerticalMargin - font.getCapHeight();
         hudSectionWidth = WORLD_WIDTH / 3;
+        bottomY=WORLD_HEIGHT/10;
+        bottom2Y=WORLD_HEIGHT/5;
     }
 
 
@@ -366,13 +378,12 @@ public class GameScreen implements Screen {
 
         //detect collision
         collisionDetectionState = collisionDetectionService.run(score, deltaTime, batch, playerCharacter, playerProjectileList, enemyList, enemyProjectileList, enemyList1,
-                enemyProjectileList1, midBoss, midBossProjectileList, finalBoss, finalBossProjectileList, powerUpController, collisionDetectionState);
+                enemyProjectileList1, midBoss, midBossProjectileList, finalBoss, finalBossProjectileList, powerUpController, collisionDetectionState, cheating);
         this.score = collisionDetectionState.getScore();
         //powerup
         this.powerUpController = collisionDetectionState.getPowerUpController();
 
         this.powerUpController.drawPowerUp(deltaTime, batch);
-
 
         if (trigger == false) {
             duration = this.powerUpController.triggerPowerUp() + playTime;
@@ -381,11 +392,22 @@ public class GameScreen implements Screen {
 
         if (playTime < duration) {
             playerCharacter.setTimeBetweenShots(0f);
+            font.draw(batch, "Power UP", hudCentreX, bottom2Y, hudSectionWidth, Align.center, false);
+            font.draw(batch, String.format(Locale.getDefault(), "%.0f", duration), hudRightX, bottom2Y, hudSectionWidth, Align.center, false);
         } else {
             playerCharacter.setTimeBetweenShots(Float.parseFloat(gameData.get("player").get("timeBetweenShots")));
             trigger = false;
         }
 
+        //press z to active cheating mode
+        if(Gdx.input.isKeyPressed(Input.Keys.Z)){
+            if (cheating==true){
+                cheating=false;
+            } else cheating=true;
+        }
+        if(cheating==true){
+            font.draw(batch, "cheating mode", hudCentreX, bottomY, hudSectionWidth, Align.center, false);
+        }
 
         //hud rendering
         updateAndRenderHUD(deltaTime);
