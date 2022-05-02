@@ -64,6 +64,8 @@ public class GameScreen implements Screen {
     MovementController movementController;
     CollisionDetectionService collisionDetectionService;
     PowerUpController powerUpController;
+    float duration = -1;
+    Boolean trigger = false;
     //screen
     private Camera camera;
     private Viewport viewport;
@@ -94,8 +96,6 @@ public class GameScreen implements Screen {
     private int score = 0;
     private HashMap<String, HashMap<String, String>> gameData;
     private CollisionDetectionState collisionDetectionState;
-
-
     private JSONEngine engine;
 
     GameScreen() {
@@ -196,7 +196,7 @@ public class GameScreen implements Screen {
         powerUpController = new PowerUpController();
 
         collisionDetectionService = new CollisionDetectionService();
-        collisionDetectionState = new CollisionDetectionState(score,powerUpController);
+        collisionDetectionState = new CollisionDetectionState(score, powerUpController);
 
         prepareHUD();
 
@@ -258,7 +258,7 @@ public class GameScreen implements Screen {
 //        spawnEnemyShips(deltaTime);
         enemyList = spawnController.spawnEnemyShips(
                 gameData.get("enemy1").get("agent"),
-                deltaTime, enemySpawnTimer,timeBetweenEnemySpawns,enemyList,number_enemy_1,
+                deltaTime, enemySpawnTimer, timeBetweenEnemySpawns, enemyList, number_enemy_1,
                 gameData.get("enemy1").get("type"),
                 Integer.parseInt(gameData.get("enemy1").get("movementSpeed")),
                 Integer.parseInt(gameData.get("enemy1").get("health")),
@@ -269,7 +269,7 @@ public class GameScreen implements Screen {
                 Float.parseFloat(gameData.get("enemy1").get("projectileWidth")),
                 Float.parseFloat(gameData.get("enemy1").get("projectileHeight")),
                 Float.parseFloat(gameData.get("enemy1").get("projectileSpeed")),
-                texturePathEnemy1,texturePathProjectileEnemy1,
+                texturePathEnemy1, texturePathProjectileEnemy1,
                 Float.parseFloat(gameData.get("enemy1").get("projectile_x1")),
                 Float.parseFloat(gameData.get("enemy1").get("projectile_x2")),
                 Float.parseFloat(gameData.get("enemy1").get("projectile_y")),
@@ -365,19 +365,25 @@ public class GameScreen implements Screen {
 
 
         //detect collision
-        collisionDetectionState = collisionDetectionService.run(score,deltaTime,batch,playerCharacter,playerProjectileList,enemyList,enemyProjectileList,enemyList1,
-                enemyProjectileList1,midBoss,midBossProjectileList,finalBoss,finalBossProjectileList,powerUpController,collisionDetectionState);
+        collisionDetectionState = collisionDetectionService.run(score, deltaTime, batch, playerCharacter, playerProjectileList, enemyList, enemyProjectileList, enemyList1,
+                enemyProjectileList1, midBoss, midBossProjectileList, finalBoss, finalBossProjectileList, powerUpController, collisionDetectionState);
         this.score = collisionDetectionState.getScore();
         //powerup
         this.powerUpController = collisionDetectionState.getPowerUpController();
 
-        this.powerUpController.drawPowerUp(deltaTime,batch);
-        float duration = this.powerUpController.triggerPowerUp()+playTime;
-        if(playTime<duration){
-            playerCharacter.setTimeBetweenShots(0);
+        this.powerUpController.drawPowerUp(deltaTime, batch);
+
+
+        if (trigger == false) {
+            duration = this.powerUpController.triggerPowerUp() + playTime;
+            trigger = true;
         }
-        else{
+
+        if (playTime < duration) {
+            playerCharacter.setTimeBetweenShots(0f);
+        } else {
             playerCharacter.setTimeBetweenShots(Float.parseFloat(gameData.get("player").get("timeBetweenShots")));
+            trigger = false;
         }
 
 

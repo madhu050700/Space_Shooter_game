@@ -36,7 +36,7 @@
     "health": "5",
     "width": "10",
     "height": "10",
-    "timeBetweenShots": "3",
+    "timeBetweenShots": "0.6",
     "projectileWidth": "1",
     "projectileHeight": "5",
     "projectileSpeed": "45",

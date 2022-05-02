@@ -51,9 +51,9 @@ public class PowerUpController {
     }
 
     public float triggerPowerUp(){
-        float duration =absorbedPowerUps.size();
+        float duration = absorbedPowerUps.size();
         this.absorbedPowerUps = new LinkedList<>();
-        return duration;
+        return duration * 1;
        // ListIterator<PowerUps> absorbedListIterator = this.absorbedPowerUps.listIterator();
 
     }
