@@ -16,7 +16,7 @@ public class EnemyCollisionDetector extends CollisionDetector {
     static Music bomb2;
 //private static CollisionDetectionState currentState ;
 
-    public static CollisionDetectionState detectCollision(LinkedList<Projectile> projectileList, LinkedList<Actor> actorList, int score, float deltaTime, SpriteBatch batch, PowerUpController powerUpController,CollisionDetectionState collisionDetectionState) {
+    public static CollisionDetectionState detectCollision(LinkedList<Projectile> projectileList, LinkedList<Actor> actorList, int score, float deltaTime, SpriteBatch batch, PowerUpController powerUpController,CollisionDetectionState collisionDetectionState,ExplosionController explosionController) {
         ListIterator<Projectile> iterator = projectileList.listIterator();
         Music bomb2 = Gdx.audio.newMusic(Gdx.files.internal("bomb2.mp3"));
         bomb2.setVolume(0.1f);
@@ -34,6 +34,7 @@ public class EnemyCollisionDetector extends CollisionDetector {
                     iterator.remove();
                     if (health == 0) {
                         powerUpController.addPowerUp(enemy1);
+                        explosionController.addExplosion(enemy1);
                         collisionDetectionState.setPowerUpController(powerUpController);
                         enemyListIterator1.remove();
                         bomb2.play();

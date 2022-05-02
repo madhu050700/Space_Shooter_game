@@ -19,6 +19,7 @@ import com.l2p.game.actor.controllers.SpawnController;
 import com.l2p.game.actor.controllers.SpawnState;
 import com.l2p.game.actor.factories.ActorFactory;
 import com.l2p.game.actor.factories.PlayerFactory;
+import com.l2p.game.collision.ExplosionController;
 import com.l2p.game.collision.State.CollisionDetectionState;
 import com.l2p.game.collision.services.CollisionDetectionService;
 import com.l2p.game.engine.JSONEngine;
@@ -66,6 +67,7 @@ public class GameScreen implements Screen {
     MovementController movementController;
     CollisionDetectionService collisionDetectionService;
     PowerUpController powerUpController;
+    ExplosionController explosionController;
     float duration = -1;
     Boolean trigger = false;
     //screen
@@ -198,6 +200,8 @@ public class GameScreen implements Screen {
         linearProjectileController = new LinearProjectileController();
         movementController = new MovementController();
         powerUpController = new PowerUpController();
+
+        explosionController = new ExplosionController();
 
         collisionDetectionService = new CollisionDetectionService();
         collisionDetectionState = new CollisionDetectionState(score, powerUpController);
@@ -378,18 +382,19 @@ public class GameScreen implements Screen {
 
         //detect collision
         collisionDetectionState = collisionDetectionService.run(score, deltaTime, batch, playerCharacter, playerProjectileList, enemyList, enemyProjectileList, enemyList1,
-                enemyProjectileList1, midBoss, midBossProjectileList, finalBoss, finalBossProjectileList, powerUpController, collisionDetectionState, cheating);
+                enemyProjectileList1, midBoss, midBossProjectileList, finalBoss, finalBossProjectileList, powerUpController, collisionDetectionState, cheating, explosionController);
         this.score = collisionDetectionState.getScore();
+
+        //collision
+        this.explosionController.drawExplosion(deltaTime, batch);
+
         //powerup
         this.powerUpController = collisionDetectionState.getPowerUpController();
-
         this.powerUpController.drawPowerUp(deltaTime, batch);
-
         if (trigger == false) {
             duration = this.powerUpController.triggerPowerUp() + playTime;
             trigger = true;
         }
-
         if (playTime < duration) {
             playerCharacter.setTimeBetweenShots(0f);
             font.draw(batch, "Power UP", hudCentreX, bottom2Y, hudSectionWidth, Align.center, false);
