@@ -15,7 +15,7 @@ public class PowerUpController {
     private Texture powerUpTexture;
     public PowerUpController(){
         powerUps = new LinkedList<>();
-        powerUpTexture = new Texture("Energyball.png");
+        powerUpTexture = new Texture("EnergyBall.png");
         absorbedPowerUps = new LinkedList<>();
     }
 
