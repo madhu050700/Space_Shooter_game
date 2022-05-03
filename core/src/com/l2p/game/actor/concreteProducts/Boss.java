@@ -98,6 +98,7 @@ public class Boss extends Actor {
             if (health <= startingHealth / 2) {
                 System.out.println("switching movement now");
                 this.movementSpeed += 2;
+                this.timeBetweenShots = 0.01f;
                 movementFactory = MovementFactoryBuilder.getFactory("circular");
                 bossMovement = movementFactory.createMovement(this.boundingBox);
             }

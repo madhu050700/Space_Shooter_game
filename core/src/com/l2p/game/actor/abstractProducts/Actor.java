@@ -128,6 +128,12 @@ public abstract class Actor extends ActorComponent {
         } else return 0;
     }
 
+    public float getTimeBetweenShots() {
+        return timeBetweenShots;
+    }
+    public void setTimeBetweenShots(float timeBetweenShots){
+        this.timeBetweenShots = timeBetweenShots;
+    }
 
     public abstract Boolean moveActor(float deltaTime, int WORLD_WIDTH, int WORLD_HEIGHT, float lifeSpan);
 

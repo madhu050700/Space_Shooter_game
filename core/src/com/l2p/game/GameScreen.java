@@ -1,7 +1,9 @@
 package com.l2p.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -11,11 +13,14 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.l2p.game.PowerUp.PowerUpController;
 import com.l2p.game.actor.abstractProducts.Actor;
 import com.l2p.game.actor.controllers.SpawnController;
 import com.l2p.game.actor.controllers.SpawnState;
 import com.l2p.game.actor.factories.ActorFactory;
 import com.l2p.game.actor.factories.PlayerFactory;
+import com.l2p.game.collision.ExplosionController;
+import com.l2p.game.collision.State.CollisionDetectionState;
 import com.l2p.game.collision.services.CollisionDetectionService;
 import com.l2p.game.engine.JSONEngine;
 import com.l2p.game.movement.controllers.MovementController;
@@ -50,9 +55,9 @@ public class GameScreen implements Screen {
     String texturePathPlayer;
     String texturePathProjectilePlayer;
     String[] texturePathBackgrounds;
-    //Head-Up display
+    //isplay setting
     BitmapFont font;
-    float hudVerticalMargin, hudLeftX, hudRightX, hudCentreX, hudRow1Y, hudRow2Y, hudSectionWidth;
+    float hudVerticalMargin, hudLeftX, hudRightX, hudCentreX, hudRow1Y, hudRow2Y, hudSectionWidth, bottomY,bottom2Y;
     //Factories
     WorldFactory levelFactory;
     ActorFactory playerFactory;
@@ -61,6 +66,10 @@ public class GameScreen implements Screen {
     LinearProjectileController linearProjectileController;
     MovementController movementController;
     CollisionDetectionService collisionDetectionService;
+    PowerUpController powerUpController;
+    ExplosionController explosionController;
+    float duration = -1;
+    Boolean trigger = false;
     //screen
     private Camera camera;
     private Viewport viewport;
@@ -90,9 +99,10 @@ public class GameScreen implements Screen {
     private LinkedList<Actor> midBoss, finalBoss;
     private int score = 0;
     private HashMap<String, HashMap<String, String>> gameData;
-
-
+    private CollisionDetectionState collisionDetectionState;
+    private boolean cheating=false;
     private JSONEngine engine;
+    private Music eightBitSurf;
 
     GameScreen() {
 
@@ -189,13 +199,23 @@ public class GameScreen implements Screen {
         spawnController = new SpawnController(WORLD_WIDTH, WORLD_HEIGHT);
         linearProjectileController = new LinearProjectileController();
         movementController = new MovementController();
+        powerUpController = new PowerUpController();
+
+        explosionController = new ExplosionController();
 
         collisionDetectionService = new CollisionDetectionService();
+        collisionDetectionState = new CollisionDetectionState(score, powerUpController);
 
+        prepareBGM();
         prepareHUD();
 
     }
-
+    private void prepareBGM(){
+        eightBitSurf = Gdx.audio.newMusic(Gdx.files.internal("8_Bit_Surf.mp3"));
+        eightBitSurf.setLooping(true);
+        eightBitSurf.setVolume(0.1f);
+        eightBitSurf.play();
+    }
     private void prepareHUD() {
         //create a bitmapfont from font file
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("EdgeOfTheGalaxyRegular-OVEa6.otf"));
@@ -222,6 +242,8 @@ public class GameScreen implements Screen {
         hudRow1Y = WORLD_HEIGHT - hudVerticalMargin;
         hudRow2Y = hudRow1Y - hudVerticalMargin - font.getCapHeight();
         hudSectionWidth = WORLD_WIDTH / 3;
+        bottomY=WORLD_HEIGHT/10;
+        bottom2Y=WORLD_HEIGHT/5;
     }
 
 
@@ -252,7 +274,7 @@ public class GameScreen implements Screen {
 //        spawnEnemyShips(deltaTime);
         enemyList = spawnController.spawnEnemyShips(
                 gameData.get("enemy1").get("agent"),
-                deltaTime, enemySpawnTimer,timeBetweenEnemySpawns,enemyList,number_enemy_1,
+                deltaTime, enemySpawnTimer, timeBetweenEnemySpawns, enemyList, number_enemy_1,
                 gameData.get("enemy1").get("type"),
                 Integer.parseInt(gameData.get("enemy1").get("movementSpeed")),
                 Integer.parseInt(gameData.get("enemy1").get("health")),
@@ -263,7 +285,7 @@ public class GameScreen implements Screen {
                 Float.parseFloat(gameData.get("enemy1").get("projectileWidth")),
                 Float.parseFloat(gameData.get("enemy1").get("projectileHeight")),
                 Float.parseFloat(gameData.get("enemy1").get("projectileSpeed")),
-                texturePathEnemy1,texturePathProjectileEnemy1,
+                texturePathEnemy1, texturePathProjectileEnemy1,
                 Float.parseFloat(gameData.get("enemy1").get("projectile_x1")),
                 Float.parseFloat(gameData.get("enemy1").get("projectile_x2")),
                 Float.parseFloat(gameData.get("enemy1").get("projectile_y")),
@@ -359,9 +381,38 @@ public class GameScreen implements Screen {
 
 
         //detect collision
-        collisionDetectionService.run(score, playerCharacter, playerProjectileList, enemyList, enemyProjectileList,
-                enemyList1, enemyProjectileList1, midBoss, midBossProjectileList, finalBoss, finalBossProjectileList);
+        collisionDetectionState = collisionDetectionService.run(score, deltaTime, batch, playerCharacter, playerProjectileList, enemyList, enemyProjectileList, enemyList1,
+                enemyProjectileList1, midBoss, midBossProjectileList, finalBoss, finalBossProjectileList, powerUpController, collisionDetectionState, cheating, explosionController);
+        this.score = collisionDetectionState.getScore();
 
+        //collision
+        this.explosionController.drawExplosion(deltaTime, batch);
+
+        //powerup
+        this.powerUpController = collisionDetectionState.getPowerUpController();
+        this.powerUpController.drawPowerUp(deltaTime, batch);
+        if (trigger == false) {
+            duration = this.powerUpController.triggerPowerUp() + playTime;
+            trigger = true;
+        }
+        if (playTime < duration) {
+            playerCharacter.setTimeBetweenShots(0f);
+            font.draw(batch, "Power UP", hudCentreX, bottom2Y, hudSectionWidth, Align.center, false);
+            font.draw(batch, String.format(Locale.getDefault(), "%.0f", duration), hudRightX, bottom2Y, hudSectionWidth, Align.center, false);
+        } else {
+            playerCharacter.setTimeBetweenShots(Float.parseFloat(gameData.get("player").get("timeBetweenShots")));
+            trigger = false;
+        }
+
+        //press z to active cheating mode
+        if(Gdx.input.isKeyPressed(Input.Keys.Z)){
+            if (cheating==true){
+                cheating=false;
+            } else cheating=true;
+        }
+        if(cheating==true){
+            font.draw(batch, "cheating mode", hudCentreX, bottomY, hudSectionWidth, Align.center, false);
+        }
 
         //hud rendering
         updateAndRenderHUD(deltaTime);
