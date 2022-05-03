@@ -30,8 +30,12 @@ public class PlayerCollisionDetector extends CollisionDetector {
                     if (cheating==false) {
                         health = playerCharacter.hit(projectile);
                         playerCharacter.setRespawn();
-                        bomb3.play();
+                        if(playerCharacter.getHealth()>0){
+                            bomb3.play();
+                        }
+
                     }
+
                     iterator.remove();
                     if (health == 0) {
                         System.out.println("You dead mate");
