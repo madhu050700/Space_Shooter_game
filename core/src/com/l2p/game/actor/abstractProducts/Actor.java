@@ -77,7 +77,7 @@ public abstract class Actor extends ActorComponent {
     }
 
     public boolean canFireProjectile() {
-        return (timeSinceLastShot - timeBetweenShots >= 0);
+        return (timeSinceLastShot - timeBetweenShots >= 0) && this.health>0;
     }
 
 
