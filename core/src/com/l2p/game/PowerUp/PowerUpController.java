@@ -10,8 +10,8 @@ import java.util.ListIterator;
 public class PowerUpController {
 
 
-    private LinkedList<PowerUps> powerUps;
-    private LinkedList<PowerUps> absorbedPowerUps;
+    private LinkedList<PowerUp> powerUps;
+    private LinkedList<PowerUp> absorbedPowerUps;
     private Texture powerUpTexture;
     public PowerUpController(){
         powerUps = new LinkedList<>();
@@ -20,12 +20,12 @@ public class PowerUpController {
     }
 
     public void addPowerUp(Actor e){
-        powerUps.add(new PowerUps(e.getBoundingBox(),20,powerUpTexture));
+        powerUps.add(new PowerUp(e.getBoundingBox(),20,powerUpTexture));
     }
     public void drawPowerUp(float deltaTime, SpriteBatch batch){
-        ListIterator<PowerUps> iterator1 = powerUps.listIterator();
+        ListIterator<PowerUp> iterator1 = powerUps.listIterator();
         while(iterator1.hasNext()) {
-            PowerUps powerups = iterator1.next();
+            PowerUp powerups = iterator1.next();
             powerups.update(deltaTime);
             powerups.draw(batch);
             if (powerups.move(deltaTime) + powerups.getBoundingBox().height < 0) {
@@ -34,19 +34,19 @@ public class PowerUpController {
         }
     }
 
-    public LinkedList<PowerUps> getPowerUps() {
+    public LinkedList<PowerUp> getPowerUps() {
         return powerUps;
     }
 
-    public void setPowerUps(LinkedList<PowerUps> powerUps) {
+    public void setPowerUps(LinkedList<PowerUp> powerUps) {
         this.powerUps = powerUps;
     }
 
-    public void absorbedPowerUp(PowerUps p){
+    public void absorbedPowerUp(PowerUp p){
         absorbedPowerUps.add(p);
     }
 
-    public LinkedList<PowerUps> getAbsorbedPowerUps() {
+    public LinkedList<PowerUp> getAbsorbedPowerUps() {
         return absorbedPowerUps;
     }
 

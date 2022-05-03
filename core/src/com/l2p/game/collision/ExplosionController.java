@@ -2,7 +2,6 @@ package com.l2p.game.collision;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.l2p.game.PowerUp.PowerUps;
 import com.l2p.game.actor.abstractProducts.Actor;
 
 import java.util.LinkedList;

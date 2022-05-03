@@ -3,7 +3,7 @@ package com.l2p.game.collision;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.l2p.game.PowerUp.PowerUpController;
-import com.l2p.game.PowerUp.PowerUps;
+import com.l2p.game.PowerUp.PowerUp;
 import com.l2p.game.actor.abstractProducts.Actor;
 import com.l2p.game.projectile.abstractProducts.Projectile;
 
@@ -40,11 +40,11 @@ public class PlayerCollisionDetector extends CollisionDetector {
             }
 
         }
-        LinkedList<PowerUps> powerUpArray;
+        LinkedList<PowerUp> powerUpArray;
         powerUpArray = powerUpController.getPowerUps();
-        ListIterator<PowerUps> powerUpsListIterator = powerUpArray.listIterator();
+        ListIterator<PowerUp> powerUpsListIterator = powerUpArray.listIterator();
         while(powerUpsListIterator.hasNext()){
-            PowerUps powerUp = powerUpsListIterator.next();
+            PowerUp powerUp = powerUpsListIterator.next();
             if(playerCharacter.intersects(powerUp.getBoundingBox())){
                 System.out.println("Powerup absorbed");
                 powerup.play();

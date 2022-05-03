@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class PowerUps {
+public class PowerUp {
     protected Texture powerUpTexture;
     protected float movementSpeed;
     protected  Rectangle boundingBox;
@@ -13,7 +13,7 @@ public class PowerUps {
     Vector2 directionVector;
 
 
-    public PowerUps(Rectangle boundingBox, float speed, Texture texture) {
+    public PowerUp(Rectangle boundingBox, float speed, Texture texture) {
         this.boundingBox = boundingBox;
         this.movementSpeed = speed;
         this.powerUpTexture = texture;

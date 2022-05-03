@@ -5,10 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.l2p.game.PowerUp.PowerUps;
-
-import java.util.ListIterator;
 
 public class Explosion {
     private Animation<TextureRegion> explosionAnimation;
