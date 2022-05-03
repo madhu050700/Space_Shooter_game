@@ -67,6 +67,10 @@ public abstract class Actor extends ActorComponent {
         return this.health;
     }
 
+    public void boostHealth(){
+        this.health +=1;
+    }
+
     public void update(float deltaTime) {
         timeSinceLastShot += deltaTime;
         timeSinceSpawn += deltaTime;

@@ -49,7 +49,7 @@ public class PlayerCollisionDetector extends CollisionDetector {
                 System.out.println("Powerup absorbed");
                 powerup.play();
                 powerUpController.absorbedPowerUp(powerUp);
-
+                playerCharacter.boostHealth();
                 powerUpsListIterator.remove();
             }
         }
