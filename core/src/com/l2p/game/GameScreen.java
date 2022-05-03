@@ -268,7 +268,7 @@ public class GameScreen implements Screen {
         if(playerCharacter.getHealth()>0)
             playerCharacter.moveActor(deltaTime, WORLD_WIDTH, WORLD_HEIGHT, .0f);
         else{
-            font.draw(batch, "Game Over", WORLD_WIDTH/2, WORLD_HEIGHT/2, hudSectionWidth, Align.center, false);
+            font.draw(batch, "Game Over", hudCentreX, WORLD_HEIGHT/2, hudSectionWidth, Align.center, false);
             eightBitSurf.dispose();
         }
 
