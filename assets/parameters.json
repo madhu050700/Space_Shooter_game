@@ -3,8 +3,8 @@
   "WORLD": {
     "timeBetweenEnemySpawns": "3",
     "enemySpawnTimer": "0",
-    "timeToStartMidBoss": "20",
-    "timeToStartFinalBoss": "40",
+    "timeToStartMidBoss": "5",
+    "timeToStartFinalBoss": "10",
     "WORLD_WIDTH": "72",
     "WORLD_HEIGHT": "128",
     "background1": "space1.jpg",
