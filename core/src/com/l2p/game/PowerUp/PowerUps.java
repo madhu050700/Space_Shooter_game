@@ -21,7 +21,7 @@ public class PowerUps {
         powerUpTimer =0;
     }
     public void draw(Batch batch) {
-        batch.draw(powerUpTexture, boundingBox.x, boundingBox.y, boundingBox.width/5, boundingBox.height/5);
+        batch.draw(powerUpTexture, boundingBox.x, boundingBox.y, boundingBox.width/2, boundingBox.height/2);
     }
     public Rectangle getBoundingBox() {
         return boundingBox;
