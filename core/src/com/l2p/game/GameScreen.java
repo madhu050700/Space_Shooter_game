@@ -265,13 +265,17 @@ public class GameScreen implements Screen {
         playerCharacter.draw(batch);
 
         // Update playerCharacter position based on user input.
-        playerCharacter.moveActor(deltaTime, WORLD_WIDTH, WORLD_HEIGHT, .0f);
+        if(playerCharacter.getHealth()>0)
+            playerCharacter.moveActor(deltaTime, WORLD_WIDTH, WORLD_HEIGHT, .0f);
+
+        else{
+
+        }
 
 
-        //TODO: set variables. Health is the only int else all floats
+
 
         //enemy1
-//        spawnEnemyShips(deltaTime);
         enemyList = spawnController.spawnEnemyShips(
                 gameData.get("enemy1").get("agent"),
                 deltaTime, enemySpawnTimer, timeBetweenEnemySpawns, enemyList, number_enemy_1,
